@@ -105,6 +105,7 @@
     <ClInclude Include="src\GB\EntryPoint.h" />
     <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
     <ClInclude Include="src\GB\Events\Event.h" />
+    <ClInclude Include="src\GB\Events\KeyEvent.h" />
     <ClInclude Include="src\GB\Events\MouseEvent.h" />
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GB\Log.h" />
@@ -121,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
-    <ClCompile Include="src\GB\Events\KeyEvent.h" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\Log.cpp" />
     <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />

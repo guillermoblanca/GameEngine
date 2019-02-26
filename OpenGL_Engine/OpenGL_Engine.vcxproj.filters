@@ -4,6 +4,9 @@
     <Filter Include="GB">
       <UniqueIdentifier>{AE735900-9AFF-870B-03AE-880BEF58880B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GB\Events">
+      <UniqueIdentifier>{D26F0EF5-3EDA-C26B-8718-7411F3C1A0C0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GB\ImGui">
       <UniqueIdentifier>{5873814D-4440-DC58-6D59-CA00598511E7}</UniqueIdentifier>
     </Filter>
@@ -34,11 +37,41 @@
     <ClInclude Include="src\GB\EntryPoint.h">
       <Filter>GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Events\ApplicationEvent.h">
+      <Filter>GB\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Events\Event.h">
+      <Filter>GB\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Events\KeyEvent.h">
+      <Filter>GB\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Events\MouseEvent.h">
+      <Filter>GB\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h">
       <Filter>GB\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Log.h">
       <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\IndexBuffer.h">
+      <Filter>GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\Material.h">
+      <Filter>GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\Render.h">
+      <Filter>GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\VertexArray.h">
+      <Filter>GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\VertexBuffer.h">
+      <Filter>GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\VertexBufferLayout.h">
+      <Filter>GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Window.h">
       <Filter>GB</Filter>
@@ -50,15 +83,6 @@
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\gbpch.h" />
-    <ClInclude Include="src\GB\Render\Material.h" />
-    <ClInclude Include="src\GB\Render\IndexBuffer.h" />
-    <ClInclude Include="src\GB\Render\Render.h" />
-    <ClInclude Include="src\GB\Render\VertexBuffer.h" />
-    <ClInclude Include="src\GB\Render\VertexArray.h" />
-    <ClInclude Include="src\GB\Render\VertexBufferLayout.h" />
-    <ClInclude Include="src\GB\Events\Event.h" />
-    <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\GB\Events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -70,6 +94,24 @@
     <ClCompile Include="src\GB\Log.cpp">
       <Filter>GB</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Render\IndexBuffer.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\Material.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\Render.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\VertexArray.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\VertexBuffer.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp">
+      <Filter>GB\Render</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\ImGui\ImGuiOpenGLRenderer.cpp">
       <Filter>Platform\OpenGL\ImGui</Filter>
     </ClCompile>
@@ -77,12 +119,5 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\gbpch.cpp" />
-    <ClCompile Include="src\GB\Render\Material.cpp" />
-    <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />
-    <ClCompile Include="src\GB\Render\Render.cpp" />
-    <ClCompile Include="src\GB\Render\VertexBuffer.cpp" />
-    <ClCompile Include="src\GB\Render\VertexArray.cpp" />
-    <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp" />
-    <ClCompile Include="src\GB\Events\KeyEvent.h" />
   </ItemGroup>
 </Project>

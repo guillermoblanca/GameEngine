@@ -1,0 +1,12 @@
+[submodule "OpenGL_Engine/Dependencies/GLAD"]
+	path = OpenGL_Engine/Dependencies/GLAD
+	url = https://github.com/Dav1dde/glad.git
+[submodule "OpenGL_Engine/Dependencies/imgui"]
+	path = OpenGL_Engine/Dependencies/imgui
+	url = https://github.com/TheCherno/imgui.git
+[submodule "OpenGL_Engine/Dependencies/GLFW"]
+	path = OpenGL_Engine/Dependencies/GLFW
+	url = https://github.com/guillermoblanca/glfw.git
+[submodule "OpenGL_Engine/Dependencies/spdlog"]
+	path = OpenGL_Engine/Dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
