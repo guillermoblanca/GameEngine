@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FFD5C55B-6B96-4192-34D1-8A0FA050866E}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>OpenGL_Engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\OpenGL_Engine\</OutDir>
+    <IntDir>..\bin-int\OpenGL_Engine\Debug\</IntDir>
+    <TargetName>OpenGL_Engine</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\OpenGL_Engine\</OutDir>
+    <IntDir>..\bin-int\OpenGL_Engine\Release\</IntDir>
+    <TargetName>OpenGL_Engine</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>gbpch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GB_DEBUG;GB_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Dependencies\spdlog\include;Dependencies\GLFW\include;Dependencies\GLAD\include;Dependencies\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>..\bin\OpenGL_Engine\OpenGL_Engine.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\OpenGL_Engine\OpenGL_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>gbpch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GB_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;Dependencies\spdlog\include;Dependencies\GLFW\include;Dependencies\GLAD\include;Dependencies\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>..\bin\OpenGL_Engine\OpenGL_Engine.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\OpenGL_Engine\OpenGL_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GB.h" />
+    <ClInclude Include="src\GB\Application.h" />
+    <ClInclude Include="src\GB\Core.h" />
+    <ClInclude Include="src\GB\EntryPoint.h" />
+    <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\GB\Events\Event.h" />
+    <ClInclude Include="src\GB\Events\MouseEvent.h" />
+    <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\GB\Log.h" />
+    <ClInclude Include="src\GB\Render\IndexBuffer.h" />
+    <ClInclude Include="src\GB\Render\Material.h" />
+    <ClInclude Include="src\GB\Render\Render.h" />
+    <ClInclude Include="src\GB\Render\VertexArray.h" />
+    <ClInclude Include="src\GB\Render\VertexBuffer.h" />
+    <ClInclude Include="src\GB\Render\VertexBufferLayout.h" />
+    <ClInclude Include="src\GB\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\ImGui\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindows.h" />
+    <ClInclude Include="src\gbpch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GB\Application.cpp" />
+    <ClCompile Include="src\GB\Events\KeyEvent.h" />
+    <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\GB\Log.cpp" />
+    <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />
+    <ClCompile Include="src\GB\Render\Material.cpp" />
+    <ClCompile Include="src\GB\Render\Render.cpp" />
+    <ClCompile Include="src\GB\Render\VertexArray.cpp" />
+    <ClCompile Include="src\GB\Render\VertexBuffer.cpp" />
+    <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\ImGui\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindows.cpp" />
+    <ClCompile Include="src\gbpch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Dependencies\GLFW\GLFW.vcxproj">
+      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\GLAD\GLAD.vcxproj">
+      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

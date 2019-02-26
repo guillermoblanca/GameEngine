@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GB">
+      <UniqueIdentifier>{AE735900-9AFF-870B-03AE-880BEF58880B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GB\ImGui">
+      <UniqueIdentifier>{5873814D-4440-DC58-6D59-CA00598511E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GB\Render">
+      <UniqueIdentifier>{5DA23212-C90C-E788-124B-982E7EF4C4DD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL\ImGui">
+      <UniqueIdentifier>{C8D031F6-343D-EDF0-FD30-854E695C0F59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GB.h" />
+    <ClInclude Include="src\GB\Application.h">
+      <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Core.h">
+      <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\EntryPoint.h">
+      <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\ImGui\ImGuiLayer.h">
+      <Filter>GB\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Log.h">
+      <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Window.h">
+      <Filter>GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\ImGui\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindows.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gbpch.h" />
+    <ClInclude Include="src\GB\Render\Material.h" />
+    <ClInclude Include="src\GB\Render\IndexBuffer.h" />
+    <ClInclude Include="src\GB\Render\Render.h" />
+    <ClInclude Include="src\GB\Render\VertexBuffer.h" />
+    <ClInclude Include="src\GB\Render\VertexArray.h" />
+    <ClInclude Include="src\GB\Render\VertexBufferLayout.h" />
+    <ClInclude Include="src\GB\Events\Event.h" />
+    <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\GB\Events\MouseEvent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GB\Application.cpp">
+      <Filter>GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
+      <Filter>GB\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Log.cpp">
+      <Filter>GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\ImGui\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindows.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gbpch.cpp" />
+    <ClCompile Include="src\GB\Render\Material.cpp" />
+    <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />
+    <ClCompile Include="src\GB\Render\Render.cpp" />
+    <ClCompile Include="src\GB\Render\VertexBuffer.cpp" />
+    <ClCompile Include="src\GB\Render\VertexArray.cpp" />
+    <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\GB\Events\KeyEvent.h" />
+  </ItemGroup>
+</Project>
