@@ -73,10 +73,10 @@ namespace GB
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class GBAPI MouseButtonReleaseEvent : public MouseButtonEvent
+	class GBAPI MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleaseEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{

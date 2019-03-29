@@ -18,6 +18,20 @@ namespace GB
 		int m_KeyCode;
 	};
 
+	class GBAPI KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode): KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTyppedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
+
 	class GBAPI KeyPressedEvent : public KeyEvent
 	{
 	public:

@@ -108,6 +108,8 @@
     <ClInclude Include="src\GB\Events\KeyEvent.h" />
     <ClInclude Include="src\GB\Events\MouseEvent.h" />
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\GB\Layer.h" />
+    <ClInclude Include="src\GB\LayerStack.h" />
     <ClInclude Include="src\GB\Log.h" />
     <ClInclude Include="src\GB\Render\IndexBuffer.h" />
     <ClInclude Include="src\GB\Render\Material.h" />
@@ -123,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\GB\LayerStack.cpp" />
     <ClCompile Include="src\GB\Log.cpp" />
     <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />
     <ClCompile Include="src\GB\Render\Material.cpp" />

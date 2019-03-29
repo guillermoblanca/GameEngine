@@ -15,7 +15,7 @@ namespace GB
 	};
 
 	ShaderProgramSource ParseShader(const std::string& filePath);
-
+	//todo: not sure
 	struct Color
 	{
 		Color();
@@ -41,17 +41,36 @@ namespace GB
 		static Color HexToColor(int hexValue); //TODO: not working properly (fix)
 		float r, g, b, a;
 	};
+	
+	//todo define
+	class Matrix;
+
+	class MaterialParam
+	{
+	public:
+		MaterialParam(unsigned int shader) : m_shader(shader){}
+
+		void SetVector3(const std::string loc,float x, float y, float z);
+		void SetVector2(const std::string loc,float x, float y);
+		void SetFloat(const std::string loc, float x);
+		void SetVector4(const std::string loc,float x, float y, float z, float w);
+		void SetMatrix(const std::string loc, Matrix * matrix);
+		
+	private:
+		unsigned int m_shader;
+	};
 
 	class Material
 	{
 	public:
 		~Material();
-		unsigned int shader;
-		unsigned int colorLocation;
+
+
 
 		void CreateShader(const std::string path);
-		void CreateColor(const std::string name);
-		void SetColor(Color color);
+		inline MaterialParam GetParam() { return MaterialParam(shader); }
+	private:
+		unsigned int shader;
 	};
 
 }

@@ -83,6 +83,8 @@
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\gbpch.h" />
+    <ClInclude Include="src\GB\Layer.h" />
+    <ClInclude Include="src\GB\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -119,5 +121,6 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\gbpch.cpp" />
+    <ClCompile Include="src\GB\LayerStack.cpp" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 #include "gbpch.h"
 #include "GB\Window.h"
-#include "glad\glad.h"
+
 #include "GLFW\glfw3.h"
 namespace GB
 {
@@ -19,6 +19,7 @@ namespace GB
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		inline virtual void* GetNativeWindow()const { return m_window; }
 	private:
 		virtual void Init(const WindowsProps& props);
 		virtual void ShutDown();

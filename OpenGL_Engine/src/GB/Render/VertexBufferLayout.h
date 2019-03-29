@@ -38,6 +38,7 @@ namespace GB
 		template<typename T>
 		void Push(unsigned int count)
 		{
+			GB_CORE_ERROR("Vertex Buffer Layout: Push need a type definition");
 			static_assert(false);
 		}
 		template<>

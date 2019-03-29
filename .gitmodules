@@ -10,3 +10,6 @@
 [submodule "OpenGL_Engine/Dependencies/spdlog"]
 	path = OpenGL_Engine/Dependencies/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "OpenGL_Engine/Dependencies/glm"]
+	path = OpenGL_Engine/Dependencies/glm
+	url = https://github.com/g-truc/glm

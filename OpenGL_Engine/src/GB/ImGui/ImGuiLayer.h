@@ -1,35 +1,27 @@
 #pragma once
-#include "gbpch.h"
+#include "GB\Layer.h"
+
+#include "GB\Events\ApplicationEvent.h"
+#include "GB\Events\KeyEvent.h"
+#include "GB\Events\MouseEvent.h"
 
 namespace GB
 {
-	//todo: pasar esto a archivo independiente
-	class GBAPI Layer
-	{
-	public:
-		Layer(const std::string& name = "Layer") {}
-		virtual ~Layer() {}
-
-		virtual void OnAttach() {}
-		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
-		//virtual void OnEvent() {}
-
-		inline const std::string& GetName() { return m_DebugName; }
-	protected:
-		const std::string m_DebugName;
-	};
-
+	
 	class GBAPI ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttach()override;
-		void OnDetach()override;
-		void OnUpdate()override;
+		virtual void OnAttach()override;
+		virtual void OnDetach()override;
+		virtual void OnImguiRender() override;
+
+		void Begin();
+		void End();
 	private:
+		
 		float m_time = 0.0f;
 	};
 }

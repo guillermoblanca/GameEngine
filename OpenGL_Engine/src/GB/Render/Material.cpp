@@ -40,7 +40,7 @@ namespace GB
 		return programID;
 	}
 
-	ShaderProgramSource GB::ParseShader(const std::string& filePath)
+	ShaderProgramSource ParseShader(const std::string& filePath)
 	{
 		std::ifstream stream(filePath);
 
@@ -79,6 +79,36 @@ namespace GB
 		return shader;
 	}
 
+	void MaterialParam::SetVector3(const std::string loc, float x, float y, float z)
+	{
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		GB_ASSERT(location != -1, "Shader uniform!");
+		glUniform3f(location, x, y, z);
+		
+	}
+	void MaterialParam::SetVector2(const std::string loc, float x, float y)
+	{
+		//todo: fix
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+//		GB_ASSERT(location != -1, "Shader uniform!");
+		glUniform2f(location, x, y);
+	}
+	void MaterialParam::SetFloat(const std::string loc, float x)
+	{
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		GB_ASSERT(location == -1, "Shader uniform failed!");
+		glUniform1f(location, x);
+	}
+	void MaterialParam::SetVector4(const std::string loc, float x, float y, float z, float w)
+	{
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		GB_ASSERT(location != -1, "Shader uniform failed!");
+		glUniform4f(location, x, y, z, w);
+	}
+	void MaterialParam::SetMatrix(const std::string loc, Matrix * matrix)
+	{
+		GB_CORE_ERROR("Not defined SetMatrix!");
+	}
 	Material::~Material()
 	{
 		//todo: fix
@@ -89,16 +119,7 @@ namespace GB
 	{
 		shader = LoadShaders(path.c_str());
 		glUseProgram(shader);
-	}
 
-	void Material::SetColor(Color color)
-	{
-		glUniform4f(colorLocation, color.r, color.g, color.b, color.a);
-	}
-
-	void Material::CreateColor(const std::string color)
-	{
-		colorLocation = glGetUniformLocation(shader, color.c_str());
 	}
 
 	Color::Color()

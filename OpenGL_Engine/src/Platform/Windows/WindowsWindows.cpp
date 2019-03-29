@@ -44,6 +44,7 @@ namespace GB
 	{
 		return m_data.vSync;
 	}
+
 	void WindowsWindows::Init(const WindowsProps & props)
 	{
 		m_data.title = props.Title;
@@ -113,6 +114,14 @@ namespace GB
 			}
 		});
 
+		glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			WindowsData& data = *(WindowsData*)glfwGetWindowUserPointer(window);
+
+			KeyTypedEvent event(keycode);
+			data.EventCallback(event);
+		});
+
 		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			WindowsData& data = *(WindowsData*)glfwGetWindowUserPointer(window);
@@ -126,7 +135,7 @@ namespace GB
 			}
 			case GLFW_RELEASE:
 			{
-				MouseButtonReleaseEvent event(button);
+				MouseButtonReleasedEvent event(button);
 				data.EventCallback(event);
 				break;
 			}

@@ -8,7 +8,7 @@ namespace GB
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyRelease,
+		KeyPressed, KeyRelease,KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
