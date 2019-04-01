@@ -34,8 +34,7 @@ include "OpenGL_Engine/Dependencies/imgui"
 			"%{prj.name}/src/**.h",
 			"%{prj.name}/src/**.cpp",
 			"%{prj.name}/Dependencies/glm/glm/**.hpp",
-			"%{prj.name}/Dependencies/glm/glm/**.inl"
-
+			"%{prj.name}/Dependencies/glm/glm/**.inl",	
 		}
 		includedirs
 		{
@@ -44,7 +43,7 @@ include "OpenGL_Engine/Dependencies/imgui"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
 			"%{IncludeDir.imgui}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
 		}
 		links
 		{

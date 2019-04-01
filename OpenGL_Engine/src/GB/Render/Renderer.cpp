@@ -16,33 +16,40 @@ void GB::Renderer::OnAttach()
 
 	const float positions[]
 	{
-		-0.5f,-0.5f,
-		 0.5f,-0.5f,
-		 0.5f, 0.5f,
-		-0.5f, 0.5f,
+		-0.5f,-0.5f, 0.0f, 0.0f,
+		 0.5f,-0.5f, 1.0f, 0.0f,
+		 0.5f, 0.5f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.0f, 1.0f
 	};
 	unsigned int indices[]
 	{
 		0,1,2,
 		2,3,0
 	};
-	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	VertexArray va;
-	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+	VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
 	VertexBufferLayout layout;
+	layout.Push<float>(2);
 	layout.Push<float>(2);
 	va.AddBuffer(vb, layout);
 	
 	IndexBuffer ib(indices, 6);
-	material.CreateShader("Assets/Shader/Complex.shader");
+	material.CreateShader("Assets/Shader/Basic.shader");
+	material.Bind();
+
+	texture = new Texture("Assets/Texture/Game.png");
+
+	texture->Bind(0); 
 	
-
-	//bind
-
-//	va.Bind();
-	//ib.Bind();
+	material.GetParam().SetInt("u_Texture", 0);
+}
+void GB::Renderer::OnDetach()
+{
+	delete texture;
 }
 //todo: pasar a eventcallback y quitarlo
 void GlClearError()
@@ -61,33 +68,27 @@ void GB::Renderer::OnRender()
 void GB::Renderer::OnImguiRender()
 {
 	static float r =255, g, b,a;
-	static float x, y, z;
-	static float size, tone;
+
+
 	ImGui::Begin("Renderer editor");
+
 	ImGui::Text("Time: %f",glfwGetTime());
 	ImGui::Spacing();
 	ImGui::SliderFloat("R", &r,0,255);
 	ImGui::SliderFloat("G", &g,0,255);
 	ImGui::SliderFloat("B", &b, 0, 255);
-	ImGui::Spacing();
-	ImGui::InputFloat("X", &x);
-	ImGui::InputFloat("Y", &y);
-	ImGui::InputFloat("Z", &z);
-	ImGui::InputFloat("size",&size);
-	ImGui::SliderFloat("tone",&tone, 0, 3);
-	ImGui::End();
-	
-	Color color = Color(r == 0 ? 0 : r / 255, g == 0 ? 0 : g / 255, b == 0 ? 0 : b / 255);
-//	material.GetParam().SetVector4("u_Color", color.r, color.g, color.b,color.a);
-//	material.GetParam().SetFloat("u_time", glfwGetTime());
-	auto glError = glGetError();
-	if(glError != 0)GB_CORE_ERROR("GL ERROR: {0}", glError);
 
-	float width = Application::Get().GetWindow().GetWidth();
-	float height = Application::Get().GetWindow().GetHeight();
-	material.GetParam().SetVector2("u_resolution",width , height);
-	//material.GetParam().SetFloat("u_size", size);
-	material.GetParam().SetFloat("u_tone", tone);
+	ImGui::Text("Path %s", texture->GetPath().c_str());
+	ImGui::Text("Width %d",texture->GetWidth());
+	ImGui::Text("Height %d", texture->GetHeight());
+	ImGui::Text("BPP %d",texture->GetBPP());
+	ImGui::End();
+	Color color = Color(r == 0 ? 0 : r / 255, g == 0 ? 0 : g / 255, b == 0 ? 0 : b / 255);
+
+	float width = (float)Application::Get().GetWindow().GetWidth();
+	float height = (float)Application::Get().GetWindow().GetHeight();
+
+
 }
 
 void GB::Renderer::Begin()

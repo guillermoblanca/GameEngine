@@ -6,6 +6,7 @@ namespace GB
 
 	unsigned int GB::LoadShaders(const std::string path)
 	{
+		char infoLog[1024];
 		unsigned int vShaderID = glCreateShader(GL_VERTEX_SHADER);
 		unsigned int fShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -18,12 +19,26 @@ namespace GB
 		glCompileShader(vShaderID);
 
 		//todo: implementar comprobacion
-
+		int isCompiled;
+		glGetShaderiv(vShaderID, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled ==GL_FALSE)
+		{
+			int maxLenght=0;
+			glGetShaderInfoLog(vShaderID, maxLenght, &maxLenght, infoLog);
+			GB_CORE_ERROR("Vertex shader error: {0}", infoLog);
+		}
 		//compilado de fragment shader
 		char const * fShaderPointer = source.FragmentSource.c_str();
 		glShaderSource(fShaderID, 1, &fShaderPointer, NULL);
 		glCompileShader(fShaderID);
 
+		glGetShaderiv(fShaderID, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			int maxLenght = 0;
+			glGetShaderInfoLog(fShaderID, maxLenght, &maxLenght, infoLog);
+			GB_CORE_ERROR("Fragment shader error: {0}", infoLog);
+		}
 		//binding 
 		unsigned int programID = glCreateProgram();
 		glAttachShader(programID, vShaderID);
@@ -99,6 +114,12 @@ namespace GB
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniform1f(location, x);
 	}
+	void MaterialParam::SetInt(const std::string loc, int x)
+	{
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		GB_ASSERT(location == -1, "Shader uniform failed!");
+		glUniform1i(location, x);
+	}
 	void MaterialParam::SetVector4(const std::string loc, float x, float y, float z, float w)
 	{
 		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
@@ -120,6 +141,11 @@ namespace GB
 		shader = LoadShaders(path.c_str());
 		glUseProgram(shader);
 
+	}
+
+	void Material::Bind()
+	{
+		glUseProgram(shader);
 	}
 
 	Color::Color()

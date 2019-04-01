@@ -16,7 +16,7 @@ namespace GB
 	{
 	public:
 		virtual void OnAttach() override;
-		//virtual void OnDetach() override;
+		virtual void OnDetach() override;
 		virtual void OnRender() override;
 		virtual void OnImguiRender() override;
 
@@ -26,7 +26,7 @@ namespace GB
 		unsigned int ibo;
 		unsigned int vao;
 		Material material;
-
+		Texture* texture;
 		std::vector<Material> m_Materials;
 	};
 
