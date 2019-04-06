@@ -16,29 +16,13 @@ void GB::Renderer::OnAttach()
 	GB_CORE_INFO("Initialized Render class");
 	
 	//facilita poner el modo para alfas debo crear algo para que permita iterar entre un sistema y otro
-	const float positions[]
-	{
-		-0.5f,-0.5f, 0.0f, 0.0f,
-		 0.5f,-0.5f, 1.0f, 0.0f,
-		 0.5f, 0.5f, 1.0f, 1.0f,
-		-0.5f, 0.5f, 0.0f, 1.0f
-	};
 	unsigned int indices[]
 	{
 		0,1,2,
 		2,3,0
 	};
-
-	VertexArray va;
-	VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-	VertexBufferLayout layout;
-
-	layout.Push<float>(2);
-	layout.Push<float>(2);
-	va.AddBuffer(vb, layout);
-
-	IndexBuffer ib(indices, 6);
-	ib.Bind();
+	m_renderObject = new RenderObject(indices, 6);
+	m_renderObject->SetRenderMode(ERenderMode::BLEND);
 	material.CreateShader("Assets/Shader/Texture.shader");
 	material.Bind();
 
@@ -56,8 +40,9 @@ void GB::Renderer::OnDetach()
 
 void GB::Renderer::OnRender()
 {
-
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	m_renderObject->Bind();
+	m_renderObject->Render();
+	m_renderObject->UnBind();
 }
 
 void GB::Renderer::OnImguiRender()
