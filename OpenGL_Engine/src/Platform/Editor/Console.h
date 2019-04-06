@@ -4,6 +4,7 @@
 #include "GB\Layer.h"
 #include "GB\Log.h"
 #include "imgui.h"
+
 namespace GB {
 
 	class GBAPI Debug

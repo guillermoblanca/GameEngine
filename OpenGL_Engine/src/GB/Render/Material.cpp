@@ -23,7 +23,7 @@ namespace GB
 		glGetShaderiv(vShaderID, GL_COMPILE_STATUS, &isCompiled);
 		if (isCompiled ==GL_FALSE)
 		{
-			int maxLenght=0;
+			int maxLenght= GL_MAX_NAME_LENGTH;
 			glGetShaderInfoLog(vShaderID, maxLenght, &maxLenght, infoLog);
 			GB_CORE_ERROR("Vertex shader error: {0}", infoLog);
 		}
@@ -35,7 +35,7 @@ namespace GB
 		glGetShaderiv(fShaderID, GL_COMPILE_STATUS, &isCompiled);
 		if (isCompiled == GL_FALSE)
 		{
-			int maxLenght = 0;
+			int maxLenght = GL_MAX_NAME_LENGTH;
 			glGetShaderInfoLog(fShaderID, maxLenght, &maxLenght, infoLog);
 			GB_CORE_ERROR("Fragment shader error: {0}", infoLog);
 		}
@@ -97,7 +97,7 @@ namespace GB
 	void MaterialParam::SetVector3(const std::string loc, float x, float y, float z)
 	{
 		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
-		GB_ASSERT(location != -1, "Shader uniform!");
+		GB_ASSERT(location == -1, "Shader uniform!");
 		glUniform3f(location, x, y, z);
 		
 	}
@@ -105,7 +105,7 @@ namespace GB
 	{
 		//todo: fix
 		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
-//		GB_ASSERT(location != -1, "Shader uniform!");
+		GB_ASSERT(location == -1, "Shader uniform!");
 		glUniform2f(location, x, y);
 	}
 	void MaterialParam::SetFloat(const std::string loc, float x)
@@ -123,12 +123,14 @@ namespace GB
 	void MaterialParam::SetVector4(const std::string loc, float x, float y, float z, float w)
 	{
 		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
-		GB_ASSERT(location != -1, "Shader uniform failed!");
+		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniform4f(location, x, y, z, w);
 	}
-	void MaterialParam::SetMatrix(const std::string loc, Matrix * matrix)
+	void MaterialParam::SetMat4(const std::string loc, glm::mat4 mat)
 	{
-		GB_CORE_ERROR("Not defined SetMatrix!");
+		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		GB_ASSERT(location == -1, "Shader uniform failed!");
+		glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 	}
 	Material::~Material()
 	{

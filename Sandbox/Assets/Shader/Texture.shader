@@ -5,10 +5,10 @@ layout(location = 0 ) in vec3 position;
 layout(location = 1 ) in vec2 texCoords;
 
 out vec2 v_TextCoord;
+uniform mat4 u_transform;
 void main()
 {
-	gl_Position.xyz = position;
-	gl_Position.w = 1.0;
+	gl_Position = u_transform * (vec4(position,1.));
 	v_TextCoord = texCoords;
 }
 
@@ -21,6 +21,7 @@ uniform vec4 u_Color;
 uniform sampler2D u_Texture;
 void main()
 {
-	vec4 texColor = texture(u_Texture,v_TextCoord );
-	color =  texColor;
+	color = texture(u_Texture,v_TextCoord)* u_Color;
+//	if(color.r == 0.0f && color.g == 0.0f && color.b == 0.0f) color.r =1.0f;
+//	color =  u_Color;
 }

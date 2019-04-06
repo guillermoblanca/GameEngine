@@ -1,10 +1,11 @@
 #pragma once
 
 #include "gbpch.h"
+
 #include "GB/Core.h"
 #include "GB\Layer.h"
 #include "Material.h"
-
+#include "RenderObject.h"
 namespace GB
 {
 	enum EDrawMode
@@ -27,6 +28,7 @@ namespace GB
 		unsigned int vao;
 		Material material;
 		Texture* texture;
+		RenderObject* m_renderObject;
 		std::vector<Material> m_Materials;
 	};
 
