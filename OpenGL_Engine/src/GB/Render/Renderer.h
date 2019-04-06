@@ -28,6 +28,7 @@ namespace GB
 		unsigned int vao;
 		Material material;
 		Texture* texture;
+		Texture* texture1;
 		RenderObject* m_renderObject;
 		std::vector<Material> m_Materials;
 	};

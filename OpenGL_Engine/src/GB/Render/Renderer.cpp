@@ -26,10 +26,10 @@ void GB::Renderer::OnAttach()
 	material.CreateShader("Assets/Shader/Texture.shader");
 	material.Bind();
 
-	texture = new Texture("Assets/Texture/Game.png");
-
+	texture = new Texture("Assets/Texture/lion-logo.png");
+	texture1 = new Texture("Assets/Texture/Game.png");
 	texture->Bind(0);
-
+	texture->Bind(1);
 	material.GetParam().SetInt("u_Texture", 0);
 
 }
@@ -51,6 +51,7 @@ void GB::Renderer::OnImguiRender()
 
 	static float position[4];
 	static bool RotState = 0;
+	static int changeTex = 0;
 	static float scale[3] = { 1,1,1 };
 	static float rotator = 0;
 	ImGui::Begin("Renderer editor");
@@ -65,6 +66,7 @@ void GB::Renderer::OnImguiRender()
 	ImGui::Text("Width %d",texture->GetWidth());
 	ImGui::Text("Height %d", texture->GetHeight());
 	ImGui::Text("BPP %d",texture->GetBPP());
+	ImGui::SliderInt("Tex", &changeTex, 0, 1);
 	if(ImGui::Button("Rotate")) RotState = !RotState;
 	ImGui::DragFloat2("Pos:", position);
 	ImGui::DragFloat3("Scale:", scale,0.1f);
@@ -90,6 +92,17 @@ void GB::Renderer::OnImguiRender()
 	trans = glm::rotate(trans, rotator, glm::vec3(0.0f, 0.0f, 1.0f));
 	trans = glm::scale(trans, glm::vec3(scale[0],scale[1],scale[2]));
 	material.GetParam().SetMat4("u_transform", trans);
+	if (changeTex == 1)
+	{
+		texture1->Bind(1);
+
+	}
+	else
+	{
+		texture->Bind(0);
+	}
+	material.GetParam().SetInt("u_Texture", changeTex);
+
 }
 
 void GB::Renderer::Begin()
