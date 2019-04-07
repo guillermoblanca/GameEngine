@@ -11,7 +11,22 @@
 namespace GB
 {
 
+	RenderObject::RenderObject(const float *positions,unsigned int size, const unsigned int *data, unsigned int count, Material * mat) : m_ib(data, count), m_mat(mat)
+	{
 
+		VertexBuffer vb(positions,size);
+		VertexArray m_va;
+		VertexBufferLayout m_layout;
+
+		m_layout.Push<float>(2);
+		m_layout.Push<float>(2);
+		m_va.AddBuffer(vb, m_layout);
+
+
+
+		m_ib.Bind();
+
+	}
 	void RenderObject::UnBind()
 	{
 		m_ib.Unbind();

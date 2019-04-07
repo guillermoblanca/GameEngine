@@ -5,7 +5,8 @@ Texture::Texture(const std::string  path) :m_ID(0), m_FilePath(path), m_LocalBuf
 {
 	stbi_set_flip_vertically_on_load(true);
 	m_LocalBuffer = stbi_load(m_FilePath.c_str(), &m_Width, &m_Height, &m_BPP, 0);
-	GB_CORE_ERROR(stbi_failure_reason());
+	
+	//GB_CORE_ERROR(stbi_failure_reason());
 	glGenTextures(1, &m_ID);
 	glBindTexture(GL_TEXTURE_2D, m_ID);
 	

@@ -2,9 +2,7 @@
 #include "GB\Core.h"
 #include "Texture.h"
 #include "glm\glm.hpp"
-//todo: cargar por separado el shader del codigo 
-//todo: cargar shader solo el string 
-//todo: mejorar la carga de recursos
+
 
 namespace GB
 {
@@ -36,7 +34,13 @@ namespace GB
 		void SetInt(const std::string loc, int x);
 		void SetVector4(const std::string loc, float x, float y, float z, float w);
 		void SetMat4(const std::string loc, glm::mat4 mat);
+
+		inline Texture* GetTexture(unsigned const int id)  { return m_textures[id]; }
+
+		void AddTexture(Texture *tex);
+		inline void RemoveTexture(unsigned const int id) { m_textures.erase(m_textures.begin() + id); }
 	protected:
+		std::vector<Texture*> m_textures;
 		unsigned int shader;
 	};
 

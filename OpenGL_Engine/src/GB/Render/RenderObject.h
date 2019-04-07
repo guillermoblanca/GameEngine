@@ -12,30 +12,7 @@ namespace GB
 	{
 	public:
 
-		 RenderObject(const unsigned int *data , unsigned int count, Material * mat) : m_ib(data, count) , m_mat(mat)
-		{
-										 
-			const float positions[]
-			{
-				-0.5f,-0.5f, 0.0f, 0.0f,
-				 0.5f,-0.5f, 1.0f, 0.0f,
-				 0.5f, 0.5f, 1.0f, 1.0f,
-				-0.5f, 0.5f, 0.0f, 1.0f
-			};
-
-
-			VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-			VertexArray m_va;
-			VertexBufferLayout m_layout;
-
-			m_layout.Push<float>(2);
-			m_layout.Push<float>(2);
-			m_va.AddBuffer(vb, m_layout);
-
-			
-
-			m_ib.Bind();
-		}
+		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count, Material * mat);
 		void UnBind();
 		void Render();
 		void SetRenderMode(ERenderMode mode);

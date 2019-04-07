@@ -134,6 +134,7 @@ namespace GB
 	}
 	Material::~Material()
 	{
+		m_textures.clear();
 		glDeleteProgram(shader);
 	}
 
@@ -143,7 +144,11 @@ namespace GB
 		glUseProgram(shader);
 
 	}
-
+	void Material::AddTexture(Texture * tex)
+	{
+		m_textures.push_back(tex);  
+		tex->Bind(m_textures.size() - 1);
+	}
 	void Material::Bind()
 	{
 		glUseProgram(shader);

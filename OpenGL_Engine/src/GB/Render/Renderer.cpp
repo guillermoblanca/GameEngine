@@ -16,26 +16,35 @@ void GB::Renderer::OnAttach()
 	GB_CORE_INFO("Initialized Render class");
 
 	//facilita poner el modo para alfas debo crear algo para que permita iterar entre un sistema y otro
+	const float positions[]
+	{
+		-0.5f,-0.5f, 0.0f, 0.0f,
+		 0.5f,-0.5f, 1.0f, 0.0f,
+		 0.5f, 0.5f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.0f, 1.0f
+	};
+
 	unsigned int indices[]
 	{
 		0,1,2,
 		2,3,0
 	};
 	material.CreateShader("Assets/Shader/Texture.shader");
-	m_renderObject = new RenderObject(indices, 6, &material);
-	texture = new Texture("Assets/Texture/lion-logo.png");
-	texture1 = new Texture("Assets/Texture/Game.png");
+	m_renderObject = new RenderObject(positions, 4*4*sizeof(float),indices, 6, &material);
+	m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/lion-logo.png"));
+	m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/Game.png"));
+	m_renderObject->GetMat()->GetTexture(0)->Bind(0);
+	m_renderObject->GetMat()->GetTexture(1)->Bind(1);
 	m_renderObject->SetRenderMode(ERenderMode::BLEND);
 
 
-	material1.CreateShader("Assets/Shader/Uniform.shader");
-	m_renderObject1 = new RenderObject(indices, 6, &material1);
+	material1.CreateShader("Assets/Shader/Texture.shader");
+	m_renderObject1 = new RenderObject(positions, 4 * 4 * sizeof(float),indices, 6, &material1);
+
 
 }
 void GB::Renderer::OnDetach()
 {
-	delete texture;
-	delete texture1;
 	delete m_renderObject;
 	delete m_renderObject1;
 }
@@ -51,7 +60,8 @@ void GB::Renderer::OnImguiRender()
 	static float color[4] = { 1,1,1,1 };
 	static float s_color[4] = { 255,255,255,255 };
 	static float position[2];
-	static int changeTex = 0;
+	static int changeTex = 1;
+	int changeTex1 = 1;
 	static float scale[3] = { 1,1,1 };
 	static float rotator = 0;
 
@@ -60,6 +70,11 @@ void GB::Renderer::OnImguiRender()
 	static bool show_save = false;
 	static bool show_quit = false;
 	static bool show_objpro = false;
+	static bool show_objpro1 = false;
+
+	static float color1[4] = { 1,1,1,1 };
+	static float position1[2];
+	static float rotator1 = 0;
 	//for menu test
 
 
@@ -77,13 +92,14 @@ void GB::Renderer::OnImguiRender()
 		if (ImGui::BeginMenu("Render editor"))
 		{
 			ImGui::MenuItem("RenderObject properties", NULL, &show_objpro);
+			ImGui::MenuItem("RenderObject properties 1", NULL, &show_objpro1);
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
 
 	if (show_objpro) RenderEditorObj(position, scale, &rotator, &changeTex, color);
-
+	if (show_objpro1) RenderEditorObj(position1, scale, &rotator1, &changeTex1, color1);
 	ImGui::Begin("Render object properties 1");
 	ImGui::SliderFloat4("Col", s_color, 0.0f, 255, "%.0f");
 	ImGui::End();
@@ -101,23 +117,31 @@ void GB::Renderer::OnImguiRender()
 
 	if (changeTex == 1)
 	{
-		texture1->Bind(1);
+		m_renderObject->GetMat()->GetTexture(0)->Bind(0);
 
 	}
 	else
 	{
-		texture->Bind(0);
+		m_renderObject->GetMat()->GetTexture(1)->Bind(0);
 	}
 
 	static auto mat = m_renderObject->GetMat();
 	mat->Bind();
 	mat->SetVector4("u_Color", color[0], color[1], color[2], color[3]);
 	mat->SetMat4("u_transform", trans);
-	mat->SetInt("u_Texture", changeTex);
+	mat->SetInt("u_Texture", 0);
+
+
+	glm::mat4 trans1 = glm::mat4(1.0f);
+	trans1 = glm::translate(trans1, glm::vec3(position1[0] / width, position1[1] / height, 0.0f));
+	trans1 = glm::rotate(trans1, rotator1, glm::vec3(0.0f, 0.0f, 1.0f));
+	trans1 = glm::scale(trans1, glm::vec3(scale[0], scale[1], scale[2]));
 
 	static auto mat1 = m_renderObject1->GetMat();
 	mat1->Bind();
-	mat1->SetVector4("u_Color", s_color[0] / 255, s_color[1] / 255, s_color[2] / 255, s_color[3] / 255);
+	mat1->SetMat4("u_transform", trans1);
+	mat1->SetInt("u_Texture", 1);
+	mat1->SetVector4("u_Color", color1[0], color1[1], color1[2], color1[3]);
 }
 
 void GB::Renderer::Begin()
@@ -169,6 +193,7 @@ void GB::Renderer::RenderEditorObj(float *position, float *scale, float *rotator
 
 	if(ImGui::CollapsingHeader("Show texture info", &show_texinfo))
 	{
+		auto texture = m_renderObject->GetMat()->GetTexture(0);
 		ImGui::Text("Lion Texture");
 		ImGui::Text("Path %s", texture->GetPath().c_str());
 		ImGui::Text("Width %d", texture->GetWidth());
@@ -179,7 +204,7 @@ void GB::Renderer::RenderEditorObj(float *position, float *scale, float *rotator
 		ImGui::Separator();
 
 		ImGui::Text("Game Texture");
-
+		auto texture1 = m_renderObject->GetMat()->GetTexture(1);
 		ImGui::Text("Path %s", texture1->GetPath().c_str());
 		ImGui::Text("Width %d", texture1->GetWidth());
 		ImGui::Text("Height %d", texture1->GetHeight());

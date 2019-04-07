@@ -31,8 +31,7 @@ namespace GB
 		unsigned int vao;
 		Material material;
 		Material material1;
-		Texture* texture;
-		Texture* texture1;
+
 		RenderObject* m_renderObject;
 		RenderObject* m_renderObject1;
 		std::vector<Material> m_Materials;
