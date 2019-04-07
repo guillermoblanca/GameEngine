@@ -5,7 +5,7 @@
 
 
 
-GB::IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count):  m_RendererID(0), m_Count(0)
+GB::IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count):  m_RendererID(0), m_Count(count)
 {				  
 	GB_CORE_ASSERT(sizeof(unsigned int) == sizeof(GLuint), "Unsigned int not equal Opengl");
 	glGenBuffers(1, &m_RendererID);

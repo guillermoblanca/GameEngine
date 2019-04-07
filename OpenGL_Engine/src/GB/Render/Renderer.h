@@ -24,12 +24,17 @@ namespace GB
 		virtual void Begin();
 		virtual void End();
 	private:
+
+		void RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color);
+
 		unsigned int ibo;
 		unsigned int vao;
 		Material material;
+		Material material1;
 		Texture* texture;
 		Texture* texture1;
 		RenderObject* m_renderObject;
+		RenderObject* m_renderObject1;
 		std::vector<Material> m_Materials;
 	};
 

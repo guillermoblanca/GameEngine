@@ -1,6 +1,7 @@
 #pragma once
 #include "GB\Core.h"
 
+#include "Material.h"
 #include "VertexBuffer.h"
 #include "VertexArray.h"
 #include "IndexBuffer.h"
@@ -11,7 +12,7 @@ namespace GB
 	{
 	public:
 
-		RenderObject(const unsigned int *data , unsigned int count) : m_ib(data, count)
+		RenderObject(const unsigned int *data , unsigned int count, Material * mat) : m_ib(data, count) , m_mat(mat)
 		{
 										 
 			const float positions[]
@@ -35,11 +36,13 @@ namespace GB
 
 			m_ib.Bind();
 		}
-		void Bind();
 		void UnBind();
 		void Render();
 		void SetRenderMode(ERenderMode mode);
+
+		inline Material* GetMat() { return m_mat; }
 	private:
 		IndexBuffer m_ib;
+		Material * m_mat;
 	};
 }

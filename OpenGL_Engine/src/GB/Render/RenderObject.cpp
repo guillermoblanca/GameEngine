@@ -11,17 +11,16 @@
 namespace GB
 {
 
-	void RenderObject::Bind()
-	{
-		m_ib.Bind();
-	}
+
 	void RenderObject::UnBind()
 	{
 		m_ib.Unbind();
 	}
 	void RenderObject::Render()
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);	
+		m_mat->Bind();
+		m_ib.Bind();
+		glDrawElements(GL_TRIANGLES, m_ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 	void RenderObject::SetRenderMode(ERenderMode mode)
 	{

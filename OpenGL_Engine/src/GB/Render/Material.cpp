@@ -94,48 +94,47 @@ namespace GB
 		return shader;
 	}
 
-	void MaterialParam::SetVector3(const std::string loc, float x, float y, float z)
+	void Material::SetVector3(const std::string loc, float x, float y, float z)
 	{
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform!");
 		glUniform3f(location, x, y, z);
 		
 	}
-	void MaterialParam::SetVector2(const std::string loc, float x, float y)
+	void Material::SetVector2(const std::string loc, float x, float y)
 	{
 		//todo: fix
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform!");
 		glUniform2f(location, x, y);
 	}
-	void MaterialParam::SetFloat(const std::string loc, float x)
+	void Material::SetFloat(const std::string loc, float x)
 	{
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniform1f(location, x);
 	}
-	void MaterialParam::SetInt(const std::string loc, int x)
+	void Material::SetInt(const std::string loc, int x)
 	{
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniform1i(location, x);
 	}
-	void MaterialParam::SetVector4(const std::string loc, float x, float y, float z, float w)
+	void Material::SetVector4(const std::string loc, float x, float y, float z, float w)
 	{
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniform4f(location, x, y, z, w);
 	}
-	void MaterialParam::SetMat4(const std::string loc, glm::mat4 mat)
+	void Material::SetMat4(const std::string loc, glm::mat4 mat)
 	{
-		unsigned int location = glGetUniformLocation(m_shader, loc.c_str());
+		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 	}
 	Material::~Material()
 	{
-		//todo: fix
-		//glDeleteProgram(shader);
+		glDeleteProgram(shader);
 	}
 
 	void Material::CreateShader(const std::string path)
@@ -150,27 +149,4 @@ namespace GB
 		glUseProgram(shader);
 	}
 
-	Color::Color()
-	{
-		r = g = b = 1;
-		a = 0;
-	}
-	Color::Color(float _r, float _g, float _b)
-	{
-		r = _r;
-		g = _g;
-		b = _b;
-	}
-	Color Color::Lerp(Color a, Color b, float time)
-	{
-		// a*(1-t) + b*t formula de interpolacion lineal
-		time =  time <=0 ? 0 : time>= 1? 1: time;
-		Color color;
-		color.r = a.r *(1 - time) + b.r*time;
-		color.g = a.g*(1 - time) + b.g *time;
-		color.b = a.b*(1 - time) + b.b*time;
-		color.a = a.a *(1 - time) + b.a*time;
-
-		return color;
-	}
 }
