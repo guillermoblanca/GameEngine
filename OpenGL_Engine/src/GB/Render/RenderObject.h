@@ -12,7 +12,7 @@ namespace GB
 	{
 	public:
 
-		RenderObject(const unsigned int *data , unsigned int count, Material * mat) : m_ib(data, count) , m_mat(mat)
+		 RenderObject(const unsigned int *data , unsigned int count, Material * mat) : m_ib(data, count) , m_mat(mat)
 		{
 										 
 			const float positions[]

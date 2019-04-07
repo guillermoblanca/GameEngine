@@ -58,6 +58,7 @@ void GB::Renderer::OnImguiRender()
 	static bool show_new = false;
 	static bool show_open = false;
 	static bool show_save = false;
+	static bool show_quit = false;
 	static bool show_objpro = false;
 	//for menu test
 
@@ -69,6 +70,7 @@ void GB::Renderer::OnImguiRender()
 			ImGui::MenuItem("New", NULL, &show_new);
 			ImGui::MenuItem("Open", NULL, &show_open);
 			ImGui::MenuItem("Save", NULL, &show_save);
+			ImGui::MenuItem("Quit", NULL, &show_quit);
 			ImGui::EndMenu();
 		}
 
@@ -136,6 +138,7 @@ void GB::Renderer::RenderEditorObj(float *position, float *scale, float *rotator
 
 	static bool RotState = false;
 	static bool show_transform = true;
+	static bool show_color = true;
 	ImGuiDir dir_transform = show_transform ? ImGuiDir_Down : ImGuiDir_Right;
 
 	static bool show_texinfo = true;
@@ -151,10 +154,7 @@ void GB::Renderer::RenderEditorObj(float *position, float *scale, float *rotator
 
 	ImGui::SliderInt("change texture", changeTex, 0, 1);
 
-	if(ImGui::ArrowButton("transform_button", dir_transform)) show_transform = !show_transform;
-	ImGui::SameLine();
-	ImGui::Text("Transform");
-	if (show_transform)
+	if(ImGui::CollapsingHeader("Transform", &show_transform))
 	{
 		ImGui::DragFloat2("Pos:", position);
 		ImGui::DragFloat3("Scale:", scale, 0.1f);
@@ -162,14 +162,12 @@ void GB::Renderer::RenderEditorObj(float *position, float *scale, float *rotator
 	}
 	ImGui::Spacing();
 	ImGui::Spacing();
+	if(ImGui::CollapsingHeader("Color editor", &show_color))
 	ImGui::ColorPicker4("##picker", (float*)&colorformat, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_AlphaBar);
 
 	ImGui::Separator();
 
-	if (ImGui::ArrowButton("texinfo_button", dir_transform)) { show_texinfo = !show_texinfo; }
-	ImGui::SameLine();
-	ImGui::Text("Texture info");
-	if (show_texinfo)
+	if(ImGui::CollapsingHeader("Show texture info", &show_texinfo))
 	{
 		ImGui::Text("Lion Texture");
 		ImGui::Text("Path %s", texture->GetPath().c_str());
