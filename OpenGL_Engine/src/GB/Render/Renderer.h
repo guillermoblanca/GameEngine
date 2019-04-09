@@ -26,7 +26,8 @@ namespace GB
 	private:
 
 		void RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color);
-
+		void CameraEditor();
+		void MaterialEditor(RenderObject* renobj, char* pathbuff);
 		unsigned int ibo;
 		unsigned int vao;
 		Material material;
@@ -35,6 +36,7 @@ namespace GB
 		RenderObject* m_renderObject;
 		RenderObject* m_renderObject1;
 		std::vector<Material> m_Materials;
+		std::vector<RenderObject*> m_renderObjects;
 	};
 
 

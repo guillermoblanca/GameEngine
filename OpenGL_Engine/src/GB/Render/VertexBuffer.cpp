@@ -4,6 +4,7 @@
 
 GB::VertexBuffer::VertexBuffer(const void * data, unsigned int size)
 {
+	if (data == nullptr || size == -1) return;
 	glGenBuffers(1, &m_RendererID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
@@ -11,8 +12,8 @@ GB::VertexBuffer::VertexBuffer(const void * data, unsigned int size)
 
 GB::VertexBuffer::~VertexBuffer()
 {
-	//todo: fix
-	//glDeleteBuffers(1, &m_RendererID);
+	
+	glDeleteBuffers(1, &m_RendererID);
 }
 
 void GB::VertexBuffer::Bind()const

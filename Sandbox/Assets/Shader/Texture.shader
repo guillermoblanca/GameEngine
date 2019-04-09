@@ -6,6 +6,8 @@ layout(location = 1 ) in vec2 texCoords;
 
 out vec2 v_TextCoord;
 uniform mat4 u_transform;
+uniform mat4 u_view;
+uniform mat4 u_proj;
 void main()
 {
 	gl_Position = u_transform * (vec4(position,1.));
