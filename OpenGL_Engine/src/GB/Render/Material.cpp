@@ -132,23 +132,28 @@ namespace GB
 		GB_ASSERT(location == -1, "Shader uniform failed!");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 	}
+	Material::Material()
+	{
+		GB_CORE_INFO("Don't forget to use createshader for initialice process!");
+	}
+	Material::Material(const std::string path)
+	{
+		bool r = CreateShader(path);
+		GB_CORE_ASSERT(r, "Material not created");
+	}
 	Material::~Material()
 	{
-		m_textures.clear();
 		glDeleteProgram(shader);
 	}
 
-	void Material::CreateShader(const std::string path)
+	bool Material::CreateShader(const std::string path)
 	{
 		shader = LoadShaders(path.c_str());
 		glUseProgram(shader);
 
+		return shader != -1; 
 	}
-	void Material::AddTexture(Texture * tex)
-	{
-		m_textures.push_back(tex);  
-		tex->Bind(m_textures.size() - 1);
-	}
+	
 	void Material::Bind()
 	{
 		glUseProgram(shader);

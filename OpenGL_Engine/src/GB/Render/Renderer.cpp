@@ -36,52 +36,41 @@ namespace GB
 			0,1,2,
 			2,3,0
 		};
-		material.CreateShader("Assets/Shader/Camera.shader");
-		m_renderObject = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material, nullptr);
-		m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/lion-logo.png"));
-		m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/Game.png"));
-		m_renderObject->GetMat()->GetTexture(0)->Bind(0);
-		m_renderObject->GetMat()->GetTexture(1)->Bind(1);
-		m_renderObject->SetRenderMode(ERenderMode::ALPHA);
 
+		AlphaRender(true);
 
-		/*	material.CreateShader("Assets/Shader/Texture.shader");
-			material.AddTexture(new Texture("Assets/Texture/Game.png"));
-			material.GetTexture(0)->Bind(0);
-			for (int x = 0; x < 3; x++)
-			{
-				for (int y = 0; y < 3; y++)
-				{
-					float w = x / (float)Application::Get().GetWindow().GetWidth();
-					float h = y / (float)Application::Get().GetWindow().GetHeight();
-					float transform[] = {w,h,0,0.0f,1.0f,1.0f,1.0f };
-					GB_CORE_INFO("TRANSFORM: {0},{1}", w, h);
-					m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material,
-						transform));
-				}
-			}*/
-
-
-		material1.CreateShader("Assets/Shader/Texture.shader");
-		m_renderObject1 = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material1, nullptr);
-
+		m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Texture.shader"), nullptr));
+		m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Texture.shader"), nullptr));
+		m_textures.push_back(new Texture("Assets/Texture/Game.png",0));
+		m_textures.push_back(new Texture("Assets/Texture/lion-logo.png",1));
+		
 
 	}
 	void Renderer::OnDetach()
 	{
-		delete m_renderObject;
-		delete m_renderObject1;
+		for (int i = 0; i < m_textures.size(); i++) delete m_textures[i];
+		for (int i = 0; i < m_renderObjects.size(); i++) delete m_renderObjects[i];
 	}
 
 	void Renderer::OnRender()
 	{
+		static float width = (float)Application::Get().GetWindow().GetWidth();
+		static float height = (float)Application::Get().GetWindow().GetHeight();
+		glm::mat4 transform = glm::mat4(1.0f);
 
-		m_renderObject1->Render();
-		m_renderObject->Render();
-		/*for (size_t i = 0; i < 6; i++)
+		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
-			m_renderObjects[i]->Render();
-		}*/
+			transform = glm::translate(transform, glm::vec3((i*500)/width, (float)i / height, 0.0f));
+			transform = glm::scale(transform, glm::vec3(1.0f / (i + 1), 1.0f / (i + 1), 1.0f));
+
+			auto obj = m_renderObjects[i];
+			m_textures[i]->Bind(0);
+			obj->GetMat()->Bind();
+			obj->GetMat()->SetInt("u_Texture", 0);
+			obj->GetMat()->SetMat4("u_transform", transform);
+			obj->GetMat()->SetVector4("u_Color", 1.0f, 1.f,1.0f, 1.0f);
+			obj->Render();
+		}
 	}
 
 	void Renderer::OnImguiRender()
@@ -98,7 +87,7 @@ namespace GB
 		static bool show_quit = false;
 		static bool show_objpro = true;
 		static bool show_objpro1 = false;
-		static bool show_shadercomp = true;
+		static bool show_shadercomp = false;
 		static bool move_mouse = false;
 		static bool move_mouse1 = false;
 		static float color1[4] = { 1,1,1,1 };
@@ -128,7 +117,7 @@ namespace GB
 
 			if (ImGui::Button("Compile shader"))
 			{
-				m_renderObject->GetMat()->CreateShader("Assets/Shader/Camera.shader");
+				//m_renderObject->GetMat()->CreateShader("Assets/Shader/Camera.shader");
 
 			}
 			ImGui::EndMainMenuBar();
@@ -159,41 +148,6 @@ namespace GB
 		trans = glm::rotate(trans, rotator, glm::vec3(1.0f, 0.0f, 0.0f));
 		trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
 
-		if (changeTex == 1)
-		{
-			m_renderObject->GetMat()->GetTexture(0)->Bind(0);
-
-		}
-		else
-		{
-			m_renderObject->GetMat()->GetTexture(1)->Bind(0);
-		}
-
-		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-
-		model = glm::translate(model, glm::vec3(position1[0], position1[1], position1[2]));
-		model = glm::rotate(model, glm::radians(rotator1), glm::vec3(1.0f, 0.0f, 0.0f));
-		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
-
-		static auto mat = m_renderObject->GetMat();
-		mat->Bind();
-		mat->SetVector4("u_Color", color[0], color[1], color[2], color[3]);
-		mat->SetMat4("u_view", result);
-
-		mat->SetInt("u_Texture", 0);
-		//CameraEditor();
-
-		glm::mat4 trans1 = glm::mat4(1.0f);
-		trans1 = glm::translate(trans1, glm::vec3(position1[0] / width, position1[1] / height, 0.0f));
-		trans1 = glm::rotate(trans1, rotator1, glm::vec3(1.0f, 0.0f, 0.0f));
-		trans1 = glm::scale(trans1, glm::vec3(scale[0], scale[1], scale[2]));
-
-
-		static auto mat1 = m_renderObject1->GetMat();
-		mat1->Bind();
-		mat1->SetMat4("u_transform", trans1);
-		mat1->SetInt("u_Texture", 1);
-		mat1->SetVector4("u_Color", color1[0], color1[1], color1[2], color1[3]);
 
 		CameraEditor();
 	}
@@ -215,8 +169,8 @@ namespace GB
 	{
 
 		static bool RotState = false;
-		 bool show_transform = true;
-		 bool show_color = true;
+		bool show_transform = true;
+		bool show_color = true;
 		ImGuiDir dir_transform = show_transform ? ImGuiDir_Down : ImGuiDir_Right;
 
 		static bool show_texinfo = true;
@@ -247,22 +201,22 @@ namespace GB
 
 		if (ImGui::CollapsingHeader("Show texture info", &show_texinfo))
 		{
-			auto texture = m_renderObject->GetMat()->GetTexture(0);
-			ImGui::Text("Lion Texture");
-			ImGui::Text("Path %s", texture->GetPath().c_str());
-			ImGui::Text("Width %d", texture->GetWidth());
-			ImGui::Text("Height %d", texture->GetHeight());
-			ImGui::Text("BPP %d", texture->GetBPP());
+			/*	auto texture = m_renderObject->GetMat()->GetTexture(0);
+				ImGui::Text("Lion Texture");
+				ImGui::Text("Path %s", texture->GetPath().c_str());
+				ImGui::Text("Width %d", texture->GetWidth());
+				ImGui::Text("Height %d", texture->GetHeight());
+				ImGui::Text("BPP %d", texture->GetBPP());
 
-			ImGui::Spacing();
-			ImGui::Separator();
+				ImGui::Spacing();
+				ImGui::Separator();
 
-			ImGui::Text("Game Texture");
-			auto texture1 = m_renderObject->GetMat()->GetTexture(1);
-			ImGui::Text("Path %s", texture1->GetPath().c_str());
-			ImGui::Text("Width %d", texture1->GetWidth());
-			ImGui::Text("Height %d", texture1->GetHeight());
-			ImGui::Text("BPP %d", texture1->GetBPP());
+				ImGui::Text("Game Texture");
+				auto texture1 = m_renderObject->GetMat()->GetTexture(1);
+				ImGui::Text("Path %s", texture1->GetPath().c_str());
+				ImGui::Text("Width %d", texture1->GetWidth());
+				ImGui::Text("Height %d", texture1->GetHeight());
+				ImGui::Text("BPP %d", texture1->GetBPP());*/
 		}
 		ImGui::End();
 
@@ -283,14 +237,14 @@ namespace GB
 		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
-		
+
 		static float FOV = 45.0f;
 		static float m_position[3] = { 0,0,-3 };
 		static float m_rotation[3] = { 0,0,0 };
 		static float m_rot = -55.0f;
 		ImGui::Begin("Render object");
 
-		ImGui::DragFloat3("Position", m_position,0.1f);
+		ImGui::DragFloat3("Position", m_position, 0.1f);
 		ImGui::DragFloat("Rotation", &m_rot, 0.1f);
 		ImGui::End();
 
@@ -298,12 +252,12 @@ namespace GB
 		model = glm::rotate(model, glm::radians(m_rot), glm::vec3(1.0f, 0.0f, 0.0f));
 
 		Camera::ImguiEditor();
-		
-		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
-		static auto mat = m_renderObject->GetMat();
-		mat->Bind();
-		mat->SetMat4("u_view", result);
 
+		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
+		/*	static auto mat = m_renderObject->GetMat();
+			mat->Bind();
+			mat->SetMat4("u_view", result);
+	*/
 
 	}
 
@@ -316,6 +270,19 @@ namespace GB
 
 			if (ImGui::Button("Compile shader")) renobj->GetMat()->CreateShader(pathbuff);
 			ImGui::EndMenu();
+		}
+	}
+	void Renderer::AlphaRender(bool active)
+	{
+		if(active)
+		{
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		else
+		{
+			glDisable(GL_BLEND);
 		}
 	}
 }

@@ -46,18 +46,5 @@ namespace GB
 		m_ib.Bind();
 		glDrawElements(GL_TRIANGLES, m_ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
-	void RenderObject::SetRenderMode(ERenderMode mode)
-	{
-		switch (mode)
-		{
-		case GB::NONE:
-			glDisable(GL_BLEND);
-			break;
-		case GB::ALPHA:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			break;
-		}
-	}
 }

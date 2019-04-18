@@ -21,11 +21,13 @@ namespace GB
 	{
 
 	public:
+		Material();
+		Material(const std::string path);
 		~Material();
 
 
 
-		void CreateShader(const std::string path);
+		bool CreateShader(const std::string path);
 		void Bind();
 
 		void SetVector3(const std::string loc, float x, float y, float z);
@@ -35,12 +37,7 @@ namespace GB
 		void SetVector4(const std::string loc, float x, float y, float z, float w);
 		void SetMat4(const std::string loc, glm::mat4 mat);
 
-		inline Texture* GetTexture(unsigned const int id)  { return m_textures[id]; }
-
-		void AddTexture(Texture *tex);
-		inline void RemoveTexture(unsigned const int id) { m_textures.erase(m_textures.begin() + id); }
 	protected:
-		std::vector<Texture*> m_textures;
 		unsigned int shader;
 	};
 
