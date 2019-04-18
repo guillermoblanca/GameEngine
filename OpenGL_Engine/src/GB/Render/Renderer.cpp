@@ -11,7 +11,8 @@
 #include "imgui.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-
+#include "GB/Input.h"
+#include "Camera.h"
 namespace GB
 {
 
@@ -21,6 +22,7 @@ namespace GB
 		GB_CORE_INFO("Initialized Render class");
 
 		//facilita poner el modo para alfas debo crear algo para que permita iterar entre un sistema y otro
+
 		const float positions[]
 		{
 			-0.5f,-0.5f, 0.0f, 0.0f,
@@ -34,34 +36,34 @@ namespace GB
 			0,1,2,
 			2,3,0
 		};
-		material.CreateShader("Assets/Shader/Texture.shader");
-		m_renderObject = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material,nullptr);
+		material.CreateShader("Assets/Shader/Camera.shader");
+		m_renderObject = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material, nullptr);
 		m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/lion-logo.png"));
 		m_renderObject->GetMat()->AddTexture(new Texture("Assets/Texture/Game.png"));
 		m_renderObject->GetMat()->GetTexture(0)->Bind(0);
 		m_renderObject->GetMat()->GetTexture(1)->Bind(1);
-		m_renderObject->SetRenderMode(ERenderMode::BLEND);
+		m_renderObject->SetRenderMode(ERenderMode::ALPHA);
 
 
-	/*	material.CreateShader("Assets/Shader/Texture.shader");
-		material.AddTexture(new Texture("Assets/Texture/Game.png"));
-		material.GetTexture(0)->Bind(0);
-		for (int x = 0; x < 3; x++)
-		{
-			for (int y = 0; y < 3; y++)
+		/*	material.CreateShader("Assets/Shader/Texture.shader");
+			material.AddTexture(new Texture("Assets/Texture/Game.png"));
+			material.GetTexture(0)->Bind(0);
+			for (int x = 0; x < 3; x++)
 			{
-				float w = x / (float)Application::Get().GetWindow().GetWidth();
-				float h = y / (float)Application::Get().GetWindow().GetHeight();
-				float transform[] = {w,h,0,0.0f,1.0f,1.0f,1.0f };
-				GB_CORE_INFO("TRANSFORM: {0},{1}", w, h);
-				m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material, 
-					transform));
-			}
-		}*/
+				for (int y = 0; y < 3; y++)
+				{
+					float w = x / (float)Application::Get().GetWindow().GetWidth();
+					float h = y / (float)Application::Get().GetWindow().GetHeight();
+					float transform[] = {w,h,0,0.0f,1.0f,1.0f,1.0f };
+					GB_CORE_INFO("TRANSFORM: {0},{1}", w, h);
+					m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material,
+						transform));
+				}
+			}*/
 
 
 		material1.CreateShader("Assets/Shader/Texture.shader");
-		m_renderObject1 = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material1,nullptr);
+		m_renderObject1 = new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, &material1, nullptr);
 
 
 	}
@@ -74,8 +76,8 @@ namespace GB
 	void Renderer::OnRender()
 	{
 
-		m_renderObject->Render();
 		m_renderObject1->Render();
+		m_renderObject->Render();
 		/*for (size_t i = 0; i < 6; i++)
 		{
 			m_renderObjects[i]->Render();
@@ -97,6 +99,8 @@ namespace GB
 		static bool show_objpro = true;
 		static bool show_objpro1 = false;
 		static bool show_shadercomp = true;
+		static bool move_mouse = false;
+		static bool move_mouse1 = false;
 		static float color1[4] = { 1,1,1,1 };
 		static float position1[2];
 		static float rotator1 = 0;
@@ -117,21 +121,21 @@ namespace GB
 			if (ImGui::BeginMenu("Render editor"))
 			{
 				ImGui::MenuItem("RenderObject properties", NULL, &show_objpro);
-				ImGui::MenuItem("RenderObject properties 1", NULL, &show_objpro1); 
-					ImGui::MenuItem("Shader compiler", NULL, &show_shadercomp);
+				ImGui::MenuItem("RenderObject properties 1", NULL, &show_objpro1);
+				ImGui::MenuItem("Shader compiler", NULL, &show_shadercomp);
 				ImGui::EndMenu();
 			}
 
 			if (ImGui::Button("Compile shader"))
 			{
-				m_renderObject->GetMat()->CreateShader("Assets/Shader/Texture.shader");
-				
+				m_renderObject->GetMat()->CreateShader("Assets/Shader/Camera.shader");
+
 			}
 			ImGui::EndMainMenuBar();
 		}
 
-		if (show_objpro) RenderEditorObj(position, scale, &rotator, &changeTex, color);
-		if (show_objpro1) RenderEditorObj(position1, scale, &rotator1, &changeTex1, color1);
+		if (show_objpro) RenderEditorObj(position, scale, &rotator, &changeTex, color, &move_mouse);
+		if (show_objpro1) RenderEditorObj(position1, scale, &rotator1, &changeTex1, color1, &move_mouse);
 		//if (show_shadercomp) MaterialEditor(m_renderObject, *pathbuff);
 
 		float width = (float)Application::Get().GetWindow().GetWidth();
@@ -141,8 +145,18 @@ namespace GB
 
 
 		glm::mat4 trans = glm::mat4(1.0f);
-		trans = glm::translate(trans, glm::vec3(position[0] / width, position[1] / height, 0.0f));
-		trans = glm::rotate(trans, rotator, glm::vec3(0.0f, 0.0f, 1.0f));
+		if (move_mouse)
+		{
+			float x = (float)Input::GetMouseX() / width;
+			float y = -(float)Input::GetMouseY() / height;
+			GB_CORE_TRACE("Mouse value {0}:{1}", x, y);
+			trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
+		}
+		else
+		{
+			trans = glm::translate(trans, glm::vec3(position[0] / width, position[1] / height, 0.0f));
+		}
+		trans = glm::rotate(trans, rotator, glm::vec3(1.0f, 0.0f, 0.0f));
 		trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
 
 		if (changeTex == 1)
@@ -154,20 +168,26 @@ namespace GB
 		{
 			m_renderObject->GetMat()->GetTexture(1)->Bind(0);
 		}
-		
+
+		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+
+		model = glm::translate(model, glm::vec3(position1[0], position1[1], position1[2]));
+		model = glm::rotate(model, glm::radians(rotator1), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
+
 		static auto mat = m_renderObject->GetMat();
 		mat->Bind();
 		mat->SetVector4("u_Color", color[0], color[1], color[2], color[3]);
+		mat->SetMat4("u_view", result);
 
-		mat->SetMat4("u_transform", trans);
 		mat->SetInt("u_Texture", 0);
 		//CameraEditor();
 
 		glm::mat4 trans1 = glm::mat4(1.0f);
 		trans1 = glm::translate(trans1, glm::vec3(position1[0] / width, position1[1] / height, 0.0f));
-		trans1 = glm::rotate(trans1, rotator1, glm::vec3(0.0f, 0.0f, 1.0f));
+		trans1 = glm::rotate(trans1, rotator1, glm::vec3(1.0f, 0.0f, 0.0f));
 		trans1 = glm::scale(trans1, glm::vec3(scale[0], scale[1], scale[2]));
-	
+
 
 		static auto mat1 = m_renderObject1->GetMat();
 		mat1->Bind();
@@ -175,6 +195,7 @@ namespace GB
 		mat1->SetInt("u_Texture", 1);
 		mat1->SetVector4("u_Color", color1[0], color1[1], color1[2], color1[3]);
 
+		CameraEditor();
 	}
 
 	void Renderer::Begin()
@@ -190,12 +211,12 @@ namespace GB
 		glfwSwapBuffers(window);
 	}
 
-	void Renderer::RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color)
+	void Renderer::RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color, bool * move_mouse)
 	{
 
 		static bool RotState = false;
-		static bool show_transform = true;
-		static bool show_color = true;
+		 bool show_transform = true;
+		 bool show_color = true;
 		ImGuiDir dir_transform = show_transform ? ImGuiDir_Down : ImGuiDir_Right;
 
 		static bool show_texinfo = true;
@@ -208,7 +229,7 @@ namespace GB
 		ImGui::Spacing();
 
 		if (ImGui::Button("Rotate")) RotState = !RotState;
-
+		if (ImGui::Button("Move with mouse")) *move_mouse = !*move_mouse;
 		ImGui::SliderInt("change texture", changeTex, 0, 1);
 
 		if (ImGui::CollapsingHeader("Transform", &show_transform))
@@ -255,31 +276,38 @@ namespace GB
 
 	void Renderer::CameraEditor()
 	{
-		float width = Application::Get().GetWindow().GetWidth();
-		float height = Application::Get().GetWindow().GetHeight();
-		glm::mat4 model =glm::mat4(1.0f);
+
+		static float width = (float)Application::Get().GetWindow().GetWidth();
+		static float height = (float)Application::Get().GetWindow().GetHeight();
+
+		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 proj = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
+		
+		static float FOV = 45.0f;
+		static float m_position[3] = { 0,0,-3 };
+		static float m_rotation[3] = { 0,0,0 };
+		static float m_rot = -55.0f;
+		ImGui::Begin("Render object");
 
-		model = glm::translate(model, glm::vec3(glm::vec3( width,  height, 0.0f)));
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		proj = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 100.0f);
-
-		auto  result = model * view * proj;
-		m_renderObject->GetMat()->SetMat4("u_transform", model);
-		m_renderObject->GetMat()->SetMat4("u_view", view);
-		m_renderObject->GetMat()->SetMat4("u_proj", proj);
-
-		ImGui::Begin("Camera editor");
-		ImGui::Text("Model: %f,%f,%f,%f",result[0][0],model[0][1],model[0][2],model[0][3] );
-		ImGui::Text("Model: %f,%f,%f,%f",result[1][0],model[1][1],model[1][2],model[1][3] );
-		ImGui::Text("Model: %f,%f,%f,%f",result[2][0],model[2][1],model[2][2],model[2][3] );
-		ImGui::Text("Model: %f,%f,%f,%f",result[3][0],model[3][1],model[3][2],model[3][3] );
+		ImGui::DragFloat3("Position", m_position,0.1f);
+		ImGui::DragFloat("Rotation", &m_rot, 0.1f);
 		ImGui::End();
+
+		model = glm::translate(model, glm::vec3(m_position[0], m_position[1], m_position[2]));
+		model = glm::rotate(model, glm::radians(m_rot), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		Camera::ImguiEditor();
+		
+		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
+		static auto mat = m_renderObject->GetMat();
+		mat->Bind();
+		mat->SetMat4("u_view", result);
+
+
 	}
 
-	void Renderer::MaterialEditor(RenderObject* renobj,char* pathbuff)
+	void Renderer::MaterialEditor(RenderObject* renobj, char* pathbuff)
 	{
 		//todo: fix imgui::inputtext
 		if (ImGui::BeginMenu("Render Obj"))

@@ -8,8 +8,7 @@ GB::VertexArray::VertexArray()
 
 GB::VertexArray::~VertexArray()
 {
-	//todo: fix
-	//glDeleteVertexArrays(1, &m_Renderer);
+	glDeleteVertexArrays(1, &m_RendererID);
 }
 
 void GB::VertexArray::AddBuffer(const VertexBuffer & vb, const VertexBufferLayout & layout)

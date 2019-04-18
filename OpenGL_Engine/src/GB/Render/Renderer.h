@@ -25,7 +25,7 @@ namespace GB
 		virtual void End();
 	private:
 
-		void RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color);
+		void RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color, bool *move_mouse);
 		void CameraEditor();
 		void MaterialEditor(RenderObject* renobj, char* pathbuff);
 		unsigned int ibo;
