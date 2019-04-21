@@ -1,9 +1,8 @@
-
+#include "GB.h"
 #include "Application.h"
 #include "imgui\imgui.h"
 
 using namespace GB;
-
 void LayerExample::OnImguiRender()
 {
 
@@ -34,7 +33,7 @@ void LayerExample::OnEvent(GB::Event & event)
 
 vector2 FreeCamera::CameraDirection()
 {
-	mouse = Input::GetMousePosition();
+	mouse = GB::Input::GetMousePosition();
 
 	vector2 diff = { mouse.first - prevMouse.first,mouse.second - prevMouse.second };
 	diff.first = diff.first > 1 ? 1 : diff.first < -1 ? -1 : diff.first;
@@ -42,6 +41,11 @@ vector2 FreeCamera::CameraDirection()
 
 	prevMouse = mouse;
 	return diff;
+}
+
+void FreeCamera::OnAttach()
+{
+	Camera::Translate(glm::vec3(0.0f, 0.0f, -10.0f));
 }
 
 void FreeCamera::OnUpdate()
