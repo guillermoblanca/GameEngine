@@ -15,7 +15,6 @@ namespace GB
 	};
 
 	ShaderProgramSource ParseShader(const std::string& filePath);
-	//todo: not sure
 
 	class Material
 	{

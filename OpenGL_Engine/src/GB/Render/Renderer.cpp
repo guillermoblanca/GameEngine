@@ -77,8 +77,8 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		m_renderObjects.push_back(new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
-		m_renderObjects.push_back(new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
+		m_renderObjects.push_back((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
+		m_renderObjects.push_back((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 
@@ -96,7 +96,7 @@ namespace GB
 		glm::mat4 transform = glm::mat4(1.0f);
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
-			auto obj = m_renderObjects[i];
+			auto obj = (RenderObject*)m_renderObjects[i];
 			m_textures[i]->Bind(0);
 			obj->GetMat()->Bind();
 			obj->GetMat()->SetInt("u_Texture", 0);
@@ -129,21 +129,21 @@ namespace GB
 		glm::vec3 scale;
 		glm::vec3 skew;
 		glm::vec4 perspective;
-
-		glm::decompose(m_renderObjects[i]->m_transform, scale, rotation, position, skew, perspective);
+		RenderObject* render = (RenderObject*) m_renderObjects[i];
+		glm::decompose(render->m_transform, scale, rotation, position, skew, perspective);
 		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
 
-		ImGui::DragFloat3("Position", (float*)&m_renderObjects[i]->m_transform[3], 0.1f);
+		ImGui::DragFloat3("Position", (float*)&render->m_transform[3], 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
-		ImGui::ColorPicker4("Color", (float*)&m_renderObjects[i]->m_color);
+		ImGui::ColorPicker4("Color", (float*)&render->m_color);
 		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
 		ImGui::Text("Rotation: %2f,%2f,%2f",rotation.x,rotation.y,rotation.z);
 		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
 		ImGui::End();
 		
-		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[0]), glm::vec3(1.0f, 0.0f, 0.0f));
-		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[1]), glm::vec3(0.0f, 1.0f, 0.0f));
-		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[2]), glm::vec3(0.0f, 0.0f, 1.0f));
+		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[0]), glm::vec3(1.0f, 0.0f, 0.0f));
+		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[1]), glm::vec3(0.0f, 1.0f, 0.0f));
+		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[2]), glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 	void Renderer::RenderEditorObj(RenderObject* object)

@@ -8,7 +8,7 @@
 #include "RenderObject.h"
 namespace GB
 {
-
+	//todo: refactor class to singleton instance 
 	class GBAPI Renderer : public Layer
 	{
 	public:
@@ -21,7 +21,7 @@ namespace GB
 
 		virtual void Begin();
 		virtual void End();
-		std::vector<RenderObject*> m_renderObjects;
+		std::vector<IRender*> m_renderObjects;
 	private:
 
 		static Renderer *m_singleton;

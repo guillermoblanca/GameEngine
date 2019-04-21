@@ -8,14 +8,28 @@
 namespace GB
 {
 
-	class GBAPI RenderObject
+	class IRender
+	{
+	public:
+		virtual void Render() = 0;
+	};
+	class GBAPI Sprite :  public IRender
+	{
+
+	public:
+
+		virtual void Render() override {};
+	};
+
+
+	class GBAPI RenderObject : IRender
 	{
 	public:
 
 		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count, Material * mat);
 		~RenderObject();
 		void UnBind();
-		void Render();
+		virtual void Render()override;
 
 		inline Material* GetMat() { return m_mat; }
 		glm::mat4 m_transform;
