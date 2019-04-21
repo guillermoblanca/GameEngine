@@ -12,6 +12,8 @@ namespace GB
 	class GBAPI Renderer : public Layer
 	{
 	public:
+		Renderer();
+		inline static Renderer& Get() { return *m_singleton; }
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
 		virtual void OnRender() override;
@@ -19,14 +21,16 @@ namespace GB
 
 		virtual void Begin();
 		virtual void End();
+		std::vector<RenderObject*> m_renderObjects;
 	private:
 
-		void RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color, bool *move_mouse);
+		static Renderer *m_singleton;
+		void AlphaRender(bool active);
+		void RenderEditorObj(RenderObject *object);
 		void CameraEditor();
 		void MaterialEditor(RenderObject* renobj, char* pathbuff);
-		void AlphaRender(bool active);
-		std::vector<RenderObject*> m_renderObjects;
 		std::vector<Texture*> m_textures;
+
 	};
 
 

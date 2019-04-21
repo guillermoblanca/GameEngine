@@ -13,22 +13,60 @@
 #include "glm\gtc\matrix_transform.hpp"
 #include "GB/Input.h"
 #include "Camera.h"
+#include "glm\gtx\matrix_decompose.hpp"
 namespace GB
 {
+	Renderer* Renderer::m_singleton = nullptr;
 
+	Renderer::Renderer()
+	{
+		m_singleton = this;
+	}
 
 	void Renderer::OnAttach()
 	{
 		GB_CORE_INFO("Initialized Render class");
 
 		//facilita poner el modo para alfas debo crear algo para que permita iterar entre un sistema y otro
+		const float vertices[] = {
+	   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,//0
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,//1
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//2
+	   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,//3
 
-		const float positions[]
+	   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//4
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,//5
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,//6
+	   -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,//7
+
+	   -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//8
+	   -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//9
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//10
+
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//11
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//12
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//13
+
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,//14
+
+	   -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,//15
+		};
+
+		unsigned int indiceCube[]
 		{
-			-0.5f,-0.5f, 0.0f, 0.0f,
-			 0.5f,-0.5f, 1.0f, 0.0f,
-			 0.5f, 0.5f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.0f, 1.0f
+		0,1,2,2,3,0,
+		4,5,6,6,7,4,
+		8,9,10,10,4,8,
+		11,2,12,12,13,11,
+		10,14,5,5,4,10,
+		3,2,11,11,15,3
+		};
+		const float positions[]
+		{//vertices           //uv
+			-0.5f,-0.5f,0.0f, 0.0f, 0.0f,
+			 0.5f,-0.5f,0.0f, 1.0f, 0.0f,
+			 0.5f, 0.5f,0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f,0.0f, 0.0f, 1.0f
 		};
 
 		unsigned int indices[]
@@ -38,12 +76,11 @@ namespace GB
 		};
 
 		AlphaRender(true);
-
-		m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Texture.shader"), nullptr));
-		m_renderObjects.push_back(new RenderObject(positions, 4 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Texture.shader"), nullptr));
-		m_textures.push_back(new Texture("Assets/Texture/Game.png",0));
-		m_textures.push_back(new Texture("Assets/Texture/lion-logo.png",1));
-		
+		glEnable(GL_DEPTH_TEST);
+		m_renderObjects.push_back(new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
+		m_renderObjects.push_back(new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
+		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
+		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 
 	}
 	void Renderer::OnDetach()
@@ -57,174 +94,66 @@ namespace GB
 		static float width = (float)Application::Get().GetWindow().GetWidth();
 		static float height = (float)Application::Get().GetWindow().GetHeight();
 		glm::mat4 transform = glm::mat4(1.0f);
-
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
-			transform = glm::translate(transform, glm::vec3((i*500)/width, (float)i / height, 0.0f));
-			transform = glm::scale(transform, glm::vec3(1.0f / (i + 1), 1.0f / (i + 1), 1.0f));
-
 			auto obj = m_renderObjects[i];
 			m_textures[i]->Bind(0);
 			obj->GetMat()->Bind();
 			obj->GetMat()->SetInt("u_Texture", 0);
-			obj->GetMat()->SetMat4("u_transform", transform);
-			obj->GetMat()->SetVector4("u_Color", 1.0f, 1.f,1.0f, 1.0f);
+
 			obj->Render();
 		}
 	}
 
-	void Renderer::OnImguiRender()
-	{
-		static float color[4] = { 1,1,1,1 };
-		static float position[2];
-		static int changeTex = 1;
-		int changeTex1 = 1;
-		static float scale[3] = { 1,1,1 };
-		static float rotator = 0;
-		static bool show_new = false;
-		static bool show_open = false;
-		static bool show_save = false;
-		static bool show_quit = false;
-		static bool show_objpro = true;
-		static bool show_objpro1 = false;
-		static bool show_shadercomp = false;
-		static bool move_mouse = false;
-		static bool move_mouse1 = false;
-		static float color1[4] = { 1,1,1,1 };
-		static float position1[2];
-		static float rotator1 = 0;
-		//for menu test
-
-
-		if (ImGui::BeginMainMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				ImGui::MenuItem("New", NULL, &show_new);
-				ImGui::MenuItem("Open", NULL, &show_open);
-				ImGui::MenuItem("Save", NULL, &show_save);
-				ImGui::MenuItem("Quit", NULL, &show_quit);
-				ImGui::EndMenu();
-			}
-
-			if (ImGui::BeginMenu("Render editor"))
-			{
-				ImGui::MenuItem("RenderObject properties", NULL, &show_objpro);
-				ImGui::MenuItem("RenderObject properties 1", NULL, &show_objpro1);
-				ImGui::MenuItem("Shader compiler", NULL, &show_shadercomp);
-				ImGui::EndMenu();
-			}
-
-			if (ImGui::Button("Compile shader"))
-			{
-				//m_renderObject->GetMat()->CreateShader("Assets/Shader/Camera.shader");
-
-			}
-			ImGui::EndMainMenuBar();
-		}
-
-		if (show_objpro) RenderEditorObj(position, scale, &rotator, &changeTex, color, &move_mouse);
-		if (show_objpro1) RenderEditorObj(position1, scale, &rotator1, &changeTex1, color1, &move_mouse);
-		//if (show_shadercomp) MaterialEditor(m_renderObject, *pathbuff);
-
-		float width = (float)Application::Get().GetWindow().GetWidth();
-		float height = (float)Application::Get().GetWindow().GetHeight();
-
-
-
-
-		glm::mat4 trans = glm::mat4(1.0f);
-		if (move_mouse)
-		{
-			float x = (float)Input::GetMouseX() / width;
-			float y = -(float)Input::GetMouseY() / height;
-			GB_CORE_TRACE("Mouse value {0}:{1}", x, y);
-			trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-		}
-		else
-		{
-			trans = glm::translate(trans, glm::vec3(position[0] / width, position[1] / height, 0.0f));
-		}
-		trans = glm::rotate(trans, rotator, glm::vec3(1.0f, 0.0f, 0.0f));
-		trans = glm::scale(trans, glm::vec3(scale[0], scale[1], scale[2]));
-
-
-		CameraEditor();
-	}
 
 	void Renderer::Begin()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0, 0.5f, 0.5f, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void Renderer::End()
 	{
-		//todo fix breaks imgui
-		auto window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
+		static auto window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		glfwSwapBuffers(window);
 	}
+	void Renderer::OnImguiRender()
+	{
+		ImGui::Begin("Render");
 
-	void Renderer::RenderEditorObj(float *position, float *scale, float *rotator, int *changeTex, float *color, bool * move_mouse)
+		static int i = 0;
+		static float rot[] = { 0,0,0 };
+
+		glm::vec3 position;
+		glm::quat rotation;
+		glm::vec3 scale;
+		glm::vec3 skew;
+		glm::vec4 perspective;
+
+		glm::decompose(m_renderObjects[i]->m_transform, scale, rotation, position, skew, perspective);
+		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
+
+		ImGui::DragFloat3("Position", (float*)&m_renderObjects[i]->m_transform[3], 0.1f);
+		ImGui::DragFloat3("Rotation", rot, 0.1f);
+		ImGui::ColorPicker4("Color", (float*)&m_renderObjects[i]->m_color);
+		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
+		ImGui::Text("Rotation: %2f,%2f,%2f",rotation.x,rotation.y,rotation.z);
+		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
+		ImGui::End();
+		
+		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[0]), glm::vec3(1.0f, 0.0f, 0.0f));
+		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[1]), glm::vec3(0.0f, 1.0f, 0.0f));
+		m_renderObjects[i]->m_transform = glm::rotate(m_renderObjects[i]->m_transform, glm::radians(rot[2]), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+
+	void Renderer::RenderEditorObj(RenderObject* object)
 	{
 
-		static bool RotState = false;
-		bool show_transform = true;
-		bool show_color = true;
-		ImGuiDir dir_transform = show_transform ? ImGuiDir_Down : ImGuiDir_Right;
-
-		static bool show_texinfo = true;
-		ImGuiDir dir_texinfo = show_texinfo ? ImGuiDir_Down : ImGuiDir_Right;
-		static ImVec4 colorformat = ImColor(color[0], color[1], color[2], color[3]);
-
-		ImGui::Begin("Renderer editor");
-
 		ImGui::Text("Time: %f", glfwGetTime());
-		ImGui::Spacing();
 
-		if (ImGui::Button("Rotate")) RotState = !RotState;
-		if (ImGui::Button("Move with mouse")) *move_mouse = !*move_mouse;
-		ImGui::SliderInt("change texture", changeTex, 0, 1);
+		//ImGui::DragFloat3("Scale:", scale, 0.1f);
+		//ImGui::DragFloat("rot", rotator, 0.1f);
 
-		if (ImGui::CollapsingHeader("Transform", &show_transform))
-		{
-			ImGui::DragFloat2("Pos:", position);
-			ImGui::DragFloat3("Scale:", scale, 0.1f);
-			ImGui::DragFloat("rot", rotator, 0.1f);
-		}
-		ImGui::Spacing();
-		ImGui::Spacing();
-		if (ImGui::CollapsingHeader("Color editor", &show_color))
-			ImGui::ColorPicker4("##picker", (float*)&colorformat, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_AlphaBar);
-
-		ImGui::Separator();
-
-		if (ImGui::CollapsingHeader("Show texture info", &show_texinfo))
-		{
-			/*	auto texture = m_renderObject->GetMat()->GetTexture(0);
-				ImGui::Text("Lion Texture");
-				ImGui::Text("Path %s", texture->GetPath().c_str());
-				ImGui::Text("Width %d", texture->GetWidth());
-				ImGui::Text("Height %d", texture->GetHeight());
-				ImGui::Text("BPP %d", texture->GetBPP());
-
-				ImGui::Spacing();
-				ImGui::Separator();
-
-				ImGui::Text("Game Texture");
-				auto texture1 = m_renderObject->GetMat()->GetTexture(1);
-				ImGui::Text("Path %s", texture1->GetPath().c_str());
-				ImGui::Text("Width %d", texture1->GetWidth());
-				ImGui::Text("Height %d", texture1->GetHeight());
-				ImGui::Text("BPP %d", texture1->GetBPP());*/
-		}
-		ImGui::End();
-
-		color[0] = colorformat.x;
-		color[1] = colorformat.y;
-		color[2] = colorformat.z;
-		color[3] = colorformat.w;
-		if (RotState) *rotator = (float)glfwGetTime();
 	}
 
 
@@ -253,11 +182,6 @@ namespace GB
 
 		Camera::ImguiEditor();
 
-		glm::mat4 result = Camera::GetProj() * Camera::GetView() * model;
-		/*	static auto mat = m_renderObject->GetMat();
-			mat->Bind();
-			mat->SetMat4("u_view", result);
-	*/
 
 	}
 
@@ -274,7 +198,7 @@ namespace GB
 	}
 	void Renderer::AlphaRender(bool active)
 	{
-		if(active)
+		if (active)
 		{
 
 			glEnable(GL_BLEND);

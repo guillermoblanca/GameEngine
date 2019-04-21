@@ -4,7 +4,6 @@
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 
-#include "imgui.h"
 namespace GB
 {
 	class GBAPI Camera
@@ -17,18 +16,26 @@ namespace GB
 		static void SetFieldOfView(float degree);
 		static void LookAt(glm::vec3 position)
 		{
-			m_proj = glm::lookAt(glm::vec3(m_proj[0].x, m_proj[1].y, m_proj[2].z), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			m_proj = glm::lookAt((glm::vec3)m_proj[3], position, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
 		static void ImguiEditor();
 
 		static inline float GetFOV() { return m_fov; }
 		static inline glm::mat4 GetProj() { return m_proj; }
 		static inline glm::mat4 GetView() { return m_view; }
+
+		static inline glm::vec3 GetRot() { return glm::vec3(0.0f); }
 	//todo: review
 		static Mode m_mode;
 	private:
+
+		static glm::vec3 m_pos;
+		static glm::vec3 m_scale;
+		static glm::vec3 m_rotator;
+
 		static glm::mat4 m_proj;
 		static glm::mat4 m_view;
 		static float m_fov;
+		static glm::vec2 m_orthoOp;
 	};
 }

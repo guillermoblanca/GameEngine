@@ -10,7 +10,7 @@ uniform mat4 u_view;
 uniform mat4 u_proj;
 void main()
 {
-	gl_Position =  u_view * (vec4(position,1.));
+	gl_Position =  u_proj * u_view * u_transform * (vec4(position,1.));
 	v_TextCoord = texCoords;
 }
 

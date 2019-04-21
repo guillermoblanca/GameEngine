@@ -12,15 +12,19 @@ namespace GB
 	{
 	public:
 
-		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count, Material * mat,float *pos);
+		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count, Material * mat);
 		~RenderObject();
 		void UnBind();
 		void Render();
 
 		inline Material* GetMat() { return m_mat; }
-	private:
+		glm::mat4 m_transform;
+		glm::vec4 m_color;
+	protected:
+		virtual void ParameterUpdate();
 		VertexBuffer *m_vb;
 		IndexBuffer m_ib;
 		Material * m_mat;
+
 	};
 }

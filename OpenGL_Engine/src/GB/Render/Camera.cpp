@@ -2,10 +2,12 @@
 #include "Camera.h"
 #include "GB\Application.h"
 #include "glm\gtc\matrix_transform.hpp"
+#include "imgui.h"
 namespace GB
 {
 	glm::mat4 Camera::m_proj = glm::mat4(1.0f);
 	glm::mat4 Camera::m_view = glm::mat4(1.0f);
+	glm::vec2 Camera::m_orthoOp = glm::vec2(-1.0f,1.0f);
 
 	float Camera::m_fov = 45.0f;
 	Camera::Mode Camera::m_mode = Mode::Perspective;
@@ -33,7 +35,7 @@ namespace GB
 		break;
 		case GB::Camera::Ortho:
 		{
-			m_proj = glm::ortho(0.0f, width, 0.0f, height,-1.0f,1.0f);
+			m_proj = glm::ortho(0.0f, width, 0.0f, height,m_orthoOp.x,m_orthoOp.y);
 		}
 		break;
 
@@ -42,23 +44,22 @@ namespace GB
 
 	void Camera::ImguiEditor()
 	{
-		 float pos[] = { 0,0,0 };
+		static bool option = false;
 		 float rot[] = { 0,0,0 };
 
-		 auto proj = Camera::GetProj();
-		 auto view = Camera::GetView();
 		ImGui::Begin("Camera editor");
-		ImGui::Text("Camera proj: %2f,%2f,%2f", proj[0].x, proj[1].y, proj[2].z);
-		ImGui::Text("Camera view: %2f,%2f,%2f", view[0].x, view[1].y, view[2].z);
-		ImGui::DragFloat3("Position", pos, 0.1f);
+		ImGui::DragFloat3("Camera proj:", (float*)&m_proj[3],0.1f);
+		ImGui::DragFloat3("Camera Position", (float*)&m_view[3],0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
 		ImGui::DragFloat("FOV", &m_fov, 0.1f);
+		ImGui::DragFloat2("Ortho Op", (float*)&m_orthoOp);
+		ImGui::Checkbox("Ortho/Perspective", &option);
 		ImGui::End();
 
 		Rotate(rot[0],glm::vec3(1.0f,0.0f,0.0f));
 		Rotate(rot[1],glm::vec3(0.0f,1.0f,0.0f));
 		Rotate(rot[2],glm::vec3(0.0f,0.0f,1.0f));
-		Translate(glm::vec3(pos[0], pos[1], pos[2]));
 		SetFieldOfView(m_fov);
+		m_mode = option ? Mode::Ortho : Mode::Perspective;
 	}
 }

@@ -6,6 +6,11 @@
 #include "GB\ImGui\ImGuiLayer.h"
 #include "GB\Log.h"
 #include "GB\Input.h"
+
 #include "GB\MouseButtonKeyCodes.h"
 #include "GB\KeyCodes.h"
+
+#include "GB\Time.h"
+#include "GB\Render\Renderer.h"
+#include "GB\Render\Camera.h"
 #include "GB\EntryPoint.h"
