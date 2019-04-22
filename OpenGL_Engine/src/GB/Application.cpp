@@ -15,11 +15,11 @@ GB::Application::Application()
 	//init window
 	GB_CORE_INFO("Initialized Core application");
 
-	m_imguiLayer = new ImGuiLayer();
-	PushLayer(m_imguiLayer);
+	m_imguiLayer = std::unique_ptr<ImGuiLayer>(new ImGuiLayer());
+	PushLayer(m_imguiLayer.get());
 
-	m_renderer = new Renderer();
-	PushLayer(m_renderer);
+	m_renderer = std::unique_ptr<Renderer>(new Renderer());
+	PushLayer(m_renderer.get());
 }
 
 GB::Application::~Application()
@@ -32,18 +32,19 @@ void GB::Application::Run()
 	{
 		m_Window->OnUpdate();
 
-		m_renderer->Begin();
-		for (Layer* layer : m_LayerStack)
-			layer->OnRender();
-		
-
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
+
+		m_renderer->Begin();
+		m_renderer->OnRender();
+
+	
 
 		m_imguiLayer->Begin();
 		for (Layer* layer : m_LayerStack)
 			layer->OnImguiRender();
 		m_imguiLayer->End();
+
 
 	}
 }

@@ -15,7 +15,6 @@ namespace GB
 		virtual void OnEvent(Event& e) {}
 
 		virtual void OnImguiRender() {}
-		virtual void OnRender() {} //todo: temp
 
 		inline const std::string& GetName() { return m_DebugName; }
 	protected:

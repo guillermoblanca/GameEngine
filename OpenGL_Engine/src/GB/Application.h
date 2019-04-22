@@ -26,8 +26,8 @@ namespace GB
 		bool OnWindowClose(WindowCloseEvent& e);
 		std::unique_ptr<Window> m_Window;
 
-		ImGuiLayer * m_imguiLayer;
-		Renderer * m_renderer;
+		std::unique_ptr<ImGuiLayer> m_imguiLayer;
+		std::unique_ptr<Renderer> m_renderer;
 
 		static Application* s_instance;
 		bool m_Running = true;

@@ -3,7 +3,7 @@
 #include "GB\Core.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-
+#include "GB\Time.h"
 namespace GB
 {
 	class GBAPI Camera
@@ -16,7 +16,9 @@ namespace GB
 		static void SetFieldOfView(float degree);
 		static void LookAt(glm::vec3 position)
 		{
-			m_proj = glm::lookAt((glm::vec3)m_proj[3], position, glm::vec3(0.0f, 1.0f, 0.0f));
+			float camX = std::sin(Time::DeltaTime()) * radius;
+			float camZ = std::cos(Time::DeltaTime()) * radius;
+			m_view = glm::lookAt(glm::vec3(camX,0.0f,camZ), position, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
 		static void ImguiEditor();
 
@@ -37,5 +39,7 @@ namespace GB
 		static glm::mat4 m_view;
 		static float m_fov;
 		static glm::vec2 m_orthoOp;
+
+		static float radius;
 	};
 }

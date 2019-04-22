@@ -16,7 +16,7 @@ namespace GB
 		inline static Renderer& Get() { return *m_singleton; }
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnRender() override;
+		virtual void OnRender();
 		virtual void OnImguiRender() override;
 
 		virtual void Begin();
