@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
@@ -54,25 +54,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Debug-windows-x86_64\OpenGL_Engine\</OutDir>
     <IntDir>..\bin-int\Debug-windows-x86_64\OpenGL_Engine\</IntDir>
     <TargetName>OpenGL_Engine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\OpenGL_Engine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\OpenGL_Engine\</IntDir>
     <TargetName>OpenGL_Engine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Dist-windows-x86_64\OpenGL_Engine\</OutDir>
     <IntDir>..\bin-int\Dist-windows-x86_64\OpenGL_Engine\</IntDir>
     <TargetName>OpenGL_Engine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -84,18 +81,15 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\OpenGL_Engine\OpenGL_Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -106,19 +100,16 @@
       <AdditionalIncludeDirectories>src;Dependencies\spdlog\include;Dependencies\GLFW\include;Dependencies\GLAD\include;Dependencies\imgui;Dependencies\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Release-windows-x86_64\OpenGL_Engine\OpenGL_Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -133,12 +124,10 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Dist-windows-x86_64\OpenGL_Engine\OpenGL_Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\OpenGL_Engine\OpenGL_Engine.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glm\glm\common.hpp" />
@@ -520,6 +509,7 @@
     <ClInclude Include="src\GB\LayerStack.h" />
     <ClInclude Include="src\GB\Log.h" />
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h" />
+    <ClInclude Include="src\GB\Render\Camera.h" />
     <ClInclude Include="src\GB\Render\IndexBuffer.h" />
     <ClInclude Include="src\GB\Render\Material.h" />
     <ClInclude Include="src\GB\Render\RenderObject.h" />
@@ -528,19 +518,22 @@
     <ClInclude Include="src\GB\Render\VertexArray.h" />
     <ClInclude Include="src\GB\Render\VertexBuffer.h" />
     <ClInclude Include="src\GB\Render\VertexBufferLayout.h" />
+    <ClInclude Include="src\GB\Time.h" />
     <ClInclude Include="src\GB\Window.h" />
     <ClInclude Include="src\Platform\Editor\Console.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsTime.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindows.h" />
     <ClInclude Include="src\Platform\stb\stb_image.h" />
     <ClInclude Include="src\gbpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
-    <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
+    <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\LayerStack.cpp" />
     <ClCompile Include="src\GB\Log.cpp" />
+    <ClCompile Include="src\GB\Render\Camera.cpp" />
     <ClCompile Include="src\GB\Render\IndexBuffer.cpp" />
     <ClCompile Include="src\GB\Render\Material.cpp" />
     <ClCompile Include="src\GB\Render\RenderObject.cpp" />
@@ -550,6 +543,7 @@
     <ClCompile Include="src\GB\Render\VertexBuffer.cpp" />
     <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsTime.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindows.cpp" />
     <ClCompile Include="src\Platform\stb\stb_image.cpp" />
     <ClCompile Include="src\gbpch.cpp">

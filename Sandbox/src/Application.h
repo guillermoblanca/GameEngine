@@ -7,6 +7,7 @@ class FreeCamera : public GB::Layer
 private:
 	vector2 mouse;
 	vector2 prevMouse = { 0,0 };
+	float distance = 10;
 	float velocity = 0.01f;
 public:
 

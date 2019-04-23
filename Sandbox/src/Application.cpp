@@ -50,36 +50,12 @@ void FreeCamera::OnAttach()
 
 void FreeCamera::OnUpdate()
 {
-
 	unsigned int id = 1;
-	if (Input::IsKeyPressed(GB_KEY_W))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(0.0f, velocity, 0.0f));
-	}
-	if (Input::IsKeyPressed(GB_KEY_S))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(0.0f, -velocity, 0.0f));
-	}
-	if (Input::IsKeyPressed(GB_KEY_A))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(-velocity, 0.0f, 0.0f));
+	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
+	Camera::LookAt(obj->m_transform[3], distance);
 
-	}
-	if (Input::IsKeyPressed(GB_KEY_D))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(velocity, 0.0f, 0.0f));
 
-	}
-	if (Input::IsKeyPressed(GB_KEY_Q))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(0.0f, 0.0f, -velocity));
-
-	}
-	if (Input::IsKeyPressed(GB_KEY_E))
-	{
-		Renderer::Get().m_renderObjects[id]->m_transform = glm::translate(Renderer::Get().m_renderObjects[id]->m_transform, glm::vec3(0.0f, 0.0f, velocity));
-
-	}
+	Camera::CameraInput(velocity);
 	if (GB::Input::IsMousePressed(1))
 	{
 
@@ -97,6 +73,7 @@ void FreeCamera::OnImguiRender()
 	ImGui::Begin("Values");
 	ImGui::Text("Time: %2f", GB::Time::DeltaTime());
 	ImGui::Text("Mouse %2f,%2f", mouse.first, mouse.second);
+	ImGui::DragFloat("Camera distance", &distance);
 	ImGui::DragFloat("Velocity", &velocity);
 	ImGui::End();
 }

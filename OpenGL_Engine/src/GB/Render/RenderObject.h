@@ -8,7 +8,7 @@
 namespace GB
 {
 
-	class IRender
+	class GBAPI IRender
 	{
 	public:
 		virtual void Render() = 0;

@@ -22,8 +22,11 @@ include "OpenGL_Engine/Dependencies/imgui"
 
 	project "OpenGL_Engine"
 		location "OpenGL_Engine"
-		kind "SharedLib"
+		kind "StaticLib"
 		language "C++"
+		cppdialect "C++17"
+		staticruntime "on"
+
 	targetdir ("bin/".. outputdir .."/%{prj.name}")	
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -53,9 +56,8 @@ include "OpenGL_Engine/Dependencies/imgui"
 			"opengl32.lib"
 			
 		}
-		filter "system:windows"
+	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -64,30 +66,27 @@ include "OpenGL_Engine/Dependencies/imgui"
 			"GB_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
 
-		filter "configurations:Debug"
+	filter "configurations:Debug"
 		defines 
 		{
 		"GB_DEBUG",
 		"GB_ENABLE_ASSERTS"
 		}
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 		filter "configurations:Release"
 		defines "GB_RELEASE"
-		buildoptions "/MD"
-		symbols "On"
+		runtime "Release"
+		symbols "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleAPP"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -110,8 +109,6 @@ project "Sandbox"
 	"OpenGL_Engine",
 	}
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -121,10 +118,10 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "GB_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GB_RELEASE"
-		buildoptions "/MD"
-		symbols "On"
+		runtime "Release"
+		optimize "on"

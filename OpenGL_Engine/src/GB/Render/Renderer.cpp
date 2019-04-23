@@ -23,6 +23,14 @@ namespace GB
 		m_singleton = this;
 	}
 
+	Renderer::~Renderer()
+	{
+		for (IRender* irender : m_renderObjects)
+		{
+			delete irender;
+		}
+	}
+
 	void Renderer::OnAttach()
 	{
 		GB_CORE_INFO("Initialized Render class");
@@ -117,6 +125,30 @@ namespace GB
 		static auto window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		glfwSwapBuffers(window);
 	}
+	void Renderer::PushLayer(IRender * obj)
+	{
+		m_renderObjects.emplace(m_renderObjects.begin() + m_renderIndex, obj);
+		m_renderIndex++;
+	}
+	void Renderer::PushOverLay(IRender * obj)
+	{
+		m_renderObjects.emplace_back(obj);
+	}
+	void Renderer::PopLayer(IRender * obj)
+	{
+		auto it = std::find(m_renderObjects.begin(), m_renderObjects.end(), obj);
+		if (it != m_renderObjects.end())
+		{
+			m_renderObjects.erase(it);
+			m_renderIndex--;
+		}
+	}
+	void Renderer::PopOverlay(IRender * obj)
+	{
+		auto it = std::find(m_renderObjects.begin(), m_renderObjects.end(), obj);
+		if (it != m_renderObjects.end())
+			m_renderObjects.erase(it);
+	}
 	void Renderer::OnImguiRender()
 	{
 		ImGui::Begin("Render");
@@ -146,44 +178,7 @@ namespace GB
 		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[2]), glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
-	void Renderer::RenderEditorObj(RenderObject* object)
-	{
 
-		ImGui::Text("Time: %f", glfwGetTime());
-
-		//ImGui::DragFloat3("Scale:", scale, 0.1f);
-		//ImGui::DragFloat("rot", rotator, 0.1f);
-
-	}
-
-
-	void Renderer::CameraEditor()
-	{
-
-		static float width = (float)Application::Get().GetWindow().GetWidth();
-		static float height = (float)Application::Get().GetWindow().GetHeight();
-
-		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 projection = glm::mat4(1.0f);
-
-		static float FOV = 45.0f;
-		static float m_position[3] = { 0,0,-3 };
-		static float m_rotation[3] = { 0,0,0 };
-		static float m_rot = -55.0f;
-		ImGui::Begin("Render object");
-
-		ImGui::DragFloat3("Position", m_position, 0.1f);
-		ImGui::DragFloat("Rotation", &m_rot, 0.1f);
-		ImGui::End();
-
-		model = glm::translate(model, glm::vec3(m_position[0], m_position[1], m_position[2]));
-		model = glm::rotate(model, glm::radians(m_rot), glm::vec3(1.0f, 0.0f, 0.0f));
-
-		Camera::ImguiEditor();
-
-
-	}
 
 	void Renderer::MaterialEditor(RenderObject* renobj, char* pathbuff)
 	{

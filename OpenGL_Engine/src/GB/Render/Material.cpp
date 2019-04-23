@@ -97,7 +97,8 @@ namespace GB
 	void Material::SetVector3(const std::string loc, float x, float y, float z)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform!");
+		bool r = location == -1;
+	//	GB_ASSERT(r, "Shader uniform!");
 		glUniform3f(location, x, y, z);
 		
 	}
@@ -105,31 +106,35 @@ namespace GB
 	{
 		//todo: fix
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform!");
-		glUniform2f(location, x, y);
+		bool r = location == -1;
+//		GB_ASSERT(r, "Shader uniform!");		glUniform2f(location, x, y);
 	}
 	void Material::SetFloat(const std::string loc, float x)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform failed!");
+		bool r = location == -1;
+//		GB_ASSERT(r, "Shader uniform!");
 		glUniform1f(location, x);
 	}
 	void Material::SetInt(const std::string loc, int x)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform failed!");
+		bool r = location == -1;
+	//	GB_ASSERT(r, "Shader uniform!");
 		glUniform1i(location, x);
 	}
 	void Material::SetVector4(const std::string loc, float x, float y, float z, float w)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform failed!");
+		bool r = location == -1;
+//		GB_ASSERT(r, "Shader uniform!");
 		glUniform4f(location, x, y, z, w);
 	}
 	void Material::SetMat4(const std::string loc, glm::mat4 mat)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		GB_ASSERT(location == -1, "Shader uniform failed!");
+		bool r = location == -1;
+//		GB_ASSERT(r, "Shader uniform!");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 	}
 	Material::Material()
@@ -139,7 +144,7 @@ namespace GB
 	Material::Material(const std::string path)
 	{
 		bool r = CreateShader(path);
-		GB_CORE_ASSERT(r, "Material not created");
+	//	GB_CORE_ASSERT(r, "Material not created");
 	}
 	Material::~Material()
 	{

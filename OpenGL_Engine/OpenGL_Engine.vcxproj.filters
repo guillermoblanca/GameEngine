@@ -1188,6 +1188,9 @@
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\Camera.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\IndexBuffer.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
@@ -1212,6 +1215,9 @@
     <ClInclude Include="src\GB\Render\VertexBufferLayout.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Time.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Window.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1219,6 +1225,9 @@
       <Filter>src\Platform\Editor</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>src\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsTime.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindows.h">
@@ -1238,14 +1247,14 @@
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
       <Filter>src\GB\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp">
-      <Filter>src\GB\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="src\GB\LayerStack.cpp">
       <Filter>src\GB</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Log.cpp">
       <Filter>src\GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\Camera.cpp">
+      <Filter>src\GB\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Render\IndexBuffer.cpp">
       <Filter>src\GB\Render</Filter>
@@ -1274,6 +1283,9 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsTime.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindows.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1283,5 +1295,6 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
   </ItemGroup>
 </Project>

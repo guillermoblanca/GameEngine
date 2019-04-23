@@ -13,6 +13,7 @@ namespace GB
 	{
 	public:
 		Renderer();
+		~Renderer();
 		inline static Renderer& Get() { return *m_singleton; }
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
@@ -20,14 +21,20 @@ namespace GB
 		virtual void OnImguiRender() override;
 
 		virtual void Begin();
-		virtual void End();
-		std::vector<IRender*> m_renderObjects;
-	private:
+		virtual void End();//todo: not working
 
+		void PushLayer(IRender* obj);
+		void PushOverLay(IRender* obj);
+		void PopLayer(IRender* obj);
+		void PopOverlay(IRender* obj);
+
+		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }
+	private:
+		std::vector<IRender*> m_renderObjects;
+		unsigned int m_renderIndex;
 		static Renderer *m_singleton;
 		void AlphaRender(bool active);
-		void RenderEditorObj(RenderObject *object);
-		void CameraEditor();
+
 		void MaterialEditor(RenderObject* renobj, char* pathbuff);
 		std::vector<Texture*> m_textures;
 

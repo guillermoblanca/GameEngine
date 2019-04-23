@@ -14,12 +14,8 @@ namespace GB
 		static void Translate(glm::vec3 pos);
 		static void Rotate(float degrees, glm::vec3 direction);
 		static void SetFieldOfView(float degree);
-		static void LookAt(glm::vec3 position)
-		{
-			float camX = std::sin(Time::DeltaTime()) * radius;
-			float camZ = std::cos(Time::DeltaTime()) * radius;
-			m_view = glm::lookAt(glm::vec3(camX,0.0f,camZ), position, glm::vec3(0.0f, 1.0f, 0.0f));
-		}
+		static void LookAt(glm::vec3 position,float distance);
+
 		static void ImguiEditor();
 
 		static inline float GetFOV() { return m_fov; }
@@ -27,19 +23,19 @@ namespace GB
 		static inline glm::mat4 GetView() { return m_view; }
 
 		static inline glm::vec3 GetRot() { return glm::vec3(0.0f); }
-	//todo: review
+
+		static void CameraInput(float speed);
 		static Mode m_mode;
 	private:
 
 		static glm::vec3 m_pos;
-		static glm::vec3 m_scale;
-		static glm::vec3 m_rotator;
+		static glm::vec3 m_front;
+		static glm::vec3 m_up;
 
 		static glm::mat4 m_proj;
 		static glm::mat4 m_view;
 		static float m_fov;
 		static glm::vec2 m_orthoOp;
 
-		static float radius;
 	};
 }
