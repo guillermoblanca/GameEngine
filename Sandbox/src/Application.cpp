@@ -52,7 +52,7 @@ void FreeCamera::OnUpdate()
 {
 	unsigned int id = 1;
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
-	Camera::LookAt(obj->m_transform[3], distance);
+	//Camera::LookAt(obj->m_transform[3], distance);
 
 
 	Camera::CameraInput(velocity);

@@ -23,9 +23,9 @@ namespace GB
 		virtual void Begin();
 		virtual void End();//todo: not working
 
-		void PushLayer(IRender* obj);
+		void PushObj(IRender* obj);
 		void PushOverLay(IRender* obj);
-		void PopLayer(IRender* obj);
+		void PopObj(IRender* obj);
 		void PopOverlay(IRender* obj);
 
 		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }

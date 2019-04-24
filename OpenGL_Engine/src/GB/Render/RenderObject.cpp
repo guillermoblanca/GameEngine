@@ -13,7 +13,7 @@ namespace GB
 {
 
 	RenderObject::RenderObject(const float *positions,unsigned int size, const unsigned int *data, unsigned int count, Material * mat) : 
-		m_ib(data, count), m_mat(mat),m_transform(1.0f), m_color(1.0f)
+		m_ib(data, count), m_mat(mat),m_transform(), m_color(1.0f)
 	{
 		m_vb = new VertexBuffer(positions,size);
 		VertexArray m_va;
@@ -44,7 +44,7 @@ namespace GB
 
 	void RenderObject::ParameterUpdate()
 	{
-		m_mat->SetMat4("u_transform", m_transform);
+		m_mat->SetMat4("u_transform", m_transform.GetMat4());
 		m_mat->SetMat4("u_view", Camera::GetView());
 		m_mat->SetMat4("u_proj", Camera::GetProj());
 		m_mat->SetVector4("u_Color", m_color.r,m_color.g,m_color.b,m_color.a);

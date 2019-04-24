@@ -18,7 +18,7 @@ namespace GB
 {
 	Renderer* Renderer::m_singleton = nullptr;
 
-	Renderer::Renderer()
+	Renderer::Renderer(): m_renderIndex(0)
 	{
 		m_singleton = this;
 	}
@@ -85,8 +85,8 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		m_renderObjects.push_back((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
-		m_renderObjects.push_back((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
+		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
+		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 
@@ -125,7 +125,7 @@ namespace GB
 		static auto window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		glfwSwapBuffers(window);
 	}
-	void Renderer::PushLayer(IRender * obj)
+	void Renderer::PushObj(IRender * obj)
 	{
 		m_renderObjects.emplace(m_renderObjects.begin() + m_renderIndex, obj);
 		m_renderIndex++;
@@ -134,7 +134,7 @@ namespace GB
 	{
 		m_renderObjects.emplace_back(obj);
 	}
-	void Renderer::PopLayer(IRender * obj)
+	void Renderer::PopObj(IRender * obj)
 	{
 		auto it = std::find(m_renderObjects.begin(), m_renderObjects.end(), obj);
 		if (it != m_renderObjects.end())
@@ -162,10 +162,10 @@ namespace GB
 		glm::vec3 skew;
 		glm::vec4 perspective;
 		RenderObject* render = (RenderObject*) m_renderObjects[i];
-		glm::decompose(render->m_transform, scale, rotation, position, skew, perspective);
+		glm::decompose(render->m_transform.GetMat4(), scale, rotation, position, skew, perspective);
 		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
 
-		ImGui::DragFloat3("Position", (float*)&render->m_transform[3], 0.1f);
+		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
 		ImGui::ColorPicker4("Color", (float*)&render->m_color);
 		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
@@ -173,9 +173,8 @@ namespace GB
 		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
 		ImGui::End();
 		
-		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[0]), glm::vec3(1.0f, 0.0f, 0.0f));
-		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[1]), glm::vec3(0.0f, 1.0f, 0.0f));
-		render->m_transform = glm::rotate(render->m_transform, glm::radians(rot[2]), glm::vec3(0.0f, 0.0f, 1.0f));
+		render->m_transform.Translate(position);
+		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
 	}
 
 
