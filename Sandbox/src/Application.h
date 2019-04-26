@@ -1,10 +1,13 @@
 #pragma once
 #include "GB.h"
+#include "glm\glm.hpp"
 typedef std::pair<float, float> vector2;
 
 class FreeCamera : public GB::Layer
 {
 private:
+	glm::vec3 destiny;
+	float timer = 0;
 	vector2 mouse;
 	vector2 prevMouse = { 0,0 };
 	float distance = 10;

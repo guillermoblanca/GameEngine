@@ -53,7 +53,15 @@ void FreeCamera::OnUpdate()
 	unsigned int id = 1;
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
 	//Camera::LookAt(obj->m_transform[3], distance);
-
+	if (glm::distance(obj->m_transform.position,destiny)<0.03f)
+	{
+		timer += Time::DeltaTime();
+		obj->m_transform.Lerp(destiny, timer);
+	}
+	else
+	{
+		timer -= Time::DeltaTime();
+	}
 
 	Camera::CameraInput(velocity);
 	if (GB::Input::IsMousePressed(1))
@@ -68,13 +76,15 @@ void FreeCamera::OnUpdate()
 
 void FreeCamera::OnImguiRender()
 {
-
+	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
 	GB::Camera::ImguiEditor();
 	ImGui::Begin("Values");
 	ImGui::Text("Time: %2f", GB::Time::DeltaTime());
 	ImGui::Text("Mouse %2f,%2f", mouse.first, mouse.second);
 	ImGui::DragFloat("Camera distance", &distance);
 	ImGui::DragFloat("Velocity", &velocity);
+	ImGui::DragFloat3("Destiny", (float*)&destiny);
+	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position,distance);
 	ImGui::End();
 }
 
