@@ -1,6 +1,5 @@
 #pragma once
 #include "GB\Core.h"
-//todo: eliminate dependence
 namespace GB
 {
 	class GBAPI Time

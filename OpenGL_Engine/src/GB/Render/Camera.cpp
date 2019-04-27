@@ -71,8 +71,8 @@ namespace GB
 		ImGui::Checkbox("Ortho/Perspective", &option);
 		ImGui::End();
 
-		Rotate(rot[0],glm::vec3(1.0f,0.0f,0.0f));
-		Rotate(rot[1],glm::vec3(0.0f,1.0f,0.0f));
+		Rotate(rot[0],glm::vec3(0.0f,1.0f,0.0f));
+		Rotate(rot[1],glm::vec3(1.0f,0.0f,0.0f));
 		Rotate(rot[2],glm::vec3(0.0f,0.0f,1.0f));
 		SetFieldOfView(m_fov);
 

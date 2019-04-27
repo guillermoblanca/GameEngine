@@ -1,6 +1,7 @@
 #include "gbpch.h"
 #include "Transform.h"
 
+
 GB::Transform::Transform()
 {
 	position = glm::vec3(0.0f);
@@ -16,12 +17,15 @@ void GB::Transform::Translate(glm::vec3 pos)
 	position += dir;
 }
 
-void GB::Transform::Lerp(glm::vec3 pos, float dt)
+void GB::Transform::Lerp(glm::vec3 init, glm::vec3 des, float dt)
+{
+	position = (1 - dt)*init + dt * des;
+}
+void GB::Transform::Lerp0(glm::vec3 init, glm::vec3 des, float dt)
 {
 	dt = dt > 1 ? 1 : dt < 0 ? 0 : dt;
-	position = (1 - dt)*position + dt * pos;
+	position = (1 - dt)*init + dt * des;
 }
-
 void GB::Transform::SetScale(glm::vec3 scl)
 {
 	scale = scl;

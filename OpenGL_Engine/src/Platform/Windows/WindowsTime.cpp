@@ -10,7 +10,7 @@ namespace GB
 	{
 		float r = glfwGetTime() - m_deltaTime;
 		m_deltaTime = glfwGetTime();
-		return 0.0f;
+		return r;
 	}
 
 	float WindowsTime::ImplGetTime()

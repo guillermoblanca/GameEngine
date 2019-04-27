@@ -1,7 +1,11 @@
 #include "GB.h"
 #include "Application.h"
 #include "imgui\imgui.h"
+inline std::ostream& operator<<(std::ostream& os, const glm::vec3& e)
+{
 
+	return os << "Vector3: " << e.x << "," << e.y << "," << e.z;
+}
 using namespace GB;
 void LayerExample::OnImguiRender()
 {
@@ -22,8 +26,7 @@ void LayerExample::OnEvent(GB::Event & event)
 
 	if (event.GetEventType() == GB::EventType::KeyPressed)
 	{
-		GB::KeyPressedEvent& e = (GB::KeyPressedEvent&) event;
-		GB_CLIENT_TRACE("{0}", char(e.GetKeycode()));
+		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
 	}
 }
 
@@ -34,10 +37,7 @@ void LayerExample::OnEvent(GB::Event & event)
 vector2 FreeCamera::CameraDirection()
 {
 	mouse = GB::Input::GetMousePosition();
-
 	vector2 diff = { mouse.first - prevMouse.first,mouse.second - prevMouse.second };
-	diff.first = diff.first > 1 ? 1 : diff.first < -1 ? -1 : diff.first;
-	diff.second = diff.second > 1 ? 1 : diff.second < -1 ? -1 : diff.second;
 
 	prevMouse = mouse;
 	return diff;
@@ -52,25 +52,34 @@ void FreeCamera::OnUpdate()
 {
 	unsigned int id = 1;
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
-	//Camera::LookAt(obj->m_transform[3], distance);
-	if (glm::distance(obj->m_transform.position,destiny)<0.03f)
-	{
-		timer += Time::DeltaTime();
-		obj->m_transform.Lerp(destiny, timer);
-	}
-	else
-	{
-		timer -= Time::DeltaTime();
-	}
+
+
+	timer += Time::DeltaTime();
+	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
 
 	Camera::CameraInput(velocity);
 	if (GB::Input::IsMousePressed(1))
 	{
 
 		vector2 diff = CameraDirection();
+		GB::Camera::Translate(glm::vec3(diff.first*velocity,- diff.second*velocity,0.0f ));
+	}
 
-		GB::Camera::Translate(glm::vec3(diff.first*Time::DeltaTime()*velocity, 0.0f, diff.second*Time::DeltaTime()*velocity));
-		GB_CORE_WARN("DIFF: {0},{1}", diff.first, diff.second);
+	if (GB::Input::IsMousePressed(2))
+	{
+		float diff = CameraDirection().second;
+		GB::Camera::Translate(glm::vec3(0.0f,0.0f,diff *velocity*2));
+
+	}
+
+	if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
+	{
+		vector2 position = CameraDirection();
+
+		
+		GB_CORE_INFO("Pivot point {0},{1}",position.first,position.second );
+		GB::Camera::Rotate(position.first, glm::vec3(0.f, 1.0f, 0.0f));
+		GB::Camera::Rotate(position.second, glm::vec3(1.f, 0.0f, 0.0f));
 	}
 }
 
@@ -79,23 +88,24 @@ void FreeCamera::OnImguiRender()
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
 	GB::Camera::ImguiEditor();
 	ImGui::Begin("Values");
-	ImGui::Text("Time: %2f", GB::Time::DeltaTime());
-	ImGui::Text("Mouse %2f,%2f", mouse.first, mouse.second);
+	ImGui::Text("Time: %2f", timer);
+	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
+	ImGui::Text("Mouse %2f,%2f", CameraDirection().first, CameraDirection().second);
 	ImGui::DragFloat("Camera distance", &distance);
 	ImGui::DragFloat("Velocity", &velocity);
 	ImGui::DragFloat3("Destiny", (float*)&destiny);
-	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position,distance);
+	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position, distance);
 	ImGui::End();
 }
 
 void FreeCamera::OnEvent(GB::Event & event)
 {
-	if (event.GetEventType() == GB::EventType::KeyPressed)
+	if (event.GetEventType() == GB::EventType::MouseScrolled)
 	{
-		GB::MouseButtonPressedEvent& e = (GB::MouseButtonPressedEvent&) event;
 
-		GB_CLIENT_TRACE("{0}", (e.ToString()));
+		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
 	}
+
 }
 
 

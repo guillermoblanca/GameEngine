@@ -6,7 +6,7 @@ typedef std::pair<float, float> vector2;
 class FreeCamera : public GB::Layer
 {
 private:
-	glm::vec3 destiny;
+	glm::vec3 destiny= glm::vec3(3.0f,0.0f,0.0f);
 	float timer = 0;
 	vector2 mouse;
 	vector2 prevMouse = { 0,0 };
