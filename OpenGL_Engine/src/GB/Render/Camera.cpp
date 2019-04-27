@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "GB\Application.h"
 #include "glm\gtc\matrix_transform.hpp"
+#include "glm\gtx\quaternion.hpp"
 #include "imgui.h"
 
 #include "GB\Input.h"
@@ -58,8 +59,9 @@ namespace GB
 		static bool option = false;
 		static glm::vec3 targetDir(0.0f);
 		 float rot[] = { 0,0,0 };
-
+		 static float todegree = 180 / 3.1416f;
 		ImGui::Begin("Camera editor");
+		ImGui::Text("Rotation: %f %f %f", GetEuler().x, GetEuler().y*todegree, GetEuler().z*todegree);
 		ImGui::DragFloat3("Camera proj:", (float*)&m_proj[3],0.1f);
 		ImGui::DragFloat3("Camera Position", (float*)&m_view[3],0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
@@ -77,6 +79,25 @@ namespace GB
 		SetFieldOfView(m_fov);
 
 		m_mode = option ? Mode::Ortho : Mode::Perspective;
+	}
+	glm::vec3 Camera::GetEuler()
+	{
+		glm::quat q = glm::quat_cast(m_view);
+		
+		//roll x-axis
+		float sinr_cosp = 2 * (q.w * q.x + q.y *q.z);
+		float cosr_cosp = 1 - 2 * (q.x*q.x + q.y*q.y);
+		float roll = std::atan2(sinr_cosp, cosr_cosp);
+
+		//pitch y-axis
+		float sinp = 2 * (q.w*q.y - q.z*q.x);
+		float pitch = std::fabs(sinp) >= 1 ? std::copysign(3.1416f/2,sinp) :  std::asin(sinp);
+
+		//yaw z-axis;
+		float siny_cosp = 2 * (q.w *q.z + q.x *q.y);
+		float cosy_cosp = 1 - 2 * (q.y*q.y + q.z*q.z);
+		float yaw = std::atan2(siny_cosp, cosy_cosp);
+		return glm::vec3(roll,pitch,yaw);
 	}
 	void Camera::CameraInput(float speed)
 	{

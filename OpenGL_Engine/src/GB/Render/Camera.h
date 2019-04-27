@@ -18,6 +18,7 @@ namespace GB
 
 		static void ImguiEditor();
 
+		static glm::vec3 GetEuler();
 		static inline float GetFOV() { return m_fov; }
 		static inline glm::mat4 GetProj() { return m_proj; }
 		static inline glm::mat4 GetView() { return m_view; }
