@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GB\Core.h"
-#include "glm\glm.hpp"
-#include "glm\gtc\matrix_transform.hpp"
+
+#include "GB\Math.h"
 #include "GB\Time.h"
 namespace GB
 {

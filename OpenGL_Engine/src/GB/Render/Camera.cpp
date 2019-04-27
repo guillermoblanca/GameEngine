@@ -1,10 +1,7 @@
 #include "gbpch.h"
 #include "Camera.h"
 #include "GB\Application.h"
-#include "glm\gtc\matrix_transform.hpp"
-#include "glm\gtx\quaternion.hpp"
 #include "imgui.h"
-
 #include "GB\Input.h"
 #include "GB\KeyCodes.h"
 namespace GB
@@ -80,24 +77,13 @@ namespace GB
 
 		m_mode = option ? Mode::Ortho : Mode::Perspective;
 	}
+	//todo: remove from here
 	glm::vec3 Camera::GetEuler()
 	{
 		glm::quat q = glm::quat_cast(m_view);
+
 		
-		//roll x-axis
-		float sinr_cosp = 2 * (q.w * q.x + q.y *q.z);
-		float cosr_cosp = 1 - 2 * (q.x*q.x + q.y*q.y);
-		float roll = std::atan2(sinr_cosp, cosr_cosp);
-
-		//pitch y-axis
-		float sinp = 2 * (q.w*q.y - q.z*q.x);
-		float pitch = std::fabs(sinp) >= 1 ? std::copysign(3.1416f/2,sinp) :  std::asin(sinp);
-
-		//yaw z-axis;
-		float siny_cosp = 2 * (q.w *q.z + q.x *q.y);
-		float cosy_cosp = 1 - 2 * (q.y*q.y + q.z*q.z);
-		float yaw = std::atan2(siny_cosp, cosy_cosp);
-		return glm::vec3(roll,pitch,yaw);
+		return Math::ToEuler(q);;
 	}
 	void Camera::CameraInput(float speed)
 	{

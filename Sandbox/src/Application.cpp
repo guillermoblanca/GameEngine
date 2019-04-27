@@ -1,11 +1,7 @@
 #include "GB.h"
 #include "Application.h"
 #include "imgui\imgui.h"
-inline std::ostream& operator<<(std::ostream& os, const glm::vec3& e)
-{
 
-	return os << "Vector3: " << e.x << "," << e.y << "," << e.z;
-}
 using namespace GB;
 void LayerExample::OnImguiRender()
 {
