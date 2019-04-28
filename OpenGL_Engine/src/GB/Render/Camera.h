@@ -9,9 +9,9 @@ namespace GB
 	class GBAPI Camera
 	{
 	public:
-		enum Mode { Ortho,Perspective};
+		enum Mode { Perspective = 0,Orthograpic};
 		
-		static void Translate(glm::vec3 pos);
+		static void Translate(vector3 pos);
 		static void Rotate(float degrees, glm::vec3 direction);
 		static void SetFieldOfView(float degree);
 		static void LookAt(glm::vec3 position,float distance);
@@ -20,23 +20,42 @@ namespace GB
 
 		static glm::vec3 GetEuler();
 		static inline float GetFOV() { return m_fov; }
-		static inline glm::mat4 GetProj() { return m_proj; }
-		static inline glm::mat4 GetView() { return m_view; }
+		static inline matrix4 GetProj() { return m_proj; }
+		static inline matrix4 GetView() { return m_view; }
 
 		static inline glm::vec3 GetRot() { return glm::vec3(0.0f); }
 
 		static void CameraInput(float speed);
-		static Mode m_mode;
+
+		void SetCameraMode(Camera camera, Mode mode)
+		{
+			vector3 distance = camera.target - camera.position;
+			cameratargetdistance = glm::length(distance);
+		}
+		void UpdateCamera(Camera *camera);
+
 	private:
 
-		static glm::vec3 m_pos;
-		static glm::vec3 m_front;
-		static glm::vec3 m_up;
+		static Mode m_mode;
+		static vector3 m_pos;
+		static vector3 m_front;
+		static vector3 m_up;
 
-		static glm::mat4 m_proj;
-		static glm::mat4 m_view;
+		static matrix4 m_proj;
+		static matrix4 m_view;
 		static float m_fov;
-		static glm::vec2 m_orthoOp;
+		static vector2 m_orthoOp;
 
+		// NEW FEATURE
+
+		const float mouse_sensitivity =0.003f;
+		const float mouse_scroll_sensitivity = 1.5f;
+
+		vector3 position; //Camera position
+		vector3 target; //Camera target it looks at;
+		vector3 up; //Camera up vector rotation over its axis
+		float fov; //Camera field-of-view in y (degrees) in pespective mode
+		Mode cameraMode;
+		float cameratargetdistance = 0.0f;
 	};
 }

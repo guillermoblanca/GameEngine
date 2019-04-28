@@ -42,7 +42,7 @@ namespace GB
 			m_proj = glm::perspective(glm::radians(m_fov), width / height, 0.1f, 100.0f);
 		}
 		break;
-		case GB::Camera::Ortho:
+		case GB::Camera::Orthograpic:
 		{
 			m_proj = glm::ortho(0.0f, width, 0.0f, height,m_orthoOp.x,m_orthoOp.y);
 		}
@@ -75,7 +75,7 @@ namespace GB
 		Rotate(rot[2],glm::vec3(0.0f,0.0f,1.0f));
 		SetFieldOfView(m_fov);
 
-		m_mode = option ? Mode::Ortho : Mode::Perspective;
+		m_mode = option ? Mode::Orthograpic : Mode::Perspective;
 	}
 	//todo: remove from here
 	glm::vec3 Camera::GetEuler()

@@ -33,7 +33,7 @@ void LayerExample::OnEvent(GB::Event & event)
 vector2 FreeCamera::CameraDirection()
 {
 	mouse = GB::Input::GetMousePosition();
-	vector2 diff = { mouse.first - prevMouse.first,mouse.second - prevMouse.second };
+	vector2 diff = mouse - prevMouse;
 
 	prevMouse = mouse;
 	return diff;
@@ -58,12 +58,12 @@ void FreeCamera::OnUpdate()
 	{
 
 		vector2 diff = CameraDirection();
-		GB::Camera::Translate(glm::vec3(diff.first*velocity,- diff.second*velocity,0.0f ));
+		GB::Camera::Translate(glm::vec3(diff.x*velocity,- diff.y*velocity,0.0f ));
 	}
 
 	if (GB::Input::IsMousePressed(2))
 	{
-		float diff = CameraDirection().second;
+		float diff = CameraDirection().y;
 		GB::Camera::Translate(glm::vec3(0.0f,0.0f,diff *velocity*2));
 
 	}
@@ -73,9 +73,9 @@ void FreeCamera::OnUpdate()
 		vector2 position = CameraDirection();
 
 		
-		GB_CORE_INFO("Pivot point {0},{1}",position.first,position.second );
-		GB::Camera::Rotate(position.first, glm::vec3(0.f, 1.0f, 0.0f));
-		GB::Camera::Rotate(position.second, glm::vec3(1.f, 0.0f, 0.0f));
+		GB_CORE_INFO("Pivot point {0}",position);
+		GB::Camera::Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
+		GB::Camera::Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
 	}
 }
 
@@ -86,7 +86,7 @@ void FreeCamera::OnImguiRender()
 	ImGui::Begin("Values");
 	ImGui::Text("Time: %2f", timer);
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
-	ImGui::Text("Mouse %2f,%2f", CameraDirection().first, CameraDirection().second);
+	ImGui::Text("Mouse %2f,%2f", CameraDirection().x, CameraDirection().y);
 	ImGui::DragFloat("Camera distance", &distance);
 	ImGui::DragFloat("Velocity", &velocity);
 	ImGui::DragFloat3("Destiny", (float*)&destiny);

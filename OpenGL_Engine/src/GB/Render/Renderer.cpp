@@ -9,14 +9,14 @@
 #include "IndexBuffer.h"
 #include "GB\Application.h"
 #include "imgui.h"
-#include "glm\glm.hpp"
-#include "glm\gtc\matrix_transform.hpp"
+#include "GB\Math.h"
 #include "GB/Input.h"
 #include "Camera.h"
-#include "glm\gtx\matrix_decompose.hpp"
+
 namespace GB
 {
 	Renderer* Renderer::m_singleton = nullptr;
+
 
 	Renderer::Renderer(): m_renderIndex(0)
 	{
@@ -90,6 +90,7 @@ namespace GB
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 
+
 	}
 	void Renderer::OnDetach()
 	{
@@ -99,9 +100,7 @@ namespace GB
 
 	void Renderer::OnRender()
 	{
-		static float width = (float)Application::Get().GetWindow().GetWidth();
-		static float height = (float)Application::Get().GetWindow().GetHeight();
-		glm::mat4 transform = glm::mat4(1.0f);
+		Begin();
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
 			auto obj = (RenderObject*)m_renderObjects[i];

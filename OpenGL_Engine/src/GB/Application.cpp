@@ -35,7 +35,6 @@ void GB::Application::Run()
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
 
-		m_renderer->Begin();
 		m_renderer->OnRender();
 
 	

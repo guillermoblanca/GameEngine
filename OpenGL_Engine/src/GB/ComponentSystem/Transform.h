@@ -1,15 +1,14 @@
 #pragma once
 #include "GB\Core.h"
 
-#include "glm\glm.hpp"
-#include "glm\gtx\transform.hpp"
+#include "GB/Math.h"
 namespace GB
 {
 	struct Transform
 	{
-		glm::vec3 position;
-		glm::vec3 rotation;
-		glm::vec3 scale;
+		vector3 position;
+		vector3 rotation;
+		vector3 scale;
 
 		Transform();
 	
@@ -21,7 +20,7 @@ namespace GB
 	
 		void Rotate(glm::vec3 rot);
 
-		glm::mat4 GetMat4();
+		matrix4 GetMat4();
 
 
 	};

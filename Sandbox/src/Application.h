@@ -1,7 +1,5 @@
 #pragma once
 #include "GB.h"
-#include "glm\glm.hpp"
-typedef std::pair<float, float> vector2;
 
 class FreeCamera : public GB::Layer
 {

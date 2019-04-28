@@ -25,25 +25,25 @@ namespace GB
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	vector2 WindowsInput::GetMousePositionImpl()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
-		return { (float)xpos,(float)ypos };
+		return vector2(xpos,ypos);
 	}
 
 	float WindowsInput::GetMouseXImpl()
 	{
-		auto[x, y] = GetMousePositionImpl();
-		return x;
+		auto v = GetMousePositionImpl();
+		return v.x;
 	}
 
 	float WindowsInput::GetMouseYImpl()
 	{
-		auto[x, y] = GetMousePositionImpl();
-		return y;
+		auto v = GetMousePositionImpl();
+		return v.y;
 	}
 
 }
