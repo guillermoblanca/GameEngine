@@ -496,6 +496,7 @@
     <ClInclude Include="Dependencies\glm\glm\vector_relational.hpp" />
     <ClInclude Include="src\GB.h" />
     <ClInclude Include="src\GB\Application.h" />
+    <ClInclude Include="src\GB\ComponentSystem\Transform.h" />
     <ClInclude Include="src\GB\Core.h" />
     <ClInclude Include="src\GB\EntryPoint.h" />
     <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
@@ -508,6 +509,7 @@
     <ClInclude Include="src\GB\Layer.h" />
     <ClInclude Include="src\GB\LayerStack.h" />
     <ClInclude Include="src\GB\Log.h" />
+    <ClInclude Include="src\GB\Math.h" />
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h" />
     <ClInclude Include="src\GB\Render\Camera.h" />
     <ClInclude Include="src\GB\Render\IndexBuffer.h" />
@@ -529,8 +531,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
-    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\Transform.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
     <ClCompile Include="src\GB\LayerStack.cpp" />
     <ClCompile Include="src\GB\Log.cpp" />
     <ClCompile Include="src\GB\Render\Camera.cpp" />

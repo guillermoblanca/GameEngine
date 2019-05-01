@@ -81,6 +81,8 @@ void FreeCamera::OnUpdate()
 
 void FreeCamera::OnImguiRender()
 {
+	static int rendermode = 4;
+
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
 	GB::Camera::ImguiEditor();
 	ImGui::Begin("Values");
@@ -91,6 +93,10 @@ void FreeCamera::OnImguiRender()
 	ImGui::DragFloat("Velocity", &velocity);
 	ImGui::DragFloat3("Destiny", (float*)&destiny);
 	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position, distance);
+	ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::RenderMode::Triangles);
+	
+	Renderer::Get().SetRenderMode(GB::Renderer::RenderMode(rendermode));
+
 	ImGui::End();
 }
 

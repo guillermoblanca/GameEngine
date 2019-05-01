@@ -29,6 +29,11 @@ namespace GB
 		{
 			delete irender;
 		}
+
+		for (Material* mat : m_materials)
+		{
+			delete mat;
+		}
 	}
 
 	void Renderer::OnAttach()
@@ -85,11 +90,11 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6, new Material("Assets/Shader/Camera.shader")));
-		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36, new Material("Assets/Shader/Camera.shader")));
+		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6));
+		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36));
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
-
+		m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
 	}
 	void Renderer::OnDetach()
@@ -105,10 +110,7 @@ namespace GB
 		{
 			auto obj = (RenderObject*)m_renderObjects[i];
 			m_textures[i]->Bind(0);
-			obj->GetMat()->Bind();
-			obj->GetMat()->SetInt("u_Texture", 0);
-
-			obj->Render();
+			obj->Render(*m_materials[0],(int)this->mode);
 		}
 	}
 
@@ -148,46 +150,39 @@ namespace GB
 		if (it != m_renderObjects.end())
 			m_renderObjects.erase(it);
 	}
+	void Renderer::SetRenderMode(RenderMode mode)
+	{
+		this->mode = mode;
+	}
 	void Renderer::OnImguiRender()
 	{
 		ImGui::Begin("Render");
 
 		static int i = 0;
 		static float rot[] = { 0,0,0 };
-
 		glm::vec3 position;
-		glm::quat rotation;
+		glm::quat quat;
 		glm::vec3 scale;
 		glm::vec3 skew;
 		glm::vec4 perspective;
 		RenderObject* render = (RenderObject*) m_renderObjects[i];
-		glm::decompose(render->m_transform.GetMat4(), scale, rotation, position, skew, perspective);
+		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
+
+		glm::vec3 rotator = render->m_transform.rotation;
 		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
 
 		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
 		ImGui::ColorPicker4("Color", (float*)&render->m_color);
 		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
-		ImGui::Text("Rotation: %2f,%2f,%2f",rotation.x,rotation.y,rotation.z);
+		ImGui::Text("Rotation: %2f,%2f,%2f",Math::ToDegrees(rotator.x),Math::ToDegrees(rotator.y),Math::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
+
 		ImGui::End();
 		
 		render->m_transform.Translate(position);
 		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
-	}
 
-
-
-	void Renderer::MaterialEditor(RenderObject* renobj, char* pathbuff)
-	{
-		//todo: fix imgui::inputtext
-		if (ImGui::BeginMenu("Render Obj"))
-		{
-			//ImGui::InputText("Path", pathbuff, 1024);
-
-			if (ImGui::Button("Compile shader")) renobj->GetMat()->CreateShader(pathbuff);
-			ImGui::EndMenu();
-		}
 	}
 	void Renderer::AlphaRender(bool active)
 	{

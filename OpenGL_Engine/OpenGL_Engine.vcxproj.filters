@@ -28,6 +28,9 @@
     <Filter Include="src\GB">
       <UniqueIdentifier>{6549661C-51EB-90F2-3AA6-A44626E71743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GB\ComponentSystem">
+      <UniqueIdentifier>{EC58F8CE-D852-2121-C1BF-B731AD58878D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GB\Events">
       <UniqueIdentifier>{A9D1C834-1592-446B-DECC-8DE84A4C8947}</UniqueIdentifier>
     </Filter>
@@ -1149,6 +1152,9 @@
     <ClInclude Include="src\GB\Application.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\ComponentSystem\Transform.h">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Core.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1239,12 +1245,19 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
       <Filter>src\GB</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\Transform.cpp">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
+      <Filter>src\GB\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp">
       <Filter>src\GB\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\LayerStack.cpp">
@@ -1295,6 +1308,5 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
   </ItemGroup>
 </Project>

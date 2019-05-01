@@ -26,14 +26,23 @@ namespace GB
 	class GBAPI IRender
 	{
 	public:
-		virtual void Render() = 0;
+		virtual void Render(Material& material, int mode = 4) = 0;
 	};
 	class GBAPI Sprite :  public IRender
 	{
 
 	public:
+		Sprite(Texture text);
+		~Sprite();
 
-		virtual void Render() override {};
+		virtual void Render(Material& material, int mode = 4) override;
+		Transform m_transform;
+		glm::vec4 m_color;
+		Texture* m_texture;
+
+	protected:
+		VertexBuffer *m_vb;
+		IndexBuffer m_ib;
 	};
 
 
@@ -41,19 +50,16 @@ namespace GB
 	{
 	public:
 
-		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count, Material * mat);
+		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count);
 		~RenderObject();
 		void UnBind();
-		virtual void Render()override;
+		virtual void Render(Material& material, int mode=4)override;
 
-		inline Material* GetMat() { return m_mat; }
 		glm::vec4 m_color;
 		Transform m_transform;
 	protected:
-		virtual void ParameterUpdate();
 		VertexBuffer *m_vb;
 		IndexBuffer m_ib;
-		Material * m_mat;
 
 
 	};

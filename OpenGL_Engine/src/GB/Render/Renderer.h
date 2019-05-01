@@ -12,6 +12,10 @@ namespace GB
 	class GBAPI Renderer : public Layer
 	{
 	public:
+
+		enum class RenderMode { Lines	  = 0x0001,
+								LinesLoop = 0x0002,
+								Triangles = 0x0004};
 		Renderer();
 		~Renderer();
 		inline static Renderer& Get() { return *m_singleton; }
@@ -29,14 +33,18 @@ namespace GB
 		void PopOverlay(IRender* obj);
 
 		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }
+		void SetRenderMode(RenderMode mode);
 	private:
-		std::vector<IRender*> m_renderObjects;
-		unsigned int m_renderIndex;
 		static Renderer *m_singleton;
-		void AlphaRender(bool active);
-
-		void MaterialEditor(RenderObject* renobj, char* pathbuff);
+		
+		std::vector<IRender*> m_renderObjects;
+		std::vector<Material*> m_materials;
 		std::vector<Texture*> m_textures;
+		
+		RenderMode mode;
+		unsigned int m_renderIndex;
+
+		void AlphaRender(bool active);
 
 	};
 
