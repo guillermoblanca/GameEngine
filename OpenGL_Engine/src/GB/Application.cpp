@@ -1,7 +1,6 @@
 #include "gbpch.h"
 #include "Application.h"
 #include "GB\ImGui\ImGuiLayer.h"
-#include "glad\glad.h"
 #include "GB\Input.h"
 namespace GB
 {

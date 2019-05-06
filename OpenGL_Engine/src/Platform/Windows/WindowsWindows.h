@@ -1,7 +1,7 @@
 #pragma once
 #include "gbpch.h"
 #include "GB\Window.h"
-
+#include "GB\Render\GraphicContext.h"
 #include "GLFW\glfw3.h"
 namespace GB
 {
@@ -25,7 +25,7 @@ namespace GB
 		virtual void ShutDown();
 	private:
 		GLFWwindow* m_window;
-
+		GraphicContext* m_Context;
 		struct WindowsData
 		{
 			std::string title;

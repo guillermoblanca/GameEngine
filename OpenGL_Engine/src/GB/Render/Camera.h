@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GB\Core.h"
-
 #include "GB\Math.h"
 #include "GB\Time.h"
 namespace GB

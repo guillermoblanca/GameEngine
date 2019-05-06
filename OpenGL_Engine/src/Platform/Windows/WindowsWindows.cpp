@@ -5,7 +5,7 @@
 #include "GB\Events\ApplicationEvent.h"
 #include "GB\Events\MouseEvent.h"
 #include "GB\Events\KeyEvent.h"
-
+#include "Platform\OpenGL\OpenGLGraphicContext.h"
 #include "glad\glad.h"
 namespace GB
 {
@@ -30,7 +30,7 @@ namespace GB
 	void WindowsWindows::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_window);
+		m_Context->SwapBuffers();
 	}
 	void WindowsWindows::SetVSync(bool enabled)
 	{
@@ -51,6 +51,7 @@ namespace GB
 		m_data.height = props.Height;
 		m_data.width = props.Width;
 
+
 		if (!s_GLFWInitialized)
 		{
 			int succes = glfwInit();
@@ -62,9 +63,9 @@ namespace GB
 
 		m_window = glfwCreateWindow(m_data.width, m_data.height, m_data.title.c_str(), nullptr, nullptr);
 
-		glfwMakeContextCurrent(m_window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		
+		m_Context = new OpenGLGraphicContext(m_window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_window, &m_data); //todo: research
 		SetVSync(true);
