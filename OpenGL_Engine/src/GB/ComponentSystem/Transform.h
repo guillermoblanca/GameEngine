@@ -1,16 +1,16 @@
 #pragma once
 #include "GB\Core.h"
-
+#include "Component.h"
 #include "GB/Math.h"
 namespace GB
 {
-	struct Transform
+	struct Transform : Component
 	{
+		Transform() : Component("Transform"),position(0.0f), rotation(0.0f), scale(1.0f) {}
 		vector3 position;
 		vector3 rotation;
 		vector3 scale;
 
-		Transform();
 	
 		void Translate(glm::vec3 pos);
 		void Lerp(glm::vec3 init, glm::vec3 des, float dt);

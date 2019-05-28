@@ -32,7 +32,7 @@ namespace GB
 	{
 
 	public:
-		Sprite(Texture text);
+		Sprite(Texture text,unsigned int* indices);
 		~Sprite();
 
 		virtual void Render(Material& material, int mode = 4) override;

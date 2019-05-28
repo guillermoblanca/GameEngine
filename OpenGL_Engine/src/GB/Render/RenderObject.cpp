@@ -45,7 +45,7 @@ namespace GB
 		glDrawElements(mode, m_ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 		m_ib.Unbind();
 	}
-	Sprite::Sprite(Texture tex): m_ib(nullptr,0),m_vb(nullptr),m_texture(&tex)
+	Sprite::Sprite(Texture tex,unsigned int* indices) : m_ib(indices,6), m_vb(nullptr), m_texture(&tex)
 	{
 		const float positions[]
 		{//vertices           //uv
@@ -55,11 +55,11 @@ namespace GB
 			-0.5f, 0.5f,0.0f, 0.0f, 1.0f
 		};
 
-		unsigned int indices[]
-		{
-			0,1,2,
-			2,3,0
-		};
+		//unsigned int indices[]
+		//{
+		//	0,1,2,
+		//	2,3,0
+		//};
 
 		m_vb = new VertexBuffer(positions, 5*4*sizeof(float));
 		VertexArray m_va;
@@ -67,7 +67,6 @@ namespace GB
 		m_layout.Push<float>(3);
 		m_layout.Push<float>(2);
 		m_va.AddBuffer(*m_vb, m_layout);
-		
 		m_ib.Bind();
 	}
 	Sprite::~Sprite()

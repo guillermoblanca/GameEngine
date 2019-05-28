@@ -8,6 +8,7 @@
 
 #include "ImGui\ImGuiLayer.h"
 #include "GB\Render\Renderer.h"
+#include "GB\ComponentSystem\SceneLayer.h"
 namespace GB
 {
 	 class GBAPI Application
@@ -28,7 +29,7 @@ namespace GB
 
 		std::unique_ptr<ImGuiLayer> m_imguiLayer;
 		std::unique_ptr<Renderer> m_renderer;
-
+		std::unique_ptr<SceneLayer> m_scene;
 		static Application* s_instance;
 		bool m_Running = true;
 		LayerStack m_LayerStack;

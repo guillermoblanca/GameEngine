@@ -1191,6 +1191,9 @@
     <ClInclude Include="src\GB\Log.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Math.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1245,7 +1248,10 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Math.h" />
+    <ClInclude Include="src\GB\ComponentSystem\GameObject.h" />
+    <ClInclude Include="src\GB\ComponentSystem\Component.h" />
+    <ClInclude Include="src\GB\ComponentSystem\SpriteRendere2D.h" />
+    <ClInclude Include="src\GB\ComponentSystem\SceneLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1308,5 +1314,7 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\SceneLayer.cpp" />
   </ItemGroup>
 </Project>

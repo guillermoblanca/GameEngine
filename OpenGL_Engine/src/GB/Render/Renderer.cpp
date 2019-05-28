@@ -90,9 +90,9 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6));
+		PushObj((IRender*)new RenderObject(positions,3*2*sizeof(float),indices,6));
 		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36));
-		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
+		m_textures.push_back(new Texture("Assets/Texture/paddle.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 		m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
@@ -156,33 +156,40 @@ namespace GB
 	}
 	void Renderer::OnImguiRender()
 	{
-		ImGui::Begin("Render");
+		ImGui::Begin("Renderer");
 
 		static int i = 0;
 		static float rot[] = { 0,0,0 };
 		glm::vec3 position;
 		glm::quat quat;
-		glm::vec3 scale;
+		static glm::vec3 scale =glm::vec3((float)m_textures[i]->GetWidth()/10, (float)m_textures[i]->GetHeight()/10,1.0f);
 		glm::vec3 skew;
 		glm::vec4 perspective;
 		RenderObject* render = (RenderObject*) m_renderObjects[i];
 		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 
 		glm::vec3 rotator = render->m_transform.rotation;
-		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
+		ImGui::Text("N of objects: %d", (int)m_renderObjects.size());
+		ImGui::DragInt("INDEX", &i, 1.0f, 0,(int) m_renderObjects.size() - 1);
 
 		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
+		ImGui::DragFloat3("Scale", (float*)&scale);
 		ImGui::ColorPicker4("Color", (float*)&render->m_color);
 		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
 		ImGui::Text("Rotation: %2f,%2f,%2f",Math::ToDegrees(rotator.x),Math::ToDegrees(rotator.y),Math::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
 
+
+		if (m_textures[i] != nullptr)
+		{
+			ImGui::Text("Texture size %d,%d", m_textures[i]->GetWidth(),m_textures[i]->GetHeight());
+		}
 		ImGui::End();
 		
 		render->m_transform.Translate(position);
 		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
-
+		render->m_transform.SetScale(scale);
 	}
 	void Renderer::AlphaRender(bool active)
 	{

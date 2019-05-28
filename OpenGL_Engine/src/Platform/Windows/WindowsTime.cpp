@@ -8,8 +8,8 @@ namespace GB
 
 	float WindowsTime::Impl_DeltaTime()
 	{
-		float r = glfwGetTime() - m_deltaTime;
-		m_deltaTime = glfwGetTime();
+		float r = (float)glfwGetTime() - m_deltaTime;
+		m_deltaTime = (float)glfwGetTime();
 		return r;
 	}
 

@@ -44,7 +44,7 @@ namespace GB
 		break;
 		case GB::Camera::Orthograpic:
 		{
-			m_proj = glm::ortho(0.0f, width, 0.0f, height,m_orthoOp.x,m_orthoOp.y);
+			m_proj = glm::ortho(0.0f, width, height, 0.0f,m_orthoOp.x,m_orthoOp.y);
 		}
 		break;
 

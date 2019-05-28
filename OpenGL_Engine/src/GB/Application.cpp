@@ -3,6 +3,8 @@
 #include "GB\ImGui\ImGuiLayer.h"
 #include "glad\glad.h"
 #include "GB\Input.h"
+
+#include "GB\ComponentSystem\SceneLayer.h"
 namespace GB
 {
 	Application* Application::s_instance = nullptr; 
@@ -20,6 +22,8 @@ GB::Application::Application()
 
 	m_renderer = std::unique_ptr<Renderer>(new Renderer());
 	PushLayer(m_renderer.get());
+	m_scene = std::unique_ptr<SceneLayer>(new SceneLayer());
+	PushLayer(m_scene.get());
 }
 
 GB::Application::~Application()
