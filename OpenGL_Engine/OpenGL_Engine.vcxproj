@@ -512,6 +512,7 @@
     <ClInclude Include="src\GB\Math.h" />
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h" />
     <ClInclude Include="src\GB\Render\Camera.h" />
+    <ClInclude Include="src\GB\Render\GraphicContext.h" />
     <ClInclude Include="src\GB\Render\IndexBuffer.h" />
     <ClInclude Include="src\GB\Render\Material.h" />
     <ClInclude Include="src\GB\Render\RenderObject.h" />
@@ -523,6 +524,7 @@
     <ClInclude Include="src\GB\Time.h" />
     <ClInclude Include="src\GB\Window.h" />
     <ClInclude Include="src\Platform\Editor\Console.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsTime.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindows.h" />
@@ -545,6 +547,7 @@
     <ClCompile Include="src\GB\Render\VertexArray.cpp" />
     <ClCompile Include="src\GB\Render\VertexBuffer.cpp" />
     <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsTime.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindows.cpp" />

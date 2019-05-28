@@ -18,7 +18,7 @@ namespace GB
 	Renderer* Renderer::m_singleton = nullptr;
 
 
-	Renderer::Renderer(): m_renderIndex(0)
+	Renderer::Renderer() : m_renderIndex(0)
 	{
 		m_singleton = this;
 	}
@@ -110,7 +110,7 @@ namespace GB
 		{
 			auto obj = (RenderObject*)m_renderObjects[i];
 			m_textures[i]->Bind(0);
-			obj->Render(*m_materials[0],(int)this->mode);
+			obj->Render(*m_materials[0], (int)this->mode);
 		}
 	}
 
@@ -165,7 +165,7 @@ namespace GB
 		glm::vec3 scale;
 		glm::vec3 skew;
 		glm::vec4 perspective;
-		RenderObject* render = (RenderObject*) m_renderObjects[i];
+		RenderObject* render = (RenderObject*)m_renderObjects[i];
 		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 
 		glm::vec3 rotator = render->m_transform.rotation;
@@ -174,12 +174,14 @@ namespace GB
 		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
 		ImGui::ColorPicker4("Color", (float*)&render->m_color);
-		ImGui::Text("Pos: %2f,%2f,%2f",position.x,position.y,position.z);
-		ImGui::Text("Rotation: %2f,%2f,%2f",Math::ToDegrees(rotator.x),Math::ToDegrees(rotator.y),Math::ToDegrees(rotator.z));
-		ImGui::Text("Scale: %2f,%2f,%2f",scale.x,scale.y,scale.z);
+		ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
+		ImGui::Text("Rotation: %2f,%2f,%2f", Math::ToDegrees(rotator.x), Math::ToDegrees(rotator.y), Math::ToDegrees(rotator.z));
+		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
+
+		ImGui::Image((ImTextureID)m_textures[i]->GetID(), ImVec2(200, 200));
 
 		ImGui::End();
-		
+
 		render->m_transform.Translate(position);
 		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
 

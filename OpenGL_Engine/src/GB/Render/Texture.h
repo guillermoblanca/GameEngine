@@ -15,6 +15,7 @@ public:
 	inline int GetWidth() const { return m_Width; }
 	inline int GetHeight() const{ return m_Height; }
 	inline int GetBPP() const { return m_BPP; }
+	inline unsigned int GetID() { return m_ID; }
 private:
 	unsigned int m_ID;
 	std::string m_FilePath;
