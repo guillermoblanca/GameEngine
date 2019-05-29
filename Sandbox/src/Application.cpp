@@ -3,6 +3,13 @@
 #include "imgui\imgui.h"
 
 using namespace GB;
+
+struct DATA
+{
+	vector2 position;
+	unsigned int ID;
+	std::string name;
+};
 void LayerExample::OnImguiRender()
 {
 
@@ -85,10 +92,10 @@ void FreeCamera::OnImguiRender()
 
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
 	GB::Camera::ImguiEditor();
-	ImGui::Begin("Values");
+	ImGui::Begin("Profiling");
 	ImGui::Text("Time: %2f", timer);
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
-	ImGui::Text("FPS: %f",Time::GetFPS());
+	ImGui::Text("FPS: %f", Time::GetFPS());
 
 	ImGui::PlotLines("Time", [](void*data, int idx)
 	{
@@ -114,6 +121,30 @@ void FreeCamera::OnImguiRender()
 	Renderer::Get().SetRenderMode(GB::Renderer::RenderMode(rendermode));
 
 	ImGui::End();
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Save"))
+			{
+				DATA data = { vector2(1,2),1,"name" };
+				std::ofstream ofile("foo.gb", std::ios::binary);
+				ofile.write((char*)&data, sizeof(DATA));
+				ofile.close();
+			}
+			if (ImGui::MenuItem("Open"))
+			{
+				std::ifstream ifile("foo.gb", std::ios::binary);
+				DATA data ;
+				ifile.read((char*)&data, sizeof(DATA));
+				GB_CORE_INFO("Binary load: {0},{1},{2}", data.position,data.ID,data.name);
+				ifile.close();
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 }
 
 void FreeCamera::OnEvent(GB::Event & event)
