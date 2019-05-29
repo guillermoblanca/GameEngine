@@ -6,6 +6,7 @@
 #include "GB\Layer.h"
 #include "Material.h"
 #include "RenderObject.h"
+
 namespace GB
 {
 	//todo: refactor class to singleton instance 

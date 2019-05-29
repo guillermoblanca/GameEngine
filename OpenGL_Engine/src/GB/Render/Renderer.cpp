@@ -90,12 +90,16 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6));
-		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36));
+		PushObj((IRender*)new RenderObject());
+		PushObj((IRender*)new RenderObject());
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 		m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
+		RenderObject* render =(RenderObject*) m_renderObjects[0];
+		render->Create(positions, 5 * 4 * sizeof(float), indices, 6);
+		render = (RenderObject*) m_renderObjects[1];
+		render->Create(vertices, 5 * 16 * sizeof(float), indiceCube, 36);
 	}
 	void Renderer::OnDetach()
 	{

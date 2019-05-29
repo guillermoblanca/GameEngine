@@ -11,18 +11,8 @@
 #include "Camera.h"
 namespace GB
 {
-
-	RenderObject::RenderObject(const float *positions,unsigned int size, const unsigned int *data, unsigned int count) : 
-		m_ib(data, count),m_transform(), m_color(1.0f)
+	RenderObject::RenderObject() :m_ib(),m_transform(),m_color(1.0f)
 	{
-		m_vb = new VertexBuffer(positions,size);
-		VertexArray m_va;
-		VertexBufferLayout m_layout;
-		m_layout.Push<float>(3);
-		m_layout.Push<float>(2);
-		m_va.AddBuffer(*m_vb, m_layout);
-
-		m_ib.Bind();
 	}
 	RenderObject::~RenderObject()
 	{
@@ -45,7 +35,19 @@ namespace GB
 		glDrawElements(mode, m_ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 		m_ib.Unbind();
 	}
-	Sprite::Sprite(Texture tex): m_ib(nullptr,0),m_vb(nullptr),m_texture(&tex)
+	void RenderObject::Create(const float * positions, unsigned int size, const unsigned int * data, unsigned int count)
+	{
+		m_ib.Create(data, count);
+		m_vb = new VertexBuffer(positions, size);
+		VertexArray m_va;
+		VertexBufferLayout m_layout;
+		m_layout.Push<float>(3);
+		m_layout.Push<float>(2);
+		m_va.AddBuffer(*m_vb, m_layout);
+
+		m_ib.Bind();
+	}
+	Sprite::Sprite(Texture tex): m_ib(),m_vb(nullptr),m_texture(&tex)
 	{
 		const float positions[]
 		{//vertices           //uv
