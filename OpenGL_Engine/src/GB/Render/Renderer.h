@@ -35,6 +35,8 @@ namespace GB
 
 		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }
 		void SetRenderMode(RenderMode mode);
+
+		glm::vec4 renderColor;
 	private:
 		static Renderer *m_singleton;
 		

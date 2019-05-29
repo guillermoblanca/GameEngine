@@ -16,6 +16,7 @@ namespace GB
 	}
 	RenderObject::~RenderObject()
 	{
+		
 		delete m_vb;
 	}
 	void RenderObject::UnBind()
