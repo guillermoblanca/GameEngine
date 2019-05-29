@@ -46,6 +46,9 @@
     <Filter Include="src\Platform\Editor">
       <UniqueIdentifier>{37386A1F-A399-472D-2C07-8EDF98677EEC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
     </Filter>
@@ -1191,10 +1194,16 @@
     <ClInclude Include="src\GB\Log.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Math.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
       <Filter>src\GB</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\Camera.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\GraphicContext.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\IndexBuffer.h">
@@ -1230,6 +1239,9 @@
     <ClInclude Include="src\Platform\Editor\Console.h">
       <Filter>src\Platform\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -1245,7 +1257,6 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1292,6 +1303,9 @@
     </ClCompile>
     <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp">
       <Filter>src\GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>

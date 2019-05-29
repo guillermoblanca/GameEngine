@@ -17,4 +17,19 @@ namespace GB
 	{
 		return (float)glfwGetTime();
 	}
+	float WindowsTime::ImplGetFPS()
+	{
+		static int nFrames = 0;
+		static int initTime = Time::GetTime();
+		static float fps = 0;
+		double now = Time::GetTime();
+		nFrames++;
+		if (now - initTime >= 1.0f)
+		{
+			fps = nFrames;
+			nFrames = 0;
+			initTime++;
+		}
+		return fps;
+	}
 }

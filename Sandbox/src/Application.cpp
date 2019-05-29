@@ -88,6 +88,22 @@ void FreeCamera::OnImguiRender()
 	ImGui::Begin("Values");
 	ImGui::Text("Time: %2f", timer);
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
+	ImGui::Text("FPS: %f",Time::GetFPS());
+
+	ImGui::PlotLines("Time", [](void*data, int idx)
+	{
+		return idx * Time::DeltaTime();
+	}, NULL, 100);
+
+	static bool isvSync = Application::Get().GetWindow().IsVSync();
+	if (ImGui::Button("VSync"))
+	{
+		isvSync = !isvSync;
+		Application::Get().GetWindow().SetVSync(isvSync);
+	}
+	ImGui::SameLine();
+	ImGui::Text(isvSync ? "true":"false");
+
 	ImGui::Text("Mouse %2f,%2f", CameraDirection().x, CameraDirection().y);
 	ImGui::DragFloat("Camera distance", &distance);
 	ImGui::DragFloat("Velocity", &velocity);
