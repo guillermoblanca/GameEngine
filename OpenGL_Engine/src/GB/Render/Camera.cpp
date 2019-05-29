@@ -18,13 +18,13 @@ namespace GB
 	{
 		m_view = glm::translate(m_view, pos);
 	}
-	void Camera::Rotate(float degrees, glm::vec3 direction)
+	void Camera::Rotate(float degrees, vector3 direction)
 	{
 
 		m_view = glm::rotate(m_view, glm::radians(degrees), direction);
 
 	}
-	void Camera::LookAt(glm::vec3 position, float distance)
+	void Camera::LookAt(vector3 position, float distance)
 	{
 		float camX = std::sin(Time::DeltaTime()) * distance;
 		float camZ = std::cos(Time::DeltaTime()) * distance;

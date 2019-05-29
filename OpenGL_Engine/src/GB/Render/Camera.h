@@ -11,18 +11,18 @@ namespace GB
 		enum Mode { Perspective = 0,Orthograpic};
 		
 		static void Translate(vector3 pos);
-		static void Rotate(float degrees, glm::vec3 direction);
+		static void Rotate(float degrees, vector3 direction);
 		static void SetFieldOfView(float degree);
-		static void LookAt(glm::vec3 position,float distance);
+		static void LookAt(vector3 position,float distance);
 
 		static void ImguiEditor();
 
-		static glm::vec3 GetEuler();
+		static vector3 GetEuler();
 		static inline float GetFOV() { return m_fov; }
 		static inline matrix4 GetProj() { return m_proj; }
 		static inline matrix4 GetView() { return m_view; }
 
-		static inline glm::vec3 GetRot() { return glm::vec3(0.0f); }
+		static inline vector3 GetRot() { return vector3(0.0f); }
 
 		static void CameraInput(float speed);
 

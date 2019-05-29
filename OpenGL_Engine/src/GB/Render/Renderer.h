@@ -6,6 +6,7 @@
 #include "GB\Layer.h"
 #include "Material.h"
 #include "RenderObject.h"
+
 namespace GB
 {
 	//todo: refactor class to singleton instance 
@@ -34,6 +35,8 @@ namespace GB
 
 		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }
 		void SetRenderMode(RenderMode mode);
+
+		glm::vec4 renderColor;
 	private:
 		static Renderer *m_singleton;
 		

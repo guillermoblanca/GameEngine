@@ -50,11 +50,11 @@ namespace GB
 	{
 	public:
 
-		RenderObject(const float *positions, unsigned int size, const unsigned int *data, unsigned int count);
+		RenderObject();
 		~RenderObject();
 		void UnBind();
 		virtual void Render(Material& material, int mode=4)override;
-
+		virtual void Create(const float *positions, unsigned int size, const unsigned int *data, unsigned int count);
 		glm::vec4 m_color;
 		Transform m_transform;
 	protected:

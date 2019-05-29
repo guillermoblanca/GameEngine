@@ -18,7 +18,7 @@ namespace GB
 	Renderer* Renderer::m_singleton = nullptr;
 
 
-	Renderer::Renderer() : m_renderIndex(0)
+	Renderer::Renderer() : m_renderIndex(0), renderColor(0, 0.5f, 0.5f, 1.0f)
 	{
 		m_singleton = this;
 	}
@@ -77,7 +77,7 @@ namespace GB
 		const float positions[]
 		{//vertices           //uv
 			-0.5f,-0.5f,0.0f, 0.0f, 0.0f,
-			 0.5f,-0.5f,0.0f, 1.0f, 0.0f,
+			 0.f,-0.5f,0.0f, 1.0f, 0.0f,
 			 0.5f, 0.5f,0.0f, 1.0f, 1.0f,
 			-0.5f, 0.5f,0.0f, 0.0f, 1.0f
 		};
@@ -90,10 +90,17 @@ namespace GB
 
 		AlphaRender(true);
 		glEnable(GL_DEPTH_TEST);
-		PushObj((IRender*)new RenderObject(positions, 5 * 4 * sizeof(float), indices, 6));
-		PushObj((IRender*)new RenderObject(vertices, 5 * 16 * sizeof(float), indiceCube, 36));
+
+
+		PushObj((IRender*)new RenderObject());
 		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
+		RenderObject* render = (RenderObject*)m_renderObjects[0];
+		render->Create(positions, 5 * 4 * sizeof(float), indices, 6);
+
+		PushObj((IRender*)new RenderObject());
 		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
+		render = (RenderObject*)m_renderObjects[1];
+		render->Create(vertices, 5 * 16 * sizeof(float), indiceCube, 36);
 		m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
 	}
@@ -117,7 +124,7 @@ namespace GB
 
 	void Renderer::Begin()
 	{
-		glClearColor(0, 0.5f, 0.5f, 1);
+		glClearColor(renderColor.r,renderColor.g,renderColor.b,renderColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -157,6 +164,7 @@ namespace GB
 	void Renderer::OnImguiRender()
 	{
 		ImGui::Begin("Render");
+		ImGui::ColorPicker4("Render Color", (float*)&renderColor);
 
 		static int i = 0;
 		static float rot[] = { 0,0,0 };
