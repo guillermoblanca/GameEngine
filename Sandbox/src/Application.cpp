@@ -51,27 +51,73 @@ void FreeCamera::OnAttach()
 	Camera::Translate(glm::vec3(0.0f, 0.0f, -10.0f));
 }
 
+float velocity = 5.0f;
 void FreeCamera::OnUpdate()
 {
 	unsigned int id = 1;
+
+
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
 
+	static unsigned int count = Renderer::Get().GetRenderObjectCount();
+
+	for (int i = 1; i < count; i++)
+	{
+		RenderObject* render = (RenderObject*)Renderer::Get().GetRenderobj(i);
+		vector2 position = vector2(render->m_transform.position.x, render->m_transform.position.y);
+		BoxCollider box = { position,1,1 };
+
+		RenderObject* render1 = (RenderObject*)Renderer::Get().GetRenderobj(i - 1);
+		vector2 position1 = vector2(render1->m_transform.position.x, render1->m_transform.position.y);
+		BoxCollider box1 = { position1,1,1 };
+
+		if (CollisionManager::CheckCollision(box1, box))
+		{
+			render->m_color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+			//GB_CORE_INFO("Obj {0}, Obj2 {1}", render->m_transform.position, render1->m_transform.position);
+		}
+		else
+		{
+			render->m_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		}
+	}
+
+	if (Input::IsKeyPressed(GB_KEY_W))
+	{
+		obj->m_transform.position = obj->m_transform.position + (glm::vec3(0.f, velocity * Time::DeltaTime(), 0.0f));
+	}else
+	if (Input::IsKeyPressed(GB_KEY_D))
+	{
+		obj->m_transform.position = obj->m_transform.position+(glm::vec3(velocity * Time::DeltaTime(), 0.0f,0.0f));
+	}
+	if (Input::IsKeyPressed(GB_KEY_A))
+	{
+		obj->m_transform.position= obj->m_transform.position+(glm::vec3(-velocity * Time::DeltaTime(), 0.0f, 0.0f));
+	}
+	else if (Input::IsKeyPressed(GB_KEY_S))
+	{
+		obj->m_transform.position = obj->m_transform.position+(glm::vec3(0.0f, -velocity * Time::DeltaTime(), 0.0f));
+	}
 
 	timer += Time::DeltaTime();
-	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
-
+	//	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
+	float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
+	float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
+	//obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
 	Camera::CameraInput(velocity);
 	if (GB::Input::IsMousePressed(1))
 	{
 
 		vector2 diff = CameraDirection();
-		GB::Camera::Translate(glm::vec3(diff.x*velocity,- diff.y*velocity,0.0f ));
+		GB::Camera::Translate(glm::vec3(diff.x*velocity, -diff.y*velocity, 0.0f));
 	}
 
 	if (GB::Input::IsMousePressed(2))
 	{
 		float diff = CameraDirection().y;
-		GB::Camera::Translate(glm::vec3(0.0f,0.0f,diff *velocity*2));
+		GB::Camera::Translate(glm::vec3(0.0f, 0.0f, diff *velocity * 2));
 
 	}
 
@@ -79,8 +125,8 @@ void FreeCamera::OnUpdate()
 	{
 		vector2 position = CameraDirection();
 
-		
-		GB_CORE_INFO("Pivot point {0}",position);
+
+		GB_CORE_INFO("Pivot point {0}", position);
 		GB::Camera::Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
 		GB::Camera::Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
 	}
@@ -96,7 +142,7 @@ void FreeCamera::OnImguiRender()
 	ImGui::Text("Time: %2f", timer);
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
 	ImGui::Text("FPS: %f", Time::GetFPS());
-
+	ImGui::SliderFloat("VelocityMove", &velocity, 0.0f, 100.0f);
 	ImGui::PlotLines("Time", [](void*data, int idx)
 	{
 		return idx * Time::DeltaTime();
@@ -109,7 +155,7 @@ void FreeCamera::OnImguiRender()
 		Application::Get().GetWindow().SetVSync(isvSync);
 	}
 	ImGui::SameLine();
-	ImGui::Text(isvSync ? "true":"false");
+	ImGui::Text(isvSync ? "true" : "false");
 
 	ImGui::Text("Mouse %2f,%2f", CameraDirection().x, CameraDirection().y);
 	ImGui::DragFloat("Camera distance", &distance);
@@ -117,7 +163,7 @@ void FreeCamera::OnImguiRender()
 	ImGui::DragFloat3("Destiny", (float*)&destiny);
 	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position, distance);
 	ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::RenderMode::Triangles);
-	
+
 	Renderer::Get().SetRenderMode(GB::Renderer::RenderMode(rendermode));
 
 	ImGui::End();
@@ -129,17 +175,20 @@ void FreeCamera::OnImguiRender()
 			if (ImGui::MenuItem("Save"))
 			{
 				DATA data = { vector2(1,2),1,"name" };
-				std::ofstream ofile("foo.gb", std::ios::binary);
+				std::ofstream ofile("foo.gb", std::ios::binary | std::ios::out);
 				ofile.write((char*)&data, sizeof(DATA));
 				ofile.close();
 			}
 			if (ImGui::MenuItem("Open"))
 			{
-				std::ifstream ifile("foo.gb", std::ios::binary);
+				/*std::ifstream ifile;
+				ifile.open("foo.gb", std::ios::binary | std::ios::in);
 				DATA data ;
 				ifile.read((char*)&data, sizeof(DATA));
 				GB_CORE_INFO("Binary load: {0},{1},{2}", data.position,data.ID,data.name);
-				ifile.close();
+				*/
+
+				//todo: make work
 			}
 			ImGui::EndMenu();
 		}
@@ -160,3 +209,12 @@ void FreeCamera::OnEvent(GB::Event & event)
 
 #pragma endregion
 
+#pragma region GameSystem
+
+GameSystem* GameSystem::m_instance = new GameSystem();
+#pragma endregion
+
+void GameSystem::AddGameObject(GameObject & gameObject)
+{
+  m_gameObjects.push_back(&gameObject);
+}

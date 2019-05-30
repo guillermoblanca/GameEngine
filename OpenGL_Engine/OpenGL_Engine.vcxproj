@@ -496,6 +496,9 @@
     <ClInclude Include="Dependencies\glm\glm\vector_relational.hpp" />
     <ClInclude Include="src\GB.h" />
     <ClInclude Include="src\GB\Application.h" />
+    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h" />
+    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h" />
+    <ClInclude Include="src\GB\ComponentSystem\GameObject.h" />
     <ClInclude Include="src\GB\ComponentSystem\Transform.h" />
     <ClInclude Include="src\GB\Core.h" />
     <ClInclude Include="src\GB\EntryPoint.h" />
@@ -533,6 +536,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp" />
     <ClCompile Include="src\GB\ComponentSystem\Transform.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />

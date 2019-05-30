@@ -13,4 +13,7 @@
 #include "GB\Time.h"
 #include "GB\Render\Renderer.h"
 #include "GB\Render\Camera.h"
+
+#include "GB\ComponentSystem\Collision\CollisionManager.h"
+#include "GB\ComponentSystem\GameObject.h"
 #include "GB\EntryPoint.h"

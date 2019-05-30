@@ -1,6 +1,6 @@
 #pragma once
 #include "GB.h"
-
+#include "imgui/imgui.h";
 class FreeCamera : public GB::Layer
 {
 private:
@@ -35,6 +35,39 @@ public:
 	void OnEvent(GB::Event& event) override;
 };
 
+class GameSystem : public GB::Layer
+{
+private:
+	static GameSystem* m_instance;
+public:
+	inline static GameSystem* Instance() { return m_instance; }
+	std::vector<GB::GameObject*> m_gameObjects;
+
+	void AddGameObject(GB::GameObject& gameObject);
+	void OnUpdate() override
+	{
+		for (size_t i = 0; i < m_gameObjects.size(); i++)
+		{
+			m_gameObjects[i]->UpdateComponent();
+		}
+	}
+
+	void OnImguiRender() override
+	{
+    if (ImGui::Begin("Inspector"))
+    {
+      if (ImGui::Button("Add GameObject"))
+      {
+        AddGameObject(GB::GameObject("instance 1"));
+      }
+      for (size_t i = 0; i < m_gameObjects.size(); i++)
+      {
+        m_gameObjects[i]->ImguiComponent();
+      }
+      ImGui::End();
+    }
+	}
+};
 class Sandbox : public GB::Application
 {
 public:
@@ -42,6 +75,7 @@ public:
 	{
 		GB_CLIENT_INFO("Client info");
 
+		PushLayer(new GameSystem());
 		PushLayer(new LayerExample());
 		PushLayer(new FreeCamera());
 	}

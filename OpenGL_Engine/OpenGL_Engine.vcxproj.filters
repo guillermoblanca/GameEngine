@@ -1257,6 +1257,9 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h" />
+    <ClInclude Include="src\GB\ComponentSystem\GameObject.h" />
+    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1322,5 +1325,8 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp" />
+    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp" />
   </ItemGroup>
 </Project>

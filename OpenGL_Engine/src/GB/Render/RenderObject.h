@@ -55,6 +55,8 @@ namespace GB
 		void UnBind();
 		virtual void Render(Material& material, int mode=4)override;
 		virtual void Create(const float *positions, unsigned int size, const unsigned int *data, unsigned int count);
+
+		unsigned int m_textureID;
 		glm::vec4 m_color;
 		Transform m_transform;
 	protected:
