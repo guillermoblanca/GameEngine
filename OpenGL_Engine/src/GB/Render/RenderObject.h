@@ -28,22 +28,6 @@ namespace GB
 	public:
 		virtual void Render(Material& material, int mode = 4) = 0;
 	};
-	class GBAPI Sprite :  public IRender
-	{
-
-	public:
-		Sprite(Texture text);
-		~Sprite();
-
-		virtual void Render(Material& material, int mode = 4) override;
-		Transform m_transform;
-		glm::vec4 m_color;
-		Texture* m_texture;
-
-	protected:
-		VertexBuffer *m_vb;
-		IndexBuffer m_ib;
-	};
 
 
 	class GBAPI RenderObject : IRender
@@ -63,4 +47,20 @@ namespace GB
 
 
 	};
+
+  class GBAPI Sprite : public RenderObject
+  {
+
+  public:
+    Sprite(Texture text);
+    ~Sprite();
+
+    virtual void Render(Material& material, int mode = 4) override;
+    Texture* m_texture;
+
+  protected:
+    VertexBuffer *m_vb;
+    IndexBuffer m_ib;
+  };
+
 }

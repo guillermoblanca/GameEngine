@@ -2,7 +2,6 @@
 #include "gbpch.h"
 #include "GB\Core.h"
 #include "Platform\stb\stb_image.h"
-//todo: fix opengl dependencies
 class  Texture
 {
 public:

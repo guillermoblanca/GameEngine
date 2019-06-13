@@ -6,8 +6,7 @@
 #include "VertexBuffer.h"
 #include "VertexArray.h"
 #include "IndexBuffer.h"
-#include "glm\glm.hpp"
-#include "glm\gtc\matrix_transform.hpp"
+#include "Math.h"
 #include "Camera.h"
 namespace GB
 {
