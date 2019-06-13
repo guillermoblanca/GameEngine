@@ -12,7 +12,7 @@ GB::Transform::Transform()
 void GB::Transform::Translate(glm::vec3 pos)
 {
 	//todo: find if works
-	auto dir = pos - position;
+	glm::vec3 dir = pos - position;
 
 	position += dir;
 }

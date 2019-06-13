@@ -92,15 +92,25 @@ namespace GB
 		glEnable(GL_DEPTH_TEST);
 
 
-		PushObj((IRender*)new RenderObject());
-		m_textures.push_back(new Texture("Assets/Texture/Game.png", 0));
-		RenderObject* render = (RenderObject*)m_renderObjects[0];
-		render->Create(positions, 5 * 4 * sizeof(float), indices, 6);
+		m_textures.push_back(new Texture("Assets/Texture/ball.png", 0));
+		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
 
 		PushObj((IRender*)new RenderObject());
-		m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
+		RenderObject* render = (RenderObject*)m_renderObjects[0];
+		render->Create(positions, 5 * 4 * sizeof(float), indices, 6);
+		render->m_textureID = 0;
+
+		PushObj((IRender*)new RenderObject());
 		render = (RenderObject*)m_renderObjects[1];
+		render->Create(positions, 5 * 4 * sizeof(float), indices, 6);
+		render->m_textureID = 0;
+
+		PushObj((IRender*)new RenderObject());
+		render = (RenderObject*)m_renderObjects[2];
 		render->Create(vertices, 5 * 16 * sizeof(float), indiceCube, 36);
+		render->m_textureID = 1;
+
+
 		m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
 	}
@@ -116,7 +126,7 @@ namespace GB
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
 			auto obj = (RenderObject*)m_renderObjects[i];
-			m_textures[i]->Bind(0);
+			m_textures[obj->m_textureID]->Bind();
 			obj->Render(*m_materials[0], (int)this->mode);
 		}
 	}
@@ -177,8 +187,9 @@ namespace GB
 		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 
 		glm::vec3 rotator = render->m_transform.rotation;
-		ImGui::DragInt("INDEX", &i, 1.0f, 0, m_renderObjects.size() - 1);
-
+		ImGui::DragInt("INDEX", &i, 1, 0, m_renderObjects.size() - 1);
+		ImGui::SameLine();
+		ImGui::Text("%d", m_renderObjects.size());
 		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
 		ImGui::ColorPicker4("Color", (float*)&render->m_color);
@@ -186,7 +197,7 @@ namespace GB
 		ImGui::Text("Rotation: %2f,%2f,%2f", Math::ToDegrees(rotator.x), Math::ToDegrees(rotator.y), Math::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
 
-		ImGui::Image((ImTextureID)m_textures[i]->GetID(), ImVec2(200, 200));
+		ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
 
 		ImGui::End();
 

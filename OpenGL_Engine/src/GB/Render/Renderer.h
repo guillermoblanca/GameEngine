@@ -34,6 +34,7 @@ namespace GB
 		void PopOverlay(IRender* obj);
 
 		inline IRender* GetRenderobj(unsigned int index) { return m_renderObjects[index]; }
+		inline unsigned int GetRenderObjectCount() { return m_renderObjects.size(); }
 		void SetRenderMode(RenderMode mode);
 
 		glm::vec4 renderColor;
