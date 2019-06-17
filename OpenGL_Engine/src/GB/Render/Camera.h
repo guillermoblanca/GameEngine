@@ -8,7 +8,7 @@ namespace GB
 	class GBAPI Camera
 	{
 	public:
-		enum Mode { Perspective = 0,Orthograpic};
+		enum EMode { Perspective = 0,Orthograpic};
 		
 		static void Translate(vector3 pos);
 		static void Rotate(float degrees, vector3 direction);
@@ -26,7 +26,7 @@ namespace GB
 
 		static void CameraInput(float speed);
 
-		void SetCameraMode(Camera camera, Mode mode)
+		void SetCameraMode(Camera camera, EMode mode)
 		{
 			vector3 distance = camera.target - camera.position;
 			cameratargetdistance = glm::length(distance);
@@ -35,14 +35,18 @@ namespace GB
 
 	private:
 
-		static Mode m_mode;
-		static vector3 m_pos;
+		static EMode m_mode;
+    static vector3 m_pos;
 		static vector3 m_front;
 		static vector3 m_up;
 
 		static matrix4 m_proj;
 		static matrix4 m_view;
+
 		static float m_fov;
+    static float m_nearFOV;
+    static float m_farFOV;
+
 		static vector2 m_orthoOp;
 
 		// NEW FEATURE
@@ -54,7 +58,7 @@ namespace GB
 		vector3 target; //Camera target it looks at;
 		vector3 up; //Camera up vector rotation over its axis
 		float fov; //Camera field-of-view in y (degrees) in pespective mode
-		Mode cameraMode;
+		EMode cameraMode;
 		float cameratargetdistance = 0.0f;
 	};
 }

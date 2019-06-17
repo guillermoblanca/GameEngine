@@ -54,11 +54,12 @@ void FreeCamera::OnAttach()
 float velocity = 5.0f;
 void FreeCamera::OnUpdate()
 {
+  
 	unsigned int id = 1;
 
 
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
-
+  if (obj == nullptr)return;
 	static unsigned int count = Renderer::Get().GetRenderObjectCount();
 
 	for (int i = 1; i < count; i++)
@@ -130,13 +131,16 @@ void FreeCamera::OnUpdate()
 		GB::Camera::Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
 		GB::Camera::Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
 	}
+  
 }
 
 void FreeCamera::OnImguiRender()
 {
+  
 	static int rendermode = 4;
 
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
+  if (obj == nullptr)return;
 	GB::Camera::ImguiEditor();
 	ImGui::Begin("Profiling");
 	ImGui::Text("Time: %2f", timer);
@@ -162,9 +166,9 @@ void FreeCamera::OnImguiRender()
 	ImGui::DragFloat("Velocity", &velocity);
 	ImGui::DragFloat3("Destiny", (float*)&destiny);
 	if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position, distance);
-	ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::RenderMode::Triangles);
+	ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::ERenderMode::Triangles);
 
-	Renderer::Get().SetRenderMode(GB::Renderer::RenderMode(rendermode));
+	Renderer::Get().SetRenderMode(GB::Renderer::ERenderMode(rendermode));
 
 	ImGui::End();
 
@@ -189,11 +193,13 @@ void FreeCamera::OnImguiRender()
 				*/
 
 				//todo: make work
+  
 			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
+  
 }
 
 void FreeCamera::OnEvent(GB::Event & event)

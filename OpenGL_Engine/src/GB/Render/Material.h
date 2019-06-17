@@ -14,8 +14,9 @@ namespace GB
 		std::string FragmentSource;
 	};
 
+  /*Crear el shader desde un archivo de texto*/
 	ShaderProgramSource ParseShader(const std::string& filePath);
-
+  //todo: implementar la creacion de shader desde un string que sea el archivo directamente
 	class Material
 	{
 
@@ -37,7 +38,7 @@ namespace GB
 		void SetMat4(const std::string loc, glm::mat4 mat);
 
 	protected:
-		unsigned int shader;
+		uint32_t shader;
 	};
 
 }

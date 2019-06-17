@@ -39,13 +39,11 @@ namespace GB
 			glGetShaderInfoLog(fShaderID, maxLenght, &maxLenght, infoLog);
 			GB_CORE_ERROR("Fragment shader error: {0}", infoLog);
 		}
-		//binding 
 		unsigned int programID = glCreateProgram();
 		glAttachShader(programID, vShaderID);
 		glAttachShader(programID, fShaderID);
 		glLinkProgram(programID);
 		glValidateProgram(programID);
-		//todo: implementar revision
 
 		glDetachShader(programID, vShaderID);
 		glDetachShader(programID, fShaderID);
@@ -97,44 +95,43 @@ namespace GB
 	void Material::SetVector3(const std::string loc, float x, float y, float z)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-	//	GB_ASSERT(r, "Shader uniform!");
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");
 		glUniform3f(location, x, y, z);
 		
 	}
 	void Material::SetVector2(const std::string loc, float x, float y)
 	{
-		//todo: fix
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-//		GB_ASSERT(r, "Shader uniform!");		glUniform2f(location, x, y);
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");		glUniform2f(location, x, y);
 	}
 	void Material::SetFloat(const std::string loc, float x)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-//		GB_ASSERT(r, "Shader uniform!");
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");
 		glUniform1f(location, x);
 	}
 	void Material::SetInt(const std::string loc, int x)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-	//	GB_ASSERT(r, "Shader uniform!");
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");
 		glUniform1i(location, x);
 	}
 	void Material::SetVector4(const std::string loc, float x, float y, float z, float w)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-//		GB_ASSERT(r, "Shader uniform!");
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");
 		glUniform4f(location, x, y, z, w);
 	}
 	void Material::SetMat4(const std::string loc, glm::mat4 mat)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
-		bool r = location == -1;
-//		GB_ASSERT(r, "Shader uniform!");
+		bool r = location != -1;
+		GB_ASSERT(r, "Shader uniform!");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 	}
 	Material::Material()

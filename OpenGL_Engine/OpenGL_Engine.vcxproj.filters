@@ -31,6 +31,9 @@
     <Filter Include="src\GB\ComponentSystem">
       <UniqueIdentifier>{EC58F8CE-D852-2121-C1BF-B731AD58878D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GB\ComponentSystem\Collision">
+      <UniqueIdentifier>{07A5F6DC-F3F5-E11E-1C5A-D0E0080A7588}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GB\Events">
       <UniqueIdentifier>{A9D1C834-1592-446B-DECC-8DE84A4C8947}</UniqueIdentifier>
     </Filter>
@@ -1155,6 +1158,15 @@
     <ClInclude Include="src\GB\Application.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\ComponentSystem\GameObject.h">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\ComponentSystem\Transform.h">
       <Filter>src\GB\ComponentSystem</Filter>
     </ClInclude>
@@ -1200,13 +1212,13 @@
     <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\Buffer.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\Camera.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\GraphicContext.h">
-      <Filter>src\GB\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Render\IndexBuffer.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\Material.h">
@@ -1221,15 +1233,6 @@
     <ClInclude Include="src\GB\Render\Texture.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\VertexArray.h">
-      <Filter>src\GB\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Render\VertexBuffer.h">
-      <Filter>src\GB\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Render\VertexBufferLayout.h">
-      <Filter>src\GB\Render</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\Time.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1238,6 +1241,9 @@
     </ClInclude>
     <ClInclude Include="src\Platform\Editor\Console.h">
       <Filter>src\Platform\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1257,13 +1263,19 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h" />
-    <ClInclude Include="src\GB\ComponentSystem\GameObject.h" />
-    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
       <Filter>src\GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp">
+      <Filter>src\GB\ComponentSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\ComponentSystem\Transform.cpp">
       <Filter>src\GB\ComponentSystem</Filter>
@@ -1280,10 +1292,10 @@
     <ClCompile Include="src\GB\Log.cpp">
       <Filter>src\GB</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\Render\Camera.cpp">
+    <ClCompile Include="src\GB\Render\Buffer.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\Render\IndexBuffer.cpp">
+    <ClCompile Include="src\GB\Render\Camera.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Render\Material.cpp">
@@ -1298,14 +1310,8 @@
     <ClCompile Include="src\GB\Render\Texture.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\Render\VertexArray.cpp">
-      <Filter>src\GB\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\Render\VertexBuffer.cpp">
-      <Filter>src\GB\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\Render\VertexBufferLayout.cpp">
-      <Filter>src\GB\Render</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1325,8 +1331,5 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp" />
   </ItemGroup>
 </Project>

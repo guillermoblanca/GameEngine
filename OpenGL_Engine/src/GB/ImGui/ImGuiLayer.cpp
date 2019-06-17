@@ -5,6 +5,7 @@
 
 #define IMGUI_IMPL_API
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD //this should be done in imguibuild
+
 #include "examples\imgui_impl_opengl3.cpp"
 #include "examples\imgui_impl_glfw.cpp"
 //TEMP

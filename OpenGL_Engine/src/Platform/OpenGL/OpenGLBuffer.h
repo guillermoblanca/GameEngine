@@ -1,9 +1,8 @@
 #pragma once
-#include "gbpch.h"
 #include "GB/Render/Buffer.h"
-
 namespace GB
 {
+
   class OpenGLVertexBuffer : public VertexBuffer
   {
   public:
@@ -12,21 +11,25 @@ namespace GB
 
     virtual void Bind() const override;
     virtual void UnBind() const override;
-
-    static OpenGLVertexBuffer* Create(float* vertices, unsigned int* indices);
-
+    virtual BufferLayout GetLayout() const override { return m_Layout; };
+    virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
   private:
-    static uint32_t m_RenderID;
+    uint32_t m_RendererID;
+    BufferLayout m_Layout;
+
   };
 
   class OpenGLIndexBuffer : public IndexBuffer
   {
   public:
+    OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
     virtual ~OpenGLIndexBuffer() {}
 
-    virtual void Bind()const;
-    virtual void UnBind() const;
-
-    static OpenGLIndexBuffer* Create(float* vertices, unsigned int* indices);
+    virtual void Bind()const override;
+    virtual void UnBind() const override;
+    virtual uint32_t GetCount()const override { return m_Count; }
+  private:
+    uint32_t m_RendererID;
+    uint32_t m_Count;
   };
 }
