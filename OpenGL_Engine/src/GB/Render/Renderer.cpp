@@ -100,12 +100,12 @@ namespace GB
 
 
 
-    PushObj(new RenderObject());
+    PushObj(new RenderObject("Plane 0"));
     RenderObject* render = (RenderObject*)m_renderObjects[0];
     render->Create(verticesPlane, sizeof(verticesPlane), indicesPlane, sizeof(indicesPlane) / sizeof(uint32_t));
     render->m_textureID = 0;
 
-    PushObj(new RenderObject("Plane"));
+    PushObj(new RenderObject("Plane 1"));
     render = (RenderObject*)m_renderObjects[1];
     render->Create(verticesPlane, 5 * 4 * sizeof(float), indicesPlane, 6);
     render->m_textureID = 0;
@@ -115,7 +115,7 @@ namespace GB
     render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
     render->m_textureID = 1;
 
-    PushObj(new RenderObject());
+    PushObj(new RenderObject("Cube white"));
     render = m_renderObjects[3];
     render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
     render->m_textureID = 0;

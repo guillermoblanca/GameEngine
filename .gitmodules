@@ -1,9 +1,9 @@
 [submodule "OpenGL_Engine/Dependencies/GLAD"]
 	path = OpenGL_Engine/Dependencies/GLAD
-	url = https://github.com/Dav1dde/glad.git
+url=https://github.com/guillermoblanca/glad.git
 [submodule "OpenGL_Engine/Dependencies/imgui"]
 	path = OpenGL_Engine/Dependencies/imgui
-	url = https://github.com/TheCherno/imgui.git
+url=https://github.com/guillermoblanca/imgui.git
 [submodule "OpenGL_Engine/Dependencies/GLFW"]
 	path = OpenGL_Engine/Dependencies/GLFW
 	url = https://github.com/guillermoblanca/glfw.git
