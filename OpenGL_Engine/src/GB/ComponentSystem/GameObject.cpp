@@ -21,7 +21,7 @@ void GB::GameObject::UpdateComponent()
 
 void GB::GameObject::ImguiComponent()
 {
-	ImGui::Text("Name: %s", m_name.c_str());
+	ImGui::Text("Name: %s", m_name);
 	for (int in = 0; in < m_components.size(); in++)
 	{
 		m_components[in]->ImguiRender();
