@@ -9,13 +9,9 @@ namespace GB
 
   OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) 
   {
-    //GB_CORE_ASSERT(glGetError() == 0, "Create error: {0}", glGetError());
-
     glCreateBuffers(1, &m_RendererID);
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
-    //GB_CORE_ASSERT(glGetError() == 0, "Create error: {0}", glGetError());
-
   }
 
   OpenGLVertexBuffer::~OpenGLVertexBuffer()

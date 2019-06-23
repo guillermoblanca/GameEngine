@@ -16,4 +16,8 @@
 
 #include "GB\ComponentSystem\Collision\CollisionManager.h"
 #include "GB\ComponentSystem\GameObject.h"
+
 #include "GB\EntryPoint.h"
+
+
+#include "GB/ImportTools/IO.h"

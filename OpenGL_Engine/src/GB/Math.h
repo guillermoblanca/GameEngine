@@ -37,10 +37,29 @@ namespace GB
 	class Math
 	{
 	public:
+    uint32_t seed;
+    template <class T>
+    static T inline Clamp(T value, T min, T max)
+    {
+      T r = value > max ? max : value < min ? min : value;
+      return r;
+    }
+    template <class T>
+    static T inline Clamp0(T value)
+    {
+      return Clamp(value, 0, 1);
+    }
 		static const inline float PI()  { return 3.1416f; }
 		static const inline float ToDegrees(float d)  { return d * 180.0f / PI(); }
 		static const inline float ToRadians(float d)  { return d * PI() / 180.0f; }
-
+    //inclusive random number: need to fix error while the range is > MAX RANGE ;
+    static inline  int Random(int min, int max)
+    {
+      auto diff = max - min;
+      int r = std::rand() % diff;
+      r += min; 
+      return r;
+    }
 		static const glm::vec3 ToEuler(glm::quat q) 
 		{
 

@@ -5,13 +5,7 @@
 
 #include "Material.h"
 #include "Buffer.h"
-/*
-#include "VertexBuffer.h"
 #include "VertexArray.h"
-#include "IndexBuffer.h"
-*/
-
-
 #include "GB\ComponentSystem\Transform.h"
 #pragma endregion
 
@@ -24,7 +18,8 @@ namespace GB
     RenderData(float& data, unsigned int indices, std::string path);
     std::shared_ptr<VertexBuffer> m_buffer;
     std::shared_ptr<IndexBuffer> m_indexbuffer;
-    std::shared_ptr<Material*> m_mat;
+    std::shared_ptr<VertexArray> m_vertexarray;
+    std::shared_ptr<Material> m_mat;
   };
 
 
@@ -51,9 +46,7 @@ namespace GB
     glm::vec4 m_color;
     Transform m_transform;
   protected:
-    std::shared_ptr<VertexBuffer> m_vertexBuffer;
-    std::shared_ptr<IndexBuffer> m_indexbuffer;
-
+    std::shared_ptr<VertexArray> m_vertexArray;
 
   };
 

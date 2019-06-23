@@ -4,35 +4,11 @@
 #include "Math.h"
 #include "Camera.h"
 #include "glad/glad.h"
-/*
-#include "VertexBuffer.h"
-#include "VertexArray.h"
-#include "IndexBuffer.h"
-*/
+
 namespace GB
 {
-  static GLenum ShaderDataTypeToOpenGLBaseType(EShaderDataType type)
-  {
-    switch (type)
-    {
-    case GB::EShaderDataType::None:   return 0;
-    case GB::EShaderDataType::Mat3:   return GL_FLOAT_MAT3;
-    case GB::EShaderDataType::Mat4:   return GL_FLOAT_MAT4;
-    case GB::EShaderDataType::Float:  return GL_FLOAT;
-    case GB::EShaderDataType::Float2: return GL_FLOAT;
-    case GB::EShaderDataType::Float3: return GL_FLOAT;
-    case GB::EShaderDataType::Float4: return GL_FLOAT;
-    case GB::EShaderDataType::Int:    return GL_INT;
-    case GB::EShaderDataType::Int2:   return GL_INT;
-    case GB::EShaderDataType::Int3:   return GL_INT;
-    case GB::EShaderDataType::Int4:   return GL_INT;
-    case GB::EShaderDataType::Bool:   return GL_BOOL;
-    }
-    //error
-    return 0;
-  };
 
-  RenderObject::RenderObject(std::string name ) :m_name(name), m_indexbuffer(), m_transform(), m_color(1.0f)
+  RenderObject::RenderObject(std::string name) :m_name(name), m_transform(), m_color(1.0f)
   {
   }
   RenderObject::~RenderObject()
@@ -41,34 +17,27 @@ namespace GB
   }
   void RenderObject::UnBind()
   {
-    m_indexbuffer->UnBind();
+    m_vertexArray->UnBind();
   }
 
   void RenderObject::Create(float* vertices, uint32_t size, uint32_t* indices, uint32_t count)
   {
-    m_vertexBuffer.reset(VertexBuffer::Create(vertices, size));
+    m_vertexArray.reset(VertexArray::Create());
+
+    std::shared_ptr<VertexBuffer> vertexBuffer;
+    vertexBuffer.reset(VertexBuffer::Create(vertices, size));
 
     BufferLayout layout = {
       { EShaderDataType::Float3,"_Position"},
       { EShaderDataType::Float2,"_TexCoord"}
     };
 
-    uint32_t index = 0;
-    for (const auto& element : layout)
-    {
-      glEnableVertexAttribArray(index);
-      glVertexAttribPointer(index,
-        element.GetComponentCount(),
-        ShaderDataTypeToOpenGLBaseType(element.Type),
-        element.Normalized ? GL_TRUE : GL_FALSE,
-        layout.GetStride(),
-        (const void*)element.Offset);
-      index++;
-    }
+    vertexBuffer->SetLayout(layout);
+    m_vertexArray->AddVertexBuffer(vertexBuffer);
 
-    m_vertexBuffer->SetLayout(layout);
-    m_indexbuffer.reset(IndexBuffer::Create(indices, count));
-
+    std::shared_ptr<IndexBuffer> indexBuffer;
+    indexBuffer.reset(IndexBuffer::Create(indices, count));
+    m_vertexArray->SetIndexBuffer(indexBuffer);
   }
   void RenderObject::Render(Material& material, int mode)
   {
@@ -79,9 +48,8 @@ namespace GB
     material.SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
     material.SetInt("u_Texture", 0);
 
-    m_indexbuffer->Bind();
-    m_vertexBuffer->Bind();
-    glDrawElements(mode, m_indexbuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+    m_vertexArray->Bind();
+    glDrawElements(mode, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
   }
   Sprite::Sprite(uint32_t textID)
   {
