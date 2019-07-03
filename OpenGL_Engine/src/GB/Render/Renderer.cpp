@@ -75,7 +75,7 @@ namespace GB
     float verticesPlane[]
     {//vertices           //uv
       -0.5f,-0.5f,0.0f, 0.0f, 0.0f,
-       0.f,-0.5f,0.0f,  1.0f, 0.0f,
+       0.5f,-0.5f,0.0f,  1.0f, 0.0f,
        0.5f, 0.5f,0.0f, 1.0f, 1.0f,
       -0.5f, 0.5f,0.0f, 0.0f, 1.0f
     };
@@ -85,29 +85,13 @@ namespace GB
       0,1,2,
       2,3,0
     };
-    float verticesLine[]
-    {
-      -0.5f,-0.5f,
-      0.0f,0.5f
-    };
-    uint32_t indicesLine[]
-    {
-      0,1
-    };
+
     AlphaRender(true);
     glEnable(GL_DEPTH_TEST);
-
-
-    //glGenVertexArrays(1, &m_VertexArray);
-    //glBindVertexArray(m_VertexArray);
 
     m_textures.push_back(new Texture("Assets/Texture/ball.png", 0));
     m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
     m_textures.push_back(new Texture("Assets/Texture/Game.png", 1));
-
-
-
-    m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
     PushObj(new RenderObject("Plane 0"));
     RenderObject* render = (RenderObject*)m_renderObjects[0];
@@ -129,12 +113,7 @@ namespace GB
     render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
     render->m_textureID = 0;
 
-    //std::vector<float> verticesVector(std::begin(verticesPlane),std::end(verticesPlane));
-    //std::vector<uint32_t> indicesVector(std::begin(indicesPlane),std::end(indicesPlane));
-    //PushObj(new RenderObject("Custom vector"));
-    //render = m_renderObjects[4];
-    //render->Create(&verticesVector[0], verticesVector.size() * sizeof(float), &indicesVector[0], indicesVector.size());
-
+    m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
   }
   void Renderer::OnDetach()
   {
@@ -195,6 +174,8 @@ namespace GB
   }
   void Renderer::OnImguiRender()
   {
+    static int random = 0;
+    static bool useAlpha = true;
     static int i = 0;
     static float rot[] = { 0,0,0 };
     glm::vec3 position;
@@ -205,6 +186,9 @@ namespace GB
     RenderObject* render = nullptr;
 
     ImGui::Begin("Render");
+    if (ImGui::Button("Get random number")) { random = Math::Random(10, 100); }
+    if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; this->AlphaRender(useAlpha); }
+    ImGui::Text("Random number generator: %d", random);
     if (ImGui::CollapsingHeader("Background Color"))
     {
       ImGui::ColorPicker4("Render Color", (float*)&renderColor);
@@ -219,6 +203,7 @@ namespace GB
       uint32_t index = m_renderObjects.size() - 1; 
       PopObj(m_renderObjects[index]);
     }
+    
     ImGui::DragInt("INDEX", &i, 1, 0, (int)m_renderObjects.size() - 1); ImGui::SameLine();
     ImGui::Text("%d", m_renderObjects.size());
     if (ImGui::TreeNode("RenderObject Info"))

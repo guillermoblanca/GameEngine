@@ -1,26 +1,26 @@
 #include "GB.h"
 #include "Application.h"
 #include "imgui\imgui.h"
-
+#include "GB/ImportTools/IO.h"
 using namespace GB;
 
 struct DATA
 {
-  vector2 position;
-  unsigned int ID;
+  float position;
+  uint32_t ID;
   std::string name;
 };
 void LayerExample::OnImguiRender()
 {
 
-  ImGui::Begin("Console");
-  ImGui::Text("Hello world!");
-  bool state = ImGui::Button("Clear console");
-  if (state)
-  {
-    GB_CLIENT_INFO("Button pushed!");
-  }
-  ImGui::End();
+  //ImGui::Begin("Console");
+  //ImGui::Text("Hello world!");
+  //bool state = ImGui::Button("Clear console");
+  //if (state)
+  //{
+  //	GB_CLIENT_INFO("Button pushed!");
+  //}
+  //ImGui::End();
 }
 
 void LayerExample::OnEvent(GB::Event & event)
@@ -45,8 +45,6 @@ vector2 FreeCamera::CameraDirection()
   prevMouse = mouse;
   return diff;
 }
-
-
 
 void FreeCamera::OnAttach()
 {
@@ -181,22 +179,14 @@ void FreeCamera::OnImguiRender()
     {
       if (ImGui::MenuItem("Save"))
       {
-        DATA data = { vector2(1,2),1,"name" };
-        std::ofstream ofile("foo.gb", std::ios::binary | std::ios::out);
-        ofile.write((char*)&data, sizeof(DATA));
-        ofile.close();
+        DATA data = { 20,2,"Eva" };
+        
+        IO::WriteFile(data, "foo.gb");
       }
       if (ImGui::MenuItem("Open"))
       {
-        /*std::ifstream ifile;
-        ifile.open("foo.gb", std::ios::binary | std::ios::in);
-        DATA data ;
-        ifile.read((char*)&data, sizeof(DATA));
-        GB_CORE_INFO("Binary load: {0},{1},{2}", data.position,data.ID,data.name);
-        */
-
-        //todo: make work
-
+        DATA data = IO::ReadFile<DATA>("foo.gb");
+        GB_CORE_TRACE("DATA: {0},{1},{2}", data.ID,data.position,data.name.c_str());
       }
       ImGui::EndMenu();
     }
