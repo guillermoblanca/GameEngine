@@ -45,7 +45,6 @@ namespace GB
     void UnBind();
     virtual void Render(Material& material, int mode = 4)override;
     virtual void Create(float* vertices, uint32_t size, uint32_t* data, uint32_t count);
-
     std::string m_name;
     unsigned int m_textureID;
     glm::vec4 m_color;

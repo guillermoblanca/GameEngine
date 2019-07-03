@@ -32,7 +32,7 @@ namespace GB
     return 0;
   };
 
-  RenderObject::RenderObject(std::string name ) :m_name(name), m_indexbuffer(), m_transform(), m_color(1.0f)
+  RenderObject::RenderObject(std::string name) :m_name(name), m_indexbuffer(), m_transform(), m_color(1.0f)
   {
   }
   RenderObject::~RenderObject()
@@ -43,6 +43,7 @@ namespace GB
   {
     m_indexbuffer->UnBind();
   }
+
 
   void RenderObject::Create(float* vertices, uint32_t size, uint32_t* indices, uint32_t count)
   {
@@ -72,6 +73,9 @@ namespace GB
   }
   void RenderObject::Render(Material& material, int mode)
   {
+    m_vertexBuffer->Bind();
+    m_indexbuffer->Bind();
+
     material.Bind();
     material.SetMat4("u_transform", m_transform.GetMat4());
     material.SetMat4("u_view", Camera::GetView());
@@ -79,10 +83,9 @@ namespace GB
     material.SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
     material.SetInt("u_Texture", 0);
 
-    m_indexbuffer->Bind();
-    m_vertexBuffer->Bind();
     glDrawElements(mode, m_indexbuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
   }
+
   Sprite::Sprite(uint32_t textID)
   {
     this->m_textureID = textID;

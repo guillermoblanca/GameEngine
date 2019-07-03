@@ -6,19 +6,23 @@
 #include "GB\KeyCodes.h"
 namespace GB
 {
-  glm::mat4 Camera::m_proj = glm::mat4(1.0f);
-  glm::mat4 Camera::m_view = glm::mat4(1.0f);
+  Camera::Camera()
+  {
+    m_proj = glm::mat4(1.0f);
+    m_view = glm::mat4(1.0f);
 
-  glm::vec2 Camera::m_orthoOp = glm::vec2(-1.0f, 1.0f);
-  glm::vec3 Camera::m_pos(0.0f, 0.0f, -3.0f);
-  glm::vec3 Camera::m_front(0.0f, 0.0f, 0.0f);
-  glm::vec3 Camera::m_up(0.0f, 1.0f, 0.0f);
+    m_orthoOp = glm::vec2(-1.0f, 1.0f);
+    m_pos =  vector3(0.0f, 0.0f, -3.0f);
+    m_front= vector3(0.0f, 0.0f, 0.0f);
+    m_up   = vector3(0.0f, 1.0f, 0.0f);
 
-  float Camera::m_fov = 45.0f;
-  float Camera::m_nearFOV = 0.1f;
-  float Camera::m_farFOV = 100.0f;
+    m_fov = 45.0f;
+    m_nearFOV = 0.1f;
+    m_farFOV = 100.0f;
 
-  Camera::EMode Camera::m_mode = EMode::Perspective;
+    m_mode = EMode::Perspective;
+  }
+
 
   void Camera::Translate(glm::vec3 pos)
   {

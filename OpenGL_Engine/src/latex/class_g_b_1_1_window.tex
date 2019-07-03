@@ -1,0 +1,50 @@
+\hypertarget{class_g_b_1_1_window}{}\section{GB\+::Window Class Reference}
+\label{class_g_b_1_1_window}\index{GB::Window@{GB::Window}}
+Inheritance diagram for GB\+::Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_b_1_1_window}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_ac71e4ad99a310931870ac93dd70b3859}\label{class_g_b_1_1_window_ac71e4ad99a310931870ac93dd70b3859}} 
+using {\bfseries Event\+Callback\+Fn} = std\+::function$<$ void(\mbox{\hyperlink{class_g_b_1_1_event}{Event}} \&)$>$
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_ab36943fd72679f180be2cfe263be7e26}\label{class_g_b_1_1_window_ab36943fd72679f180be2cfe263be7e26}} 
+virtual void {\bfseries On\+Update} ()=0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_a20fb15b81a6ee34dc0c90e001ba66f6e}\label{class_g_b_1_1_window_a20fb15b81a6ee34dc0c90e001ba66f6e}} 
+virtual unsigned int {\bfseries Get\+Width} () const =0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_aedf055e51c1deff9122eb2146642265d}\label{class_g_b_1_1_window_aedf055e51c1deff9122eb2146642265d}} 
+virtual unsigned int {\bfseries Get\+Height} () const =0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_a7951c70110ad6cb16b99b1377fa8b927}\label{class_g_b_1_1_window_a7951c70110ad6cb16b99b1377fa8b927}} 
+virtual void {\bfseries Set\+Event\+Callback} (const Event\+Callback\+Fn \&callback)=0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_a211fde3fa308a83f2233bd858ef838af}\label{class_g_b_1_1_window_a211fde3fa308a83f2233bd858ef838af}} 
+virtual void {\bfseries Set\+V\+Sync} (bool enable)=0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_ab79735d75ebd469c752e30ad23848b6a}\label{class_g_b_1_1_window_ab79735d75ebd469c752e30ad23848b6a}} 
+virtual bool {\bfseries Is\+V\+Sync} () const =0
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_af80c03c6861fa823c16a277779e05ad8}\label{class_g_b_1_1_window_af80c03c6861fa823c16a277779e05ad8}} 
+virtual void $\ast$ {\bfseries Get\+Native\+Window} () const =0
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_window_a7870159bf29618b54003b94f192b1930}\label{class_g_b_1_1_window_a7870159bf29618b54003b94f192b1930}} 
+static \mbox{\hyperlink{class_g_b_1_1_window}{Window}} $\ast$ {\bfseries Create} (const \mbox{\hyperlink{struct_g_b_1_1_windows_props}{Windows\+Props}} \&props=\mbox{\hyperlink{struct_g_b_1_1_windows_props}{Windows\+Props}}())
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+B/Window.\+h\item 
+Platform/\+Windows/Windows\+Windows.\+cpp\end{DoxyCompactItemize}

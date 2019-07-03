@@ -1,0 +1,53 @@
+\hypertarget{class_g_b_1_1_render_object}{}\section{GB\+::Render\+Object Class Reference}
+\label{class_g_b_1_1_render_object}\index{GB::RenderObject@{GB::RenderObject}}
+Inheritance diagram for GB\+::Render\+Object\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_b_1_1_render_object}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_ae3d374b4c6c9abbb1e801b0ada7d3354}\label{class_g_b_1_1_render_object_ae3d374b4c6c9abbb1e801b0ada7d3354}} 
+{\bfseries Render\+Object} (std\+::string name=\char`\"{}Render\+Object\char`\"{})
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_a2d9d35035644972ee71bbc77165e35a6}\label{class_g_b_1_1_render_object_a2d9d35035644972ee71bbc77165e35a6}} 
+void {\bfseries Un\+Bind} ()
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_ae1ec1e6bcf6b056cbed0816c969a572e}\label{class_g_b_1_1_render_object_ae1ec1e6bcf6b056cbed0816c969a572e}} 
+virtual void {\bfseries Render} (\mbox{\hyperlink{class_g_b_1_1_material}{Material}} \&material, int mode=4) override
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_a54da3838dd3a8fc1b4226366336ece4f}\label{class_g_b_1_1_render_object_a54da3838dd3a8fc1b4226366336ece4f}} 
+virtual void {\bfseries Create} (float $\ast$vertices, uint32\+\_\+t size, uint32\+\_\+t $\ast$data, uint32\+\_\+t count)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_ac894adb314de6dc56c39b35095b1262a}\label{class_g_b_1_1_render_object_ac894adb314de6dc56c39b35095b1262a}} 
+std\+::string {\bfseries m\+\_\+name}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_a14621b5006dbe5600a436cad4bb11fa7}\label{class_g_b_1_1_render_object_a14621b5006dbe5600a436cad4bb11fa7}} 
+unsigned int {\bfseries m\+\_\+texture\+ID}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_acad7f28fe263bc1bacced0ea1b576eff}\label{class_g_b_1_1_render_object_acad7f28fe263bc1bacced0ea1b576eff}} 
+glm\+::vec4 {\bfseries m\+\_\+color}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_ae062ed0976c2884027940dbf85ef770e}\label{class_g_b_1_1_render_object_ae062ed0976c2884027940dbf85ef770e}} 
+\mbox{\hyperlink{struct_g_b_1_1_transform}{Transform}} {\bfseries m\+\_\+transform}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_ae1ca65c3455019874357d599d7d8c620}\label{class_g_b_1_1_render_object_ae1ca65c3455019874357d599d7d8c620}} 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_g_b_1_1_vertex_buffer}{Vertex\+Buffer}} $>$ {\bfseries m\+\_\+vertex\+Buffer}
+\item 
+\mbox{\Hypertarget{class_g_b_1_1_render_object_a4a1af1aa0b13929519d5eba9778e5a94}\label{class_g_b_1_1_render_object_a4a1af1aa0b13929519d5eba9778e5a94}} 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_g_b_1_1_index_buffer}{Index\+Buffer}} $>$ {\bfseries m\+\_\+indexbuffer}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+B/\+Render/Render\+Object.\+h\item 
+G\+B/\+Render/Render\+Object.\+cpp\end{DoxyCompactItemize}

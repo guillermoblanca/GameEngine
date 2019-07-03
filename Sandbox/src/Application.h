@@ -13,6 +13,7 @@ private:
 public:
 
 	vector2 CameraDirection();
+
 	void OnAttach() override;
 	void OnUpdate() override;
 

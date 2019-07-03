@@ -85,7 +85,15 @@ namespace GB
       0,1,2,
       2,3,0
     };
-
+    float verticesLine[]
+    {
+      -0.5f,-0.5f,
+      0.0f,0.5f
+    };
+    uint32_t indicesLine[]
+    {
+      0,1
+    };
     AlphaRender(true);
     glEnable(GL_DEPTH_TEST);
 
@@ -99,6 +107,7 @@ namespace GB
 
 
 
+    m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
     PushObj(new RenderObject("Plane 0"));
     RenderObject* render = (RenderObject*)m_renderObjects[0];
@@ -120,7 +129,12 @@ namespace GB
     render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
     render->m_textureID = 0;
 
-    m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
+    //std::vector<float> verticesVector(std::begin(verticesPlane),std::end(verticesPlane));
+    //std::vector<uint32_t> indicesVector(std::begin(indicesPlane),std::end(indicesPlane));
+    //PushObj(new RenderObject("Custom vector"));
+    //render = m_renderObjects[4];
+    //render->Create(&verticesVector[0], verticesVector.size() * sizeof(float), &indicesVector[0], indicesVector.size());
+
   }
   void Renderer::OnDetach()
   {
