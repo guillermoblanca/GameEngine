@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Gb/Render/VertexArray.h"
 #include "GB/Render/Buffer.h"
 namespace GB
 {

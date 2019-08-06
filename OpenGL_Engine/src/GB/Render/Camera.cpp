@@ -6,7 +6,18 @@
 #include "GB\KeyCodes.h"
 namespace GB
 {
-  Camera::Camera()
+  Camera::EMode Camera::m_mode = Camera::EMode::Perspective;
+  glm::mat4 Camera::m_proj = glm::mat4(1.0f);
+  glm::mat4 Camera::m_view = glm::mat4(1.0f);
+  glm::vec2 Camera::m_orthoOp = glm::vec2(-1.0f, 1.0f);
+  glm::vec3 Camera::m_pos(0.0f, 0.0f, -3.0f);
+  glm::vec3 Camera::m_front(0.0f, 0.0f, 0.0f);
+  glm::vec3 Camera::m_up(0.0f, 1.0f, 0.0f);
+  float Camera::m_fov = 45.0f;
+  float Camera::m_nearFOV =0.1f;
+  float Camera::m_farFOV = 100.0f;
+
+  Camera::Camera()  
   {
     m_proj = glm::mat4(1.0f);
     m_view = glm::mat4(1.0f);
