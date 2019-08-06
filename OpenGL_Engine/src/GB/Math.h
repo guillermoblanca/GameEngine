@@ -34,7 +34,7 @@ typedef glm::quat quaternion;
 namespace GB
 {
 
-	class Math
+	class Mathf
 	{
 	public:
     uint32_t seed;

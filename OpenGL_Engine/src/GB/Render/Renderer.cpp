@@ -97,7 +97,6 @@ namespace GB
     RenderObject* render = (RenderObject*)m_renderObjects[0];
     render->Create(verticesPlane, sizeof(verticesPlane), indicesPlane, sizeof(indicesPlane) / sizeof(uint32_t));
     render->m_textureID = 0;
-
     PushObj(new RenderObject("Plane 1"));
     render = (RenderObject*)m_renderObjects[1];
     render->Create(verticesPlane, 5 * 4 * sizeof(float), indicesPlane, 6);
@@ -114,6 +113,22 @@ namespace GB
     render->m_textureID = 0;
 
     m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
+
+
+    {
+    /*
+    For setting random position
+    */
+      int distance = 4;
+      for (int i = 0; i < m_renderObjects.size(); i++)
+      {
+        vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
+
+        auto render = m_renderObjects[i];
+        render->m_transform.position = randomPos;
+      }
+    }
+
   }
   void Renderer::OnDetach()
   {
@@ -186,7 +201,7 @@ namespace GB
     RenderObject* render = nullptr;
 
     ImGui::Begin("Render");
-    if (ImGui::Button("Get random number")) { random = Math::Random(10, 100); }
+    if (ImGui::Button("Get random number")) { random = Mathf::Random(10, 100); }
     if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; this->AlphaRender(useAlpha); }
     ImGui::Text("Random number generator: %d", random);
     if (ImGui::CollapsingHeader("Background Color"))
@@ -195,15 +210,15 @@ namespace GB
     }
     if (ImGui::Button("Add RenderObject"))
     {
-     //todo: fix issue render deformation
+      //todo: fix issue render deformation
       PushObj(new Sprite(2));
     }
     if (ImGui::Button("Remove Last RenderObject"))
     {
-      uint32_t index = m_renderObjects.size() - 1; 
+      uint32_t index = m_renderObjects.size() - 1;
       PopObj(m_renderObjects[index]);
     }
-    
+
     ImGui::DragInt("INDEX", &i, 1, 0, (int)m_renderObjects.size() - 1); ImGui::SameLine();
     ImGui::Text("%d", m_renderObjects.size());
     if (ImGui::TreeNode("RenderObject Info"))
@@ -219,7 +234,7 @@ namespace GB
           ImGui::DragFloat3("Rotation", rot, 0.1f);
           ImGui::Separator();
           ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
-          ImGui::Text("Rotation: %2f,%2f,%2f", Math::ToDegrees(rotator.x), Math::ToDegrees(rotator.y), Math::ToDegrees(rotator.z));
+          ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
           ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
           ImGui::Separator();
 

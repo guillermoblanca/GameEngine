@@ -106,7 +106,7 @@ namespace GB
     glm::quat q = glm::quat_cast(m_view);
 
 
-    return Math::ToEuler(q);;
+    return Mathf::ToEuler(q);;
   }
   void Camera::CameraInput(float speed)
   {
