@@ -10,20 +10,20 @@ namespace GB
 	public:
 		enum EMode { Perspective = 0,Orthograpic};
 		
-		void Translate(vector3 pos);
-    inline vector3 Position() { return m_view[3]; }
-		void Rotate(float degrees, vector3 direction);
-		void SetFieldOfView(float degree);
-		void LookAt(vector3 position,float distance);
+		static void Translate(vector3 pos);
+    static inline vector3 Position() { return m_view[3]; }
+		static void Rotate(float degrees, vector3 direction);
+		static void SetFieldOfView(float degree);
+		static void LookAt(vector3 position,float distance);
 
-		void ImguiEditor();
-    
-		vector3 GetEuler();
-		inline float GetFOV() { return m_fov; }
-		inline matrix4 GetProj() { return m_proj; }
-		inline matrix4 GetView() { return m_view; }
+		static void ImguiEditor();
 
-		inline vector3 GetRot() { return vector3(0.0f); }
+		static vector3 GetEuler();
+		static inline float GetFOV() { return m_fov; }
+		static inline matrix4 GetProj() { return m_proj; }
+		static inline matrix4 GetView() { return m_view; }
+
+		static inline vector3 GetRot() { return vector3(0.0f); }
 
 		static void CameraInput(float speed);
 
@@ -36,19 +36,19 @@ namespace GB
 
 	private:
 
-		EMode m_mode;
-    vector3 m_pos;
-		vector3 m_front;
-		vector3 m_up;
+		static EMode m_mode;
+    static vector3 m_pos;
+		static vector3 m_front;
+		static vector3 m_up;
 
-		matrix4 m_proj;
-		matrix4 m_view;
+		static matrix4 m_proj;
+		static matrix4 m_view;
 
-		float m_fov;
-    float m_nearFOV;
-    float m_farFOV;
+		static float m_fov;
+    static float m_nearFOV;
+    static float m_farFOV;
 
-		vector2 m_orthoOp;
+		static vector2 m_orthoOp;
 
 		// NEW FEATURE
 

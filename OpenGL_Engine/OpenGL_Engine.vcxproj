@@ -518,6 +518,7 @@
     <ClInclude Include="src\GB\Render\Camera.h" />
     <ClInclude Include="src\GB\Render\GraphicContext.h" />
     <ClInclude Include="src\GB\Render\Material.h" />
+    <ClInclude Include="src\GB\Render\RendererAPI.h" />
     <ClInclude Include="src\GB\Render\RenderObject.h" />
     <ClInclude Include="src\GB\Render\Renderer.h" />
     <ClInclude Include="src\GB\Render\Texture.h" />
@@ -545,6 +546,7 @@
     <ClCompile Include="src\GB\Render\Buffer.cpp" />
     <ClCompile Include="src\GB\Render\Camera.cpp" />
     <ClCompile Include="src\GB\Render\Material.cpp" />
+    <ClCompile Include="src\GB\Render\RendererAPI.cpp" />
     <ClCompile Include="src\GB\Render\RenderObject.cpp" />
     <ClCompile Include="src\GB\Render\Renderer.cpp" />
     <ClCompile Include="src\GB\Render\Texture.cpp" />

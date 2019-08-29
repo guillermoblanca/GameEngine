@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "GB/Render/Buffer.h"
+#include "VertexArray.h"
 namespace GB
 {
   class RendererAPI

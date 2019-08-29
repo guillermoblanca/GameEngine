@@ -1263,6 +1263,7 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\RendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1331,5 +1332,6 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Render\RendererAPI.cpp" />
   </ItemGroup>
 </Project>
