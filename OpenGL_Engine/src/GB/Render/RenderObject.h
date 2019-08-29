@@ -13,16 +13,6 @@
 namespace GB
 {
  
-  struct RenderData
-  {
-    RenderData(float& data, unsigned int indices, std::string path);
-    std::shared_ptr<VertexBuffer> m_buffer;
-    std::shared_ptr<IndexBuffer> m_indexbuffer;
-    std::shared_ptr<VertexArray> m_vertexarray;
-    std::shared_ptr<Material> m_mat;
-  };
-
-
   class GBAPI IRender
   {
   public:
@@ -30,7 +20,7 @@ namespace GB
   };
 
 
-  class GBAPI RenderObject : IRender
+  class GBAPI RenderObject :public IRender
   {
   public:
 
@@ -40,21 +30,47 @@ namespace GB
     void UnBind();
     virtual void Render(Material& material, int mode = 4)override;
     virtual void Create(float* vertices, uint32_t size, uint32_t* data, uint32_t count);
+    
+    ////
+    // Debug
+    ////
+
+
     std::string m_name;
-    unsigned int m_textureID;
+    
+    ////
+    //Render properties
+    ////
+
+    int m_textureID;
     glm::vec4 m_color;
+ 
+    ////
+    // Position/Rotation/Scale
+    ////
     Transform m_transform;
+
   protected:
     std::shared_ptr<VertexArray> m_vertexArray;
-
   };
+
+#pragma region Primitives
 
   class GBAPI Sprite : public RenderObject
   {
 
   public:
-    Sprite(uint32_t textID);
+    Sprite(uint32_t textID, const std::string name = "Sprite");
     ~Sprite();
   };
+
+
+  class Cube : public RenderObject
+  {
+  public:
+    Cube(uint32_t textID, const std::string name = "Cube");
+    ~Cube();
+  };
+#pragma endregion
 
 }

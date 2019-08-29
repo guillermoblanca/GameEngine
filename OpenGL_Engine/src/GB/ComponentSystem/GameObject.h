@@ -1,6 +1,9 @@
 #pragma once
 #include "GB\Core.h"
 #include "gbpch.h"
+
+#include "GB/Render/Texture2D.h"
+#include "GB/Math.h"
 namespace GB
 {
 	class Component
@@ -9,8 +12,22 @@ namespace GB
 
 		virtual void Update()=0;
 		virtual void ImguiRender()=0;
-		virtual int ID() = 0;
+		int ID;
 	};
+
+  class SpriteRenderer : public Component
+  {
+  public:
+
+    std::unique_ptr<Texture2D> sprite;
+    bool flipX;
+    bool flipY;
+    color color;
+    int layer;
+
+
+    void ImguiRender();
+  };
 	class GameObject
 	{
 	private:

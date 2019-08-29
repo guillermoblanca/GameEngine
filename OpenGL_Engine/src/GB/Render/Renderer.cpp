@@ -1,22 +1,33 @@
 #include "gbpch.h"
 #include "Renderer.h"
-
-
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "imgui.h"
 #include "Buffer.h"
 
 #include "GB/Application.h"
-#include "imgui.h"
 #include "GB/Math.h"
 #include "GB/Input.h"
 #include "Camera.h"
+#include "GB/Render/RenderCommand.h"
+
 
 namespace GB
 {
   Renderer* Renderer::m_singleton = nullptr;
-  ERendererAPI Renderer::m_rendererAPI = ERendererAPI::OpenGL;
 
+
+  void Renderer::BeginScene()
+  {
+  }
+
+  void Renderer::EndScene()
+  {
+  }
+
+  void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray)
+  {
+    vertexArray->Bind();
+    RenderCommand::DrawIndex(vertexArray);
+  }
 
   Renderer::Renderer() : m_renderIndex(0), renderColor(0, 0.5f, 0.5f, 1.0f)
   {
@@ -40,80 +51,43 @@ namespace GB
   {
     GB_CORE_INFO("Initialized Render class");
 
-    float verticesCube[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,//0
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,//1
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//2
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,//3
 
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//4
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,//5
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,//6
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,//7
+    RenderCommand::AlphaMode(true);
+    RenderCommand::DephtTest(true);
+    std::vector<std::string> paths;
+    paths.push_back("Assets/Texture/ball.png");
+    paths.push_back("Assets/Texture/Brick.png");
+    paths.push_back("Assets/Texture/Game.png");
+    paths.push_back("Assets/Texture/lion-logo.png");
 
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//8
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//9
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//10
-
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//11
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//12
-     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//13
-
-     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,//14
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,//15
-    };
-
-    uint32_t indiceCube[]
+    for (int i = 0; i < paths.size(); i++)
     {
-    0,1,2,2,3,0,
-    4,5,6,6,7,4,
-    8,9,10,10,4,8,
-    11,2,12,12,13,11,
-    10,14,5,5,4,10,
-    3,2,11,11,15,3
-    };
-    float verticesPlane[]
-    {//vertices           //uv
-      -0.5f,-0.5f,0.0f, 0.0f, 0.0f,
-       0.5f,-0.5f,0.0f,  1.0f, 0.0f,
-       0.5f, 0.5f,0.0f, 1.0f, 1.0f,
-      -0.5f, 0.5f,0.0f, 0.0f, 1.0f
-    };
+      m_textures.push_back(Texture2D::Create(paths[i]));
+      m_textures[i]->Create(paths[i]);
+    }
 
-    uint32_t indicesPlane[]
-    {
-      0,1,2,
-      2,3,0
-    };
-
-    AlphaRender(true);
-    glEnable(GL_DEPTH_TEST);
-
-    m_textures.push_back(new Texture("Assets/Texture/ball.png", 0));
-    m_textures.push_back(new Texture("Assets/Texture/Brick.png", 1));
-    m_textures.push_back(new Texture("Assets/Texture/Game.png", 1));
-
-    PushObj(new RenderObject("Plane 0"));
-    RenderObject* render = (RenderObject*)m_renderObjects[0];
-    render->Create(verticesPlane, sizeof(verticesPlane), indicesPlane, sizeof(indicesPlane) / sizeof(uint32_t));
-    render->m_textureID = 0;
-
-    PushObj(new RenderObject("Plane 1"));
-    render = (RenderObject*)m_renderObjects[1];
-    render->Create(verticesPlane, 5 * 4 * sizeof(float), indicesPlane, 6);
-    render->m_textureID = 0;
-
-    PushObj(new RenderObject("Cube"));
-    render = (RenderObject*)m_renderObjects[2];
-    render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
-    render->m_textureID = 1;
-
-    PushObj(new RenderObject("Cube white"));
-    render = m_renderObjects[3];
-    render->Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
-    render->m_textureID = 0;
+    PushObj(new Sprite(3,"Plane 0"));
+    PushObj(new Sprite(0,"Plane 1"));
+    PushObj(new Cube(1,"Cube"));
+    PushObj(new Cube(0,"Cube white"));
 
     m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
+
+
+    {
+      /*
+      For setting random position
+      */
+      int distance = 4;
+      for (int i = 0; i < m_renderObjects.size(); i++)
+      {
+        vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
+
+        auto render = m_renderObjects[i];
+        render->m_transform.position = randomPos;
+      }
+    }
+
   }
   void Renderer::OnDetach()
   {
@@ -123,26 +97,14 @@ namespace GB
 
   void Renderer::OnRender()
   {
-    Begin();
+
+    //Loop for renderOjects and setting different options
     for (int i = 0; i < m_renderObjects.size(); i++)
     {
       RenderObject* obj = m_renderObjects[i];
-      m_textures[obj->m_textureID]->Bind();
+      m_textures[obj->m_textureID]->Bind(0);
       obj->Render(*m_materials[0], (int)mode);
     }
-  }
-
-
-  void Renderer::Begin()
-  {
-    glClearColor(renderColor.r, renderColor.g, renderColor.b, renderColor.a);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  }
-
-  void Renderer::End()
-  {
-    static auto window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
-    glfwSwapBuffers(window);
   }
   void Renderer::PushObj(RenderObject * obj)
   {
@@ -186,24 +148,35 @@ namespace GB
     RenderObject* render = nullptr;
 
     ImGui::Begin("Render");
-    if (ImGui::Button("Get random number")) { random = Math::Random(10, 100); }
-    if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; this->AlphaRender(useAlpha); }
+    if (ImGui::Button("Get random number")) { random = Mathf::Random(10, 100); }
+    if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
     ImGui::Text("Random number generator: %d", random);
     if (ImGui::CollapsingHeader("Background Color"))
     {
       ImGui::ColorPicker4("Render Color", (float*)&renderColor);
     }
-    if (ImGui::Button("Add RenderObject"))
+    if (ImGui::CollapsingHeader("All textures"))
     {
-     //todo: fix issue render deformation
-      PushObj(new Sprite(2));
+      for (int i = 0; i < m_textures.size(); i++)
+        ImGui::Image((ImTextureID)m_textures[i]->GetID(), ImVec2(200, 200));
+
     }
-    if (ImGui::Button("Remove Last RenderObject"))
+
+    if (ImGui::Button("Add Plane"))
     {
-      uint32_t index = m_renderObjects.size() - 1; 
+      PushObj(new Sprite(Mathf::Random(0, m_textures.size() - 1)));
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Add Cube"))
+    {
+      PushObj(new Cube(Mathf::Random(0, m_textures.size() - 1)));
+    }
+    if (ImGui::Button("Remove Last RenderObject") && m_renderObjects.size() > 0)
+    {
+      int index = m_renderObjects.size() - 1;
       PopObj(m_renderObjects[index]);
     }
-    
+
     ImGui::DragInt("INDEX", &i, 1, 0, (int)m_renderObjects.size() - 1); ImGui::SameLine();
     ImGui::Text("%d", m_renderObjects.size());
     if (ImGui::TreeNode("RenderObject Info"))
@@ -214,17 +187,21 @@ namespace GB
           render = m_renderObjects[i];
           glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
           glm::vec3 rotator = render->m_transform.rotation;
-
+          ImGui::InputText("Name:", render->m_name.data(), 64);
           ImGui::DragFloat3("Position", (float*)&position, 0.1f);
           ImGui::DragFloat3("Rotation", rot, 0.1f);
           ImGui::Separator();
           ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
-          ImGui::Text("Rotation: %2f,%2f,%2f", Math::ToDegrees(rotator.x), Math::ToDegrees(rotator.y), Math::ToDegrees(rotator.z));
+          ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
           ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
           ImGui::Separator();
 
           if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
           {
+            ImGui::DragInt("Texture", &m_renderObjects[i]->m_textureID, 1, 0, m_textures.size() - 1);
+            if (ImGui::Button("Texture Up")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID + 1, 0, m_textures.size() - 1);
+            ImGui::SameLine();
+            if (ImGui::Button("Texture Down")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID - 1, 0, m_textures.size() - 1);
             ImGui::ColorPicker4("Color", (float*)&render->m_color);
             ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
           }
@@ -239,18 +216,5 @@ namespace GB
     ImGui::End();
 
 
-  }
-  void Renderer::AlphaRender(bool active)
-  {
-    if (active)
-    {
-
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
-    else
-    {
-      glDisable(GL_BLEND);
-    }
   }
 }

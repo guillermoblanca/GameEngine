@@ -13,6 +13,9 @@
 #include "GB\Time.h"
 #include "GB\Render\Renderer.h"
 #include "GB\Render\Camera.h"
+#include "GB/Render/Buffer.h"
+#include "GB/Render/RendererAPI.h"
+#include "GB/Render/VertexArray.h"
 
 #include "GB\ComponentSystem\Collision\CollisionManager.h"
 #include "GB\ComponentSystem\GameObject.h"

@@ -1,6 +1,5 @@
 #include "gbpch.h"
 #include "OpenGLVertexArray.h"
-
 #include "glad/glad.h"
 namespace GB
 {
@@ -21,6 +20,7 @@ namespace GB
     case GB::EShaderDataType::Int4:   return GL_INT;
     case GB::EShaderDataType::Bool:   return GL_BOOL;
     }
+
     //error
     return 0;
   };

@@ -40,6 +40,9 @@
     <Filter Include="src\GB\ImGui">
       <UniqueIdentifier>{4F76FB7D-3BD9-8A22-E45E-C3D8D0A056A5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GB\ImportTools">
+      <UniqueIdentifier>{202C69CF-0C10-2A25-7570-2478617314A7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GB\Render">
       <UniqueIdentifier>{3404ED51-A0C4-6888-69FF-B105D57EAD64}</UniqueIdentifier>
     </Filter>
@@ -1191,6 +1194,9 @@
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h">
       <Filter>src\GB\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\ImportTools\IO.h">
+      <Filter>src\GB\ImportTools</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Input.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1224,13 +1230,19 @@
     <ClInclude Include="src\GB\Render\Material.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\RenderCommand.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\RenderObject.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\Renderer.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\Texture.h">
+    <ClInclude Include="src\GB\Render\RendererAPI.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\VertexArray.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Time.h">
@@ -1248,6 +1260,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -1263,7 +1278,11 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\RendererAPI.h" />
+    <ClInclude Include="src\GB\Render\Texture2D.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1308,13 +1327,19 @@
     <ClCompile Include="src\GB\Render\Renderer.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\Render\Texture.cpp">
+    <ClCompile Include="src\GB\Render\RendererAPI.cpp">
+      <Filter>src\GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\VertexArray.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -1332,6 +1357,9 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GB\Render\RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\GB\Render\RenderCommand.cpp" />
+    <ClCompile Include="src\GB\Render\Texture2D.cpp" />
   </ItemGroup>
 </Project>

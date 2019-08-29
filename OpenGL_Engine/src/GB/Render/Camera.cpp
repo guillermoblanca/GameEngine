@@ -6,19 +6,25 @@
 #include "GB\KeyCodes.h"
 namespace GB
 {
-  glm::mat4 Camera::m_proj = glm::mat4(1.0f);
-  glm::mat4 Camera::m_view = glm::mat4(1.0f);
+  Camera* Camera::s_main = new Camera();
 
-  glm::vec2 Camera::m_orthoOp = glm::vec2(-1.0f, 1.0f);
-  glm::vec3 Camera::m_pos(0.0f, 0.0f, -3.0f);
-  glm::vec3 Camera::m_front(0.0f, 0.0f, 0.0f);
-  glm::vec3 Camera::m_up(0.0f, 1.0f, 0.0f);
+  Camera::Camera()  
+  {
+    m_proj = glm::mat4(1.0f);
+    m_view = glm::mat4(1.0f);
 
-  float Camera::m_fov = 45.0f;
-  float Camera::m_nearFOV = 0.1f;
-  float Camera::m_farFOV = 100.0f;
+    m_orthoOp = glm::vec2(-1.0f, 1.0f);
+    m_up   = vector3(0.0f, 1.0f, 0.0f);
 
-  Camera::EMode Camera::m_mode = EMode::Perspective;
+    m_fov = 45.0f;
+    m_nearFOV = 0.1f;
+    m_farFOV = 100.0f;
+
+    m_mode = EMode::Perspective;
+
+    Translate(vector3(0.0f, 0.5f, -10.0f));
+  }
+
 
   void Camera::Translate(glm::vec3 pos)
   {
@@ -50,7 +56,7 @@ namespace GB
     break;
     case GB::Camera::Orthograpic:
     {
-      m_proj = glm::ortho(0.0f, width, 0.0f, height, m_orthoOp.x, m_orthoOp.y);
+      m_proj = glm::ortho(0.0f, width, 0.0f, height, m_nearFOV, m_orthoOp.y);
     }
     break;
 
@@ -62,12 +68,10 @@ namespace GB
     static bool modeselection = false;
     static glm::vec3 targetDir(0.0f);
     float rot[] = { 0,0,0 };
-    static float todegree = 180 / 3.1416f;
     ImGui::Begin("Camera editor");
-    ImGui::Text("Rotation: %f %f %f", GetEuler().x, GetEuler().y*todegree, GetEuler().z*todegree);
-    ImGui::DragFloat3("Rotation", rot, 0.1f);
-    ImGui::DragFloat3("Camera proj:", (float*)&m_proj[3], 0.1f);
     ImGui::DragFloat3("Camera Position", (float*)&m_view[3], 0.1f);
+    ImGui::Text("Rotation: %f %f %f", GetEuler().x, Mathf::ToDegrees(GetEuler().y), Mathf::ToDegrees(GetEuler().z));
+    ImGui::DragFloat3("Rotation", rot, 0.1f);
     ImGui::Spacing();
     ImGui::DragFloat("FOV", &m_fov, 0.1f);
     ImGui::DragFloat("Near FOV", &m_nearFOV, 0.1f);
@@ -91,26 +95,35 @@ namespace GB
     glm::quat q = glm::quat_cast(m_view);
 
 
-    return Math::ToEuler(q);;
+    return Mathf::ToEuler(q);;
   }
   void Camera::CameraInput(float speed)
   {
+    if (!Input::IsMousePressed(1))return;
+    vector3 m_pos = vector3(0.0f,0.0f,0.0f);
+    const vector3 m_front = vector3(0.0f, 0.0f, 1.0f);
+    const vector3 m_left = vector3(-1.0f, 0.0f, 0.0f);
 
     if (Input::IsKeyPressed(GB_KEY_W))
     {
-      m_pos += speed * m_front;
+      m_pos += speed * m_up;
     }
     if (Input::IsKeyPressed(GB_KEY_S))
     {
-      m_pos -= speed * m_front;
+      m_pos -= speed * m_up;
     }
     if (Input::IsKeyPressed(GB_KEY_A))
     {
-      m_pos -= glm::normalize(glm::cross(m_front, m_up))* speed;
+      m_pos += speed * m_left;
     }
     if (Input::IsKeyPressed(GB_KEY_D))
     {
-      m_pos += glm::normalize(glm::cross(m_front, m_up))* speed;
+      m_pos -= speed * m_left;
     }
+    Translate(m_pos);
+  }
+  void Camera::SetMainCamera(Camera * camera)
+  {
+    s_main = camera;
   }
 }

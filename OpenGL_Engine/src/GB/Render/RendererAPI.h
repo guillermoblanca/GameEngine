@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "VertexArray.h"
+#include "Gb/Render/VertexArray.h"
+#include "GB/Render/Buffer.h"
+#include "Texture2D.h"
 namespace GB
 {
   class RendererAPI
@@ -15,7 +17,19 @@ namespace GB
   public:
     virtual void SetClearColor(const glm::vec4& color)= 0;
     virtual void Clear() = 0;
+    virtual void AlphaMode(bool isActive) = 0;
+    virtual void DephtTest(bool active) = 0;
 
     virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)=0;
+    inline static API GetAPI() { return s_API; }
+
+    inline const bool IsAlphaModeActivate() { return m_AlphaMode; }
+    inline const bool IsDephtTest() { return m_DephtTest; }
+  protected:
+    bool m_AlphaMode;
+    bool m_DephtTest;
+  private:
+    
+    static API s_API;
   };
 }
