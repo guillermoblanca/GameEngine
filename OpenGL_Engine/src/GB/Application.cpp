@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "GB\ImGui\ImGuiLayer.h"
 #include "GB\Input.h"
+#include "GB/Render/RenderCommand.h"
 namespace GB
 {
 	Application* Application::s_instance = nullptr; 
@@ -29,20 +30,24 @@ void GB::Application::Run()
 {
 	while (m_Running)
 	{
+
+
 		m_Window->OnUpdate();
 
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
-
-		m_renderer->OnRender();
-
 	
+    RenderCommand::SetClearColor(m_renderer->renderColor);
+    RenderCommand::Clear();
+    Renderer::BeginScene();
+		m_renderer->OnRender();
+    Renderer::EndScene();
+
 
 		m_imguiLayer->Begin();
 		for (Layer* layer : m_LayerStack)
 			layer->OnImguiRender();
 		m_imguiLayer->End();
-
 
 	}
 }

@@ -1,7 +1,7 @@
 #include "gbpch.h"
 #include "Buffer.h"
 #include "Renderer.h"
-
+#include "RendererAPI.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 namespace GB
 {
@@ -10,8 +10,8 @@ namespace GB
    {
      switch (Renderer::GetAPI())
      {
-     case ERendererAPI::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-     case ERendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+     case RendererAPI::API::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+     case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
      }
      GB_CORE_ASSERT(false, "Unknow RendererAPI");
 
@@ -21,8 +21,8 @@ namespace GB
    {
      switch (Renderer::GetAPI())
      {
-     case ERendererAPI::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported"); 
-     case ERendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, count);
+     case RendererAPI::API::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported");
+     case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, count);
      }
      
      GB_CORE_ASSERT(false, "Unknow RendererAPI");

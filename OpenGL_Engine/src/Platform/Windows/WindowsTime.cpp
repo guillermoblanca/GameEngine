@@ -1,6 +1,7 @@
 #include "gbpch.h"
 #include "WindowsTime.h"
 #include "GLFW\glfw3.h"
+
 namespace GB
 {
 	Time* WindowsTime::s_instance = new WindowsTime();
@@ -8,7 +9,7 @@ namespace GB
 
 	float WindowsTime::Impl_DeltaTime()
 	{
-		float r = glfwGetTime() - m_deltaTime;
+		double r = glfwGetTime() - m_deltaTime;
 		m_deltaTime = glfwGetTime();
 		return r;
 	}

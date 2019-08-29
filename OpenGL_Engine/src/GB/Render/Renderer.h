@@ -2,26 +2,36 @@
 
 #include "gbpch.h"
 
+#include "RendererAPI.h"
 #include "GB/Core.h"
-#include "GB\Layer.h"
+#include "GB/Layer.h"
 #include "Material.h"
 #include "RenderObject.h"
 
+//todo: remove this in the future
+#include "GB/Render/Texture2D.h"
 namespace GB
 {
-  enum class ERendererAPI
-  {
-    None = 0, OpenGL = 1
-  };
-
-  //todo: refactor class to singleton instance 
   class GBAPI Renderer : public Layer
   {
   public:
+    //Get the Current API in use
+    inline static RendererAPI::API GetAPI() { return RendererAPI::API::OpenGL; }
+
+    /*
+    This will update lights and cameras
+    */
+    static void BeginScene();
+    static void EndScene();
+
+    static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
 
 
+    ////////////////////////////////////////////////
+    ////////////////////// OLD STUFF ///////////////
+    ////////////////////////////////////////////////
     enum class ERenderMode {
-      Lines = 0x0001,
+      Lines     = 0x0001,
       LinesLoop = 0x0002,
       Triangles = 0x0004
     };
@@ -33,34 +43,27 @@ namespace GB
     virtual void OnRender();
     virtual void OnImguiRender() override;
 
-    virtual void Begin();
-    virtual void End();//todo: not working
-
     void PushObj(RenderObject* obj);
     void PushOverLay(RenderObject* obj);
     void PopObj(RenderObject* obj);
     void PopOverlay(RenderObject* obj);
 
-    inline RenderObject* GetRenderobj(unsigned int index) { return m_renderObjects[index];  }
-    uint32_t  GetRenderObjectCount() { return (uint32_t)m_renderObjects.size(); }
+    inline RenderObject* GetRenderobj(unsigned int index) { if (index > m_renderObjects.size() - 1)return nullptr; else return m_renderObjects[index]; }
+    int  GetRenderObjectCount() { return m_renderObjects.size(); }
     void SetRenderMode(ERenderMode mode);
 
     glm::vec4 renderColor;
 
-    inline static ERendererAPI GetAPI() { return m_rendererAPI; }
+
   private:
     uint32_t m_VertexArray;
     static Renderer *m_singleton;
-    static ERendererAPI m_rendererAPI;
     std::vector<RenderObject*> m_renderObjects;
     std::vector<Material*> m_materials;
-    std::vector<Texture*> m_textures;
+    std::vector<Texture2D*> m_textures;
 
     ERenderMode mode;
     unsigned int m_renderIndex;
-
-    void AlphaRender(bool active);
-
   };
 
 

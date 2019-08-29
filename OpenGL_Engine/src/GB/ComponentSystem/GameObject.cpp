@@ -33,4 +33,14 @@ void GB::GameObject::ImguiComponent()
 //	return m_components.size();
 //}
 
-
+void GB::SpriteRenderer::ImguiRender()
+{
+  if (ImGui::CollapsingHeader("Sprite Renderer"))
+  {
+    ImGui::Checkbox("FlipX", &this->flipX);
+    ImGui::Checkbox("FlipY", &this->flipY);
+    ImGui::Spacing();
+    ImGui::InputInt("Layer index", &this->layer);
+    ImGui::ColorPicker4("Color", (float*)&this->color);
+  }
+}

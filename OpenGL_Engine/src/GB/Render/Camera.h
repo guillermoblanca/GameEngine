@@ -5,62 +5,78 @@
 #include "GB\Time.h"
 namespace GB
 {
-	class GBAPI Camera
-	{
-	public:
+  class GBAPI Camera
+  {
+  public:
     Camera();
-		enum EMode { Perspective = 0,Orthograpic};
-		
-		static void Translate(vector3 pos);
+    enum EMode { Perspective = 0, Orthograpic };
+
+    void Translate(vector3 pos);
     inline vector3 Position() { return m_view[3]; }
-		static void Rotate(float degrees, vector3 direction);
-		static void SetFieldOfView(float degree);
-		static void LookAt(vector3 position,float distance);
+    void Rotate(float degrees, vector3 direction);
+    void SetFieldOfView(float degree);
+    void LookAt(vector3 position, float distance);
+    void ImguiEditor();
 
-		static void ImguiEditor();
-    
-		static vector3 GetEuler();
-		static inline float GetFOV() { return m_fov; }
-		static inline matrix4 GetProj() { return m_proj; }
-		static inline matrix4 GetView() { return m_view; }
 
-		static inline vector3 GetRot() { return vector3(0.0f); }
+    vector3 GetEuler();
+    inline float GetFOV() { return m_fov; }
+    inline matrix4 GetProj() { return m_proj; }
+    inline matrix4 GetView() { return m_view; }
 
-		static void CameraInput(float speed);
+    inline vector3 GetRot() { return vector3(0.0f); }
 
-		static void SetCameraMode(Camera camera, EMode mode)
-		{
-			vector3 distance = camera.target - camera.position;
-			cameratargetdistance = glm::length(distance);
-		}
-		void UpdateCamera(Camera *camera);
+    void CameraInput(float speed);
 
-	private:
+    inline void SetCameraMode(Camera camera, EMode mode)
+    {
+      vector3 distance = camera.target - camera.position;
+      cameratargetdistance = glm::length(distance);
+    }
 
-		static EMode m_mode;
-    static vector3 m_pos;
-		static vector3 m_front;
-		static vector3 m_up;
-    
-		static matrix4 m_proj;
-		static matrix4 m_view;
-    
-		static float m_fov;
-    static float m_nearFOV;
-    static float m_farFOV;
-    
-		static vector2 m_orthoOp;
+    inline static Camera* GetMain() { return s_main; }
+    void SetMainCamera(Camera* camera);
+  private:
 
-		// NEW FEATURE
+    static Camera* s_main;
 
-		const float mouse_sensitivity =0.003f;
-		const float mouse_scroll_sensitivity = 1.5f;
+    EMode m_mode;
+    vector3 m_front;
+    vector3 m_up;
 
-		static vector3 position; //Camera position
-		static vector3 target; //Camera target it looks at;
-		static vector3 up; //Camera up vector rotation over its axis
-		static float fov; //Camera field-of-view in y (degrees) in pespective mode
-		static EMode cameraMode;
-		static float cameratargetdistance;
-	};
+    matrix4 m_proj;
+    matrix4 m_view;
+
+    float m_fov;
+    float m_nearFOV;
+    float m_farFOV;
+
+    vector2 m_orthoOp;
+
+    // NEW FEATURE
+
+    const float mouse_sensitivity = 0.003f;
+    const float mouse_scroll_sensitivity = 1.5f;
+
+    vector3 position; //Camera position
+    vector3 target; //Camera target it looks at;
+    vector3 up; //Camera up vector rotation over its axis
+    float fov; //Camera field-of-view in y (degrees) in pespective mode
+    EMode cameraMode;
+    float cameratargetdistance;
+  };
+
 }
+
+
+
+/*
+
+Camera orientation
+Camera position
+
+Perspective/Orthographic
+FOV
+Aspect Ratio
+
+*/

@@ -48,19 +48,54 @@ vector2 FreeCamera::CameraDirection()
 
 void FreeCamera::OnAttach()
 {
-  Camera::Translate(glm::vec3(0.0f, 0.0f, -10.0f));
 }
 
 float velocity = 5.0f;
 void FreeCamera::OnUpdate()
 {
+  return;
+
+  timer += Time::DeltaTime();
+  //	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
+  float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
+  float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
+  //obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
+  Camera::GetMain()->CameraInput(velocity);
+  if (GB::Input::IsMousePressed(1))
+  {
+
+    vector2 diff = CameraDirection();
+    GB::Camera::GetMain()->Translate(glm::vec3(diff.x*velocity, -diff.y*velocity, 0.0f));
+  }
+
+  if (GB::Input::IsMousePressed(2))
+  {
+    float diff = CameraDirection().y;
+    GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff *velocity * 2));
+
+  }
+
+  if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
+  {
+    vector2 position = CameraDirection();
+
+
+    GB_CORE_INFO("Pivot point {0}", position);
+    GB::Camera::GetMain()->Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
+    GB::Camera::GetMain()->Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
+  }
+
+  /*
+  Testing a error in the renderobjects queue
+  */
+  return;
+
 
   unsigned int id = 1;
-
-
   RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
   if (obj == nullptr)return;
-  static unsigned int count = Renderer::Get().GetRenderObjectCount();
+  static int count = Renderer::Get().GetRenderObjectCount();
+
 
   for (int i = 1; i < count; i++)
   {
@@ -78,11 +113,8 @@ void FreeCamera::OnUpdate()
 
       //GB_CORE_INFO("Obj {0}, Obj2 {1}", render->m_transform.position, render1->m_transform.position);
     }
-    else
-    {
-      render->m_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-    }
+    
+    
   }
 
   if (Input::IsKeyPressed(GB_KEY_W))
@@ -103,46 +135,15 @@ void FreeCamera::OnUpdate()
     obj->m_transform.position = obj->m_transform.position + (glm::vec3(0.0f, -velocity * Time::DeltaTime(), 0.0f));
   }
 
-  timer += Time::DeltaTime();
-  //	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
-  float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
-  float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
-  //obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
-  Camera::CameraInput(velocity);
-  if (GB::Input::IsMousePressed(1))
-  {
-
-    vector2 diff = CameraDirection();
-    GB::Camera::Translate(glm::vec3(diff.x*velocity, -diff.y*velocity, 0.0f));
-  }
-
-  if (GB::Input::IsMousePressed(2))
-  {
-    float diff = CameraDirection().y;
-    GB::Camera::Translate(glm::vec3(0.0f, 0.0f, diff *velocity * 2));
-
-  }
-
-  if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
-  {
-    vector2 position = CameraDirection();
-
-
-    GB_CORE_INFO("Pivot point {0}", position);
-    GB::Camera::Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
-    GB::Camera::Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
-  }
 
 }
 
 void FreeCamera::OnImguiRender()
 {
-
   static int rendermode = 4;
 
-  RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
-  if (obj == nullptr)return;
-  GB::Camera::ImguiEditor();
+  
+  GB::Camera::GetMain()->ImguiEditor();
   ImGui::Begin("Profiling");
   ImGui::Text("Time: %2f", timer);
   ImGui::Text("Deltatime: %2f", Time::DeltaTime());
@@ -164,9 +165,18 @@ void FreeCamera::OnImguiRender()
 
   ImGui::Text("Mouse %2f,%2f", CameraDirection().x, CameraDirection().y);
   ImGui::DragFloat("Camera distance", &distance);
-  ImGui::DragFloat("Velocity", &velocity);
+  ImGui::DragFloat("Velocity", &velocity,0.01f);
   ImGui::DragFloat3("Destiny", (float*)&destiny);
-  if (ImGui::Button("LookAt")) Camera::LookAt(obj->m_transform.position, distance);
+
+  if (ImGui::Button("LookAt"))
+  {
+    /*
+    Todo: fix issue when there is no object
+    */
+    RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
+    if (obj == nullptr)return;
+    Camera::GetMain()->LookAt(obj->m_transform.position, distance);
+  }
   ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::ERenderMode::Triangles);
 
   Renderer::Get().SetRenderMode(GB::Renderer::ERenderMode(rendermode));

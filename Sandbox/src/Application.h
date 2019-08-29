@@ -1,6 +1,7 @@
 #pragma once
 #include "GB.h"
-#include "imgui/imgui.h";
+#include "imgui/imgui.h"
+
 class FreeCamera : public GB::Layer
 {
 private:
@@ -69,6 +70,8 @@ public:
     }
 	}
 };
+
+
 class Sandbox : public GB::Application
 {
 public:
@@ -76,8 +79,8 @@ public:
 	{
 		GB_CLIENT_INFO("Client info");
 
+//		PushLayer(new LayerExample());
 		PushLayer(new GameSystem());
-		PushLayer(new LayerExample());
 		PushLayer(new FreeCamera());
 	}
 

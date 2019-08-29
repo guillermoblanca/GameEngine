@@ -3,17 +3,5 @@
 
 namespace GB
 {
-
-  void RendererAPI::SetClearColor(const glm::vec4 & color)
-  {
-  }
-
-  void RendererAPI::Clear()
-  {
-  }
-
-  void RendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
-  {
-  }
-
+  RendererAPI::API s_API = RendererAPI::API::OpenGL;
 }

@@ -9,8 +9,8 @@ namespace GB
   {
     switch (Renderer::GetAPI())
     {
-    case ERendererAPI::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-    case ERendererAPI::OpenGL: return new OpenGLVertexArray();
+    case RendererAPI::API::None: GB_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+    case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
     }
     GB_CORE_ASSERT(false, "Unknow RendererAPI");
 
