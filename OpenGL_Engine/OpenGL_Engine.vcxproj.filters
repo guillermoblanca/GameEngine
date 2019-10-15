@@ -1242,6 +1242,9 @@
     <ClInclude Include="src\GB\Render\RendererAPI.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\Texture2D.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\VertexArray.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
@@ -1258,6 +1261,12 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1278,11 +1287,7 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\Texture2D.h">
-      <Filter>src\GB\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\GB\Render\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1321,6 +1326,9 @@
     <ClCompile Include="src\GB\Render\Material.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Render\RenderCommand.cpp">
+      <Filter>src\GB\Render</Filter>
+    </ClCompile>
     <ClCompile Include="src\GB\Render\RenderObject.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
@@ -1330,6 +1338,9 @@
     <ClCompile Include="src\GB\Render\RendererAPI.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Render\Texture2D.cpp">
+      <Filter>src\GB\Render</Filter>
+    </ClCompile>
     <ClCompile Include="src\GB\Render\VertexArray.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
@@ -1337,6 +1348,12 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1357,9 +1374,7 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\GB\Render\RenderCommand.cpp" />
-    <ClCompile Include="src\GB\Render\Texture2D.cpp" />
+    <ClCompile Include="src\GB\ImportTools\IO.cpp" />
+    <ClCompile Include="src\GB\Render\Mesh.cpp" />
   </ItemGroup>
 </Project>

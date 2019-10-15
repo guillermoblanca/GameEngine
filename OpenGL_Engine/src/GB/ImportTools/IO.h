@@ -26,6 +26,7 @@ namespace GB
     template<class T> static T ReadFile(std::string path);
     template<class T> static bool WriteFile(T data, std::string path);
    
+    static bool GetPathDialogBox(std::string& OutPath);
     //int ReadFile(std::string path);
   private:
     //static std::fstream m_stream;
@@ -49,4 +50,6 @@ namespace GB
     ofile.close();
     return true;
   }
+
+  
 }

@@ -7,11 +7,11 @@ namespace GB
 	public: 
 		inline static float DeltaTime() { return s_instance->Impl_DeltaTime(); }
 		inline static float GetTime() { return s_instance->ImplGetTime(); }
-		inline static float GetFPS() { return s_instance->ImplGetFPS(); }
+		inline static float GetMiliseconds() { return s_instance->ImplGetMiliseconds(); }
 	protected:
 		virtual float Impl_DeltaTime() = 0;
 		virtual float ImplGetTime() = 0;
-		virtual float ImplGetFPS() = 0;
+		virtual float ImplGetMiliseconds() = 0;
 	private:
 		static Time* s_instance;
 	};

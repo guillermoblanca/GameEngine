@@ -6,31 +6,20 @@ namespace GB
 {
 	Time* WindowsTime::s_instance = new WindowsTime();
 	float WindowsTime::m_deltaTime = 0;
-
+	float WindowsTime::m_lastTime = 0;
 	float WindowsTime::Impl_DeltaTime()
 	{
-		double r = glfwGetTime() - m_deltaTime;
-		m_deltaTime = glfwGetTime();
-		return r;
+		m_deltaTime = glfwGetTime() - m_lastTime;
+		m_lastTime= glfwGetTime();
+		return m_deltaTime;
 	}
 
 	float WindowsTime::ImplGetTime()
 	{
 		return (float)glfwGetTime();
 	}
-	float WindowsTime::ImplGetFPS()
+	float WindowsTime::ImplGetMiliseconds()
 	{
-		static int nFrames = 0;
-		static int initTime = Time::GetTime();
-		static float fps = 0;
-		double now = Time::GetTime();
-		nFrames++;
-		if (now - initTime >= 1.0f)
-		{
-			fps = nFrames;
-			nFrames = 0;
-			initTime++;
-		}
-		return fps;
+    return m_deltaTime * 1000.0f;
 	}
 }

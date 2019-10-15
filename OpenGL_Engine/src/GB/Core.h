@@ -26,3 +26,11 @@
 #define BIT(X) 1 << X
 
 #define GB_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+
+////////////////////////////////
+// Seletec the Render to use 
+////////////////////////////////
+
+//#define GB_OPENGL
+#define GB_DIRECTX

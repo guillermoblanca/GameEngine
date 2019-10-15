@@ -3,6 +3,7 @@
 #include "GB\ImGui\ImGuiLayer.h"
 #include "GB\Input.h"
 #include "GB/Render/RenderCommand.h"
+#include "GB/Render/Camera.h"
 namespace GB
 {
 	Application* Application::s_instance = nullptr; 
@@ -39,7 +40,7 @@ void GB::Application::Run()
 	
     RenderCommand::SetClearColor(m_renderer->renderColor);
     RenderCommand::Clear();
-    Renderer::BeginScene();
+    Renderer::BeginScene(*Camera::GetMain());
 		m_renderer->OnRender();
     Renderer::EndScene();
 

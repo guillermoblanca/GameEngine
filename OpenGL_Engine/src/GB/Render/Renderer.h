@@ -7,6 +7,7 @@
 #include "GB/Layer.h"
 #include "Material.h"
 #include "RenderObject.h"
+#include "Camera.h"
 
 //todo: remove this in the future
 #include "GB/Render/Texture2D.h"
@@ -21,7 +22,7 @@ namespace GB
     /*
     This will update lights and cameras
     */
-    static void BeginScene();
+    static void BeginScene(Camera camera);
     static void EndScene();
 
     static void Submit(const std::shared_ptr<VertexArray>& vertexArray);

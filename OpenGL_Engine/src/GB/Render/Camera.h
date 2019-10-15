@@ -12,7 +12,6 @@ namespace GB
     enum EMode { Perspective = 0, Orthograpic };
 
     void Translate(vector3 pos);
-    inline vector3 Position() { return m_view[3]; }
     void Rotate(float degrees, vector3 direction);
     void SetFieldOfView(float degree);
     void LookAt(vector3 position, float distance);
@@ -20,9 +19,10 @@ namespace GB
 
 
     vector3 GetEuler();
+    inline vector3 Position() { return m_view[3]; }
     inline float GetFOV() { return m_fov; }
-    inline matrix4 GetProj() { return m_proj; }
-    inline matrix4 GetView() { return m_view; }
+    inline matrix4 GetProj() {ReCalculateMatrix(); return m_proj; }
+    inline matrix4 GetView() {ReCalculateMatrix(); return m_view; }
 
     inline vector3 GetRot() { return vector3(0.0f); }
 
@@ -36,6 +36,8 @@ namespace GB
 
     inline static Camera* GetMain() { return s_main; }
     void SetMainCamera(Camera* camera);
+
+    void ReCalculateMatrix();
   private:
 
     static Camera* s_main;
@@ -59,6 +61,7 @@ namespace GB
     const float mouse_scroll_sensitivity = 1.5f;
 
     vector3 position; //Camera position
+    float rotation;
     vector3 target; //Camera target it looks at;
     vector3 up; //Camera up vector rotation over its axis
     float fov; //Camera field-of-view in y (degrees) in pespective mode

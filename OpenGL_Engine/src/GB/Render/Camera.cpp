@@ -4,17 +4,17 @@
 #include "imgui.h"
 #include "GB\Input.h"
 #include "GB\KeyCodes.h"
+
 namespace GB
 {
   Camera* Camera::s_main = new Camera();
 
-  Camera::Camera()  
+  Camera::Camera() : m_proj(glm::mat4(1.0f))
   {
-    m_proj = glm::mat4(1.0f);
     m_view = glm::mat4(1.0f);
 
     m_orthoOp = glm::vec2(-1.0f, 1.0f);
-    m_up   = vector3(0.0f, 1.0f, 0.0f);
+    m_up = vector3(0.0f, 1.0f, 0.0f);
 
     m_fov = 45.0f;
     m_nearFOV = 0.1f;
@@ -56,7 +56,7 @@ namespace GB
     break;
     case GB::Camera::Orthograpic:
     {
-      m_proj = glm::ortho(0.0f, width, 0.0f, height, m_nearFOV, m_orthoOp.y);
+     // m_proj = glm::ortho(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, m_nearFOV, m_orthoOp.y);
     }
     break;
 
@@ -100,7 +100,7 @@ namespace GB
   void Camera::CameraInput(float speed)
   {
     if (!Input::IsMousePressed(1))return;
-    vector3 m_pos = vector3(0.0f,0.0f,0.0f);
+    vector3 m_pos = vector3(0.0f, 0.0f, 0.0f);
     const vector3 m_front = vector3(0.0f, 0.0f, 1.0f);
     const vector3 m_left = vector3(-1.0f, 0.0f, 0.0f);
 
@@ -125,5 +125,16 @@ namespace GB
   void Camera::SetMainCamera(Camera * camera)
   {
     s_main = camera;
+  }
+  void Camera::ReCalculateMatrix()
+  {
+    if (this->m_mode == EMode::Orthograpic)
+    {
+      glm::mat4 transform = glm::translate(glm::mat4(1.0f), this->position) *
+        glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1));
+
+      m_view = glm::inverse(transform);
+      m_proj = m_proj * m_view;
+    }
   }
 }

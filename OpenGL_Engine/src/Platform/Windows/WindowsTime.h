@@ -8,8 +8,9 @@ namespace GB
 	protected:
 		virtual float Impl_DeltaTime();
 		virtual float ImplGetTime();
-		virtual float ImplGetFPS();
+		virtual float ImplGetMiliseconds();
 	private:
 		static float m_deltaTime;
+    static float m_lastTime;
 	};
 }

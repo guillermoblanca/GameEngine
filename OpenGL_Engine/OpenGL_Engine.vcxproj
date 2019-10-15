@@ -519,6 +519,7 @@
     <ClInclude Include="src\GB\Render\Camera.h" />
     <ClInclude Include="src\GB\Render\GraphicContext.h" />
     <ClInclude Include="src\GB\Render\Material.h" />
+    <ClInclude Include="src\GB\Render\Mesh.h" />
     <ClInclude Include="src\GB\Render\RenderCommand.h" />
     <ClInclude Include="src\GB\Render\RenderObject.h" />
     <ClInclude Include="src\GB\Render\Renderer.h" />
@@ -531,8 +532,8 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLGraphicContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsTime.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindows.h" />
@@ -547,11 +548,13 @@
     <ClCompile Include="src\GB\ComponentSystem\Transform.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
+    <ClCompile Include="src\GB\ImportTools\IO.cpp" />
     <ClCompile Include="src\GB\LayerStack.cpp" />
     <ClCompile Include="src\GB\Log.cpp" />
     <ClCompile Include="src\GB\Render\Buffer.cpp" />
     <ClCompile Include="src\GB\Render\Camera.cpp" />
     <ClCompile Include="src\GB\Render\Material.cpp" />
+    <ClCompile Include="src\GB\Render\Mesh.cpp" />
     <ClCompile Include="src\GB\Render\RenderCommand.cpp" />
     <ClCompile Include="src\GB\Render\RenderObject.cpp" />
     <ClCompile Include="src\GB\Render\Renderer.cpp" />

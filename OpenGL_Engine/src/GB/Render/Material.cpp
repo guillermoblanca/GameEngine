@@ -127,7 +127,7 @@ namespace GB
 		GB_ASSERT(r, "Shader uniform!");
 		glUniform4f(location, x, y, z, w);
 	}
-	void Material::SetMat4(const std::string loc, glm::mat4 mat)
+	void Material::SetMat4(const std::string loc,glm::mat4 mat)
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		bool r = location != -1;

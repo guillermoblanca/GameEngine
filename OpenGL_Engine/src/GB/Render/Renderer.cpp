@@ -6,7 +6,6 @@
 #include "GB/Application.h"
 #include "GB/Math.h"
 #include "GB/Input.h"
-#include "Camera.h"
 #include "GB/Render/RenderCommand.h"
 
 
@@ -15,7 +14,7 @@ namespace GB
   Renderer* Renderer::m_singleton = nullptr;
 
 
-  void Renderer::BeginScene()
+  void Renderer::BeginScene(Camera camera)
   {
   }
 
@@ -70,7 +69,7 @@ namespace GB
     PushObj(new Sprite(0,"Plane 1"));
     PushObj(new Cube(1,"Cube"));
     PushObj(new Cube(0,"Cube white"));
-
+    PushObj(new Line(vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
     m_materials.push_back(new Material("Assets/Shader/Camera.shader"));
 
 
@@ -105,6 +104,7 @@ namespace GB
       m_textures[obj->m_textureID]->Bind(0);
       obj->Render(*m_materials[0], (int)mode);
     }
+
   }
   void Renderer::PushObj(RenderObject * obj)
   {
@@ -146,7 +146,6 @@ namespace GB
     glm::vec3 skew;
     glm::vec4 perspective;
     RenderObject* render = nullptr;
-
     ImGui::Begin("Render");
     if (ImGui::Button("Get random number")) { random = Mathf::Random(10, 100); }
     if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
@@ -171,7 +170,7 @@ namespace GB
     {
       PushObj(new Cube(Mathf::Random(0, m_textures.size() - 1)));
     }
-    if (ImGui::Button("Remove Last RenderObject") && m_renderObjects.size() > 0)
+    if (ImGui::Button("Remove Last RenderObject") && !m_renderObjects.empty())
     {
       int index = m_renderObjects.size() - 1;
       PopObj(m_renderObjects[index]);
@@ -190,6 +189,8 @@ namespace GB
           ImGui::InputText("Name:", render->m_name.data(), 64);
           ImGui::DragFloat3("Position", (float*)&position, 0.1f);
           ImGui::DragFloat3("Rotation", rot, 0.1f);
+          ImGui::DragFloat3("Scale", (float*)&scale, 0.1f);
+
           ImGui::Separator();
           ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
           ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
@@ -205,10 +206,12 @@ namespace GB
             ImGui::ColorPicker4("Color", (float*)&render->m_color);
             ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
           }
-
+		  
+		  if (render->mesh != nullptr) render->mesh->WindowProperties();
 
           render->m_transform.Translate(position);
           render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
+		  render->m_transform.SetScale(scale);
           ImGui::TreePop();
         }
       ImGui::TreePop();

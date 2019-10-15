@@ -17,6 +17,12 @@ void GB::Transform::Translate(glm::vec3 pos)
 	position += dir;
 }
 
+void GB::Transform::RotateAround(glm::vec3 & objpos,float radius, float dt)
+{
+  objpos.x = position.x + (radius * cos(2 * Mathf::PI() *dt));
+  objpos.y = position.y + (radius * sin(2 * Mathf::PI() *dt));
+}
+
 void GB::Transform::Lerp(glm::vec3 init, glm::vec3 des, float dt)
 {
 	position = (1 - dt)*init + dt * des;
@@ -29,6 +35,11 @@ void GB::Transform::Lerp0(glm::vec3 init, glm::vec3 des, float dt)
 void GB::Transform::SetScale(glm::vec3 scl)
 {
 	scale = scl;
+}
+
+void GB::Transform::SetScale(float scl)
+{
+	scale *= scl;
 }
 
 void GB::Transform::Rotate(glm::vec3 rot)

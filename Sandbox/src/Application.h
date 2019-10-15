@@ -26,6 +26,8 @@ class LayerExample : public GB::Layer
 {
 public:
 
+	void OnAttach() override;
+
 	void OnUpdate() override
 	{
 
@@ -79,7 +81,7 @@ public:
 	{
 		GB_CLIENT_INFO("Client info");
 
-//		PushLayer(new LayerExample());
+		PushLayer(new LayerExample());
 		PushLayer(new GameSystem());
 		PushLayer(new FreeCamera());
 	}

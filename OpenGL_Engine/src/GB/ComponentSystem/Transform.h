@@ -13,11 +13,14 @@ namespace GB
 		Transform();
 	
 		void Translate(glm::vec3 pos);
+
+    /*Rotates de objPos around position*/
+    void RotateAround(glm::vec3& objpos,float radius, float dt);
 		void Lerp(glm::vec3 init, glm::vec3 des, float dt);
 		void Lerp0(glm::vec3 init, glm::vec3 des, float dt);
 
 		void SetScale(glm::vec3 scl);
-	
+		void SetScale(float scl);
 		void Rotate(glm::vec3 rot);
 
 		matrix4 GetMat4();

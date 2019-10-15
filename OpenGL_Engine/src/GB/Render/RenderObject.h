@@ -2,10 +2,11 @@
 
 #pragma region Includes
 #include "GB\Core.h"
-
+#include "GB/Math.h"
 #include "Material.h"
 #include "Buffer.h"
 #include "VertexArray.h"
+#include "Mesh.h"
 #include "GB\ComponentSystem\Transform.h"
 #pragma endregion
 
@@ -24,13 +25,15 @@ namespace GB
   {
   public:
 
-
+	
     RenderObject(std::string name = "RenderObject");
     ~RenderObject();
     void UnBind();
     virtual void Render(Material& material, int mode = 4)override;
     virtual void Create(float* vertices, uint32_t size, uint32_t* data, uint32_t count);
-    
+	virtual void Create(std::vector<glm::vec3>& vertices,std::vector<uint32_t>& verticesIndices);
+	//Sustitute the old mesh if exist
+	virtual void Create(Mesh& newMesh);
     ////
     // Debug
     ////
@@ -41,7 +44,7 @@ namespace GB
     ////
     //Render properties
     ////
-
+	Mesh* mesh;
     int m_textureID;
     glm::vec4 m_color;
  
@@ -70,6 +73,24 @@ namespace GB
   public:
     Cube(uint32_t textID, const std::string name = "Cube");
     ~Cube();
+
+    virtual void Render(Material& material, int mode = 4)override;
+
+  };
+
+  class Line : public RenderObject
+  {
+  public:
+    Line(const vector2& origin,const vector2& destiny);
+    virtual void Render(Material& material, int mode = 4)override;
+
+
+    vector2 position;
+    vector2 destiny;
+
+  protected:
+    std::shared_ptr<VertexArray> m_vertexArray;
+    
   };
 #pragma endregion
 
