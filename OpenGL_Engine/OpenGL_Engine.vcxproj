@@ -524,6 +524,7 @@
     <ClInclude Include="src\GB\Render\RenderObject.h" />
     <ClInclude Include="src\GB\Render\Renderer.h" />
     <ClInclude Include="src\GB\Render\RendererAPI.h" />
+    <ClInclude Include="src\GB\Render\RenderUtilities.h" />
     <ClInclude Include="src\GB\Render\Texture2D.h" />
     <ClInclude Include="src\GB\Render\VertexArray.h" />
     <ClInclude Include="src\GB\Time.h" />

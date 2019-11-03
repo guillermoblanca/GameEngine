@@ -129,7 +129,28 @@ namespace GB
 		this->m_name = name;
 		this->m_textureID = textID;
 
+		float verticesCube[] = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,//0
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,//1
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//2
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,//3
 
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//4
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,//5
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,//6
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,//7
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//8
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//9
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//10
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//11
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//12
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//13
+
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,//14
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,//15
+		};
 		uint32_t indiceCube[]
 		{
 		0,1,2,2,3,0,
@@ -140,55 +161,22 @@ namespace GB
 		3,2,11,11,15,3
 		};
 
-		int count = sizeof(indiceCube) / sizeof(indiceCube[0]);
-
-		std::vector<vector3> vertices;
-		std::vector<vector2> uv;
-		std::vector<uint32_t> vertindices(indiceCube,indiceCube+count);
-
-		vertices.push_back({  -0.5f, -0.5f, -0.5f });
-		vertices.push_back({   0.5f, -0.5f, -0.5f });
-		vertices.push_back({   0.5f,  0.5f, -0.5f });
-		vertices.push_back({  -0.5f,  0.5f, -0.5f });
-		vertices.push_back({  -0.5f, -0.5f,  0.5f });
-		vertices.push_back({   0.5f, -0.5f,  0.5f });
-		vertices.push_back({   0.5f,  0.5f,  0.5f });
-		vertices.push_back({  -0.5f,  0.5f,  0.5f });
-		vertices.push_back({  -0.5f,  0.5f,  0.5f });
-		vertices.push_back({  -0.5f,  0.5f, -0.5f });
-		vertices.push_back({  -0.5f, -0.5f, -0.5f });
-		vertices.push_back({   0.5f,  0.5f,  0.5f });
-		vertices.push_back({   0.5f, -0.5f, -0.5f });
-		vertices.push_back({   0.5f, -0.5f,  0.5f });
-		vertices.push_back({   0.5f, -0.5f, -0.5f });
-		vertices.push_back({  -0.5f,  0.5f,  0.5f });
-
-		uv.push_back({0.0f, 0.0f});
-		uv.push_back({1.0f, 0.0f});
-		uv.push_back({1.0f, 1.0f});
-		uv.push_back({0.0f, 1.0f});
-		uv.push_back({0.0f, 0.0f});
-		uv.push_back({1.0f, 0.0f});
-		uv.push_back({1.0f, 1.0f});
-		uv.push_back({0.0f, 1.0f});
-		uv.push_back({1.0f, 0.0f});
-		uv.push_back({1.0f, 1.0f});
-		uv.push_back({0.0f, 1.0f});
-		uv.push_back({1.0f, 0.0f});
-		uv.push_back({0.0f, 1.0f});
-		uv.push_back({0.0f, 0.0f});
-		uv.push_back({1.0f, 1.0f});
-		uv.push_back({0.0f, 0.0f});
 		mesh = new Mesh();
-		this->mesh->vertices = vertices;
-		this->mesh->uv = uv;
-		this->mesh->indicesVertices = vertindices;
-		Create(vertices, vertindices);
+
+		for (size_t i = 5; i <= 80; i += 5)
+		{
+			mesh->vertices.push_back(vector3(verticesCube[i - 5], verticesCube[i - 4], verticesCube[i - 3]));
+			mesh->uv.push_back(vector2(verticesCube[i - 2], verticesCube[i - 1]));
+		}
+		unsigned int size = sizeof(indiceCube) / sizeof(uint32_t);
+		std::copy(&indiceCube[0], &indiceCube[size], std::back_inserter(mesh->indicesVertices));
+		this->mesh = mesh;
+		Create(verticesCube, 5 * 16 * sizeof(float), indiceCube, 36);
 	}
 	Cube::~Cube()
 	{
 	}
-	void Cube::Render(Material & material, int mode)
+	void Cube::Render(Material& material, int mode)
 	{
 		material.Bind();
 		material.SetMat4("u_transform", m_transform.GetMat4());
@@ -201,7 +189,7 @@ namespace GB
 		glDrawElements(mode, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 #pragma endregion
-	Line::Line(const vector2 & origin, const vector2 & destiny)
+	Line::Line(const vector2& origin, const vector2& destiny)
 	{
 		m_textureID = 0;
 		m_name = "Line";
@@ -225,7 +213,7 @@ namespace GB
 		indexBuffer.reset(IndexBuffer::Create(temp1, 2));
 		m_vertexArray->SetIndexBuffer(indexBuffer);
 	}
-	void Line::Render(Material & material, int mode)
+	void Line::Render(Material& material, int mode)
 	{
 		material.Bind();
 		material.SetMat4("u_transform", m_transform.GetMat4());
