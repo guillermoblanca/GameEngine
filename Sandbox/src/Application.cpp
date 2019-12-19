@@ -73,8 +73,10 @@ void LayerExample::OnAttach()
 	std::vector<vector2> outUV;
 	std::vector<vector3> outNormals;
 
+	outVertices.reserve(sizeof(vertexIndices));
+	outUV.reserve(sizeof(outUV));
 	std::vector<uint32_t> outIndices;
-	for (uint32_t i = 0; i < vertexIndices.size()/2; i++)
+	for (uint32_t i = 0; i < vertexIndices.size() / 2; i++)
 	{
 		unsigned int vertindex = vertexIndices[i];
 		unsigned int uvIndex = uvIndices[i];
@@ -92,8 +94,10 @@ void LayerExample::OnAttach()
 	Mesh* mesh = new Mesh();
 	mesh->indicesVertices = outIndices;
 	mesh->vertices = outVertices;
-	
-	
+	mesh->uv = outUV;
+	mesh->indicesUV = uvIndices;
+
+
 	GB::RenderObject* renderObject = new GB::RenderObject("Custom object");
 	renderObject->Create(*mesh);
 	renderObject->m_textureID = 0;
@@ -105,15 +109,40 @@ void LayerExample::OnAttach()
 }
 void LayerExample::OnImguiRender()
 {
+	static int primary = 0;
+	static int secondary = 0;
+	static std::vector<vector3> verticesEquals;
+	ImGui::Begin("Comparator");
 
-	//ImGui::Begin("Console");
-	//ImGui::Text("Hello world!");
-	//bool state = ImGui::Button("Clear console");
-	//if (state)
-	//{
-	//	GB_CLIENT_INFO("Button pushed!");
-	//}
-	//ImGui::End();
+	ImGui::InputInt("Mesh1", &primary);
+	ImGui::InputInt("Mesh1", &secondary);
+
+	if (ImGui::Button("Compare to meshes"))
+	{
+		auto primaryVertices = Renderer::Get().GetRenderobj(primary)->mesh->vertices;
+		auto secondayVertices = Renderer::Get().GetRenderobj(secondary)->mesh->vertices;
+
+		verticesEquals = Mesh::GetEqualsVector(primaryVertices, secondayVertices);
+	}
+
+	if (verticesEquals.size() > 0 && ImGui::CollapsingHeader("Vertices equals"))
+	{
+		for (size_t i = 0; i < verticesEquals.size(); i++)
+		{
+			ImGui::Text("vertices [%d]: %f,%f,%f", i, verticesEquals[i].x, verticesEquals[i].y, verticesEquals[i].z);
+		}
+	}
+
+	ImGui::End();
+
+	ImGui::Begin("Console");
+	ImGui::Text("Hello world!");
+	bool state = ImGui::Button("Clear console");
+	if (state)
+	{
+		GB_CLIENT_INFO("Button pushed!");
+	}
+	ImGui::End();
 }
 
 void LayerExample::OnEvent(GB::Event & event)
@@ -141,6 +170,7 @@ vector2 FreeCamera::CameraDirection()
 
 void FreeCamera::OnAttach()
 {
+	GB_CORE_INFO("Camera position: {0}", Camera::GetMain()->Position());
 }
 
 float velocity = 5.0f;
@@ -236,11 +266,68 @@ void FreeCamera::OnUpdate()
 
 void FreeCamera::OnImguiRender()
 {
+	static bool profiler_open = true;
+
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Save"))
+			{
+				DATA data = { 20,2,"Eva" };
+
+				IO::WriteFile(data, "foo.gb");
+			}
+			if (ImGui::MenuItem("Open"))
+			{
+				DATA data = IO::ReadFile<DATA>("foo.gb");
+				GB_CORE_TRACE("DATA: {0},{1},{2}", data.ID, data.position, data.name.c_str());
+			}
+			ImGui::EndMenu();
+		}
+
+
+		if (ImGui::BeginMenu("Window"))
+		{
+
+			if (ImGui::MenuItem("Profiler", "pro", &profiler_open))
+			{
+
+
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+
+
+	if (profiler_open)
+	{
+		ProfilingMenu();
+	}
+}
+
+void FreeCamera::OnEvent(GB::Event & event)
+{
+	if (event.GetEventType() == GB::EventType::MouseScrolled)
+	{
+
+		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
+	}
+
+}
+
+void FreeCamera::ProfilingMenu()
+{
+	//TODO: si esto no esta activo no se ve nada, hay que solucionarlo!!!!!
 	static int rendermode = 4;
 	static Texture2D* texture = nullptr;
 
 	GB::Camera::GetMain()->ImguiEditor();
-	ImGui::Begin("Profiling");
+
+	//todo: change this to bool
+	bool profilingMenu = ImGui::Begin("Profiling");
 	if (ImGui::Button("OpenFile"))
 	{
 		std::string path;
@@ -252,6 +339,7 @@ void FreeCamera::OnImguiRender()
 		}
 
 	}
+
 	if (texture != nullptr)
 		ImGui::Image((ImTextureID)texture->GetID(), ImVec2(200, 200)); else
 
@@ -265,6 +353,7 @@ void FreeCamera::OnImguiRender()
 		}, NULL, 100);
 
 	static bool isvSync = Application::Get().GetWindow().IsVSync();
+
 	if (ImGui::Button("VSync"))
 	{
 		isvSync = !isvSync;
@@ -293,35 +382,6 @@ void FreeCamera::OnImguiRender()
 
 	ImGui::End();
 
-	if (ImGui::BeginMainMenuBar())
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("Save"))
-			{
-				DATA data = { 20,2,"Eva" };
-
-				IO::WriteFile(data, "foo.gb");
-			}
-			if (ImGui::MenuItem("Open"))
-			{
-				DATA data = IO::ReadFile<DATA>("foo.gb");
-				GB_CORE_TRACE("DATA: {0},{1},{2}", data.ID, data.position, data.name.c_str());
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::EndMainMenuBar();
-	}
-
-}
-
-void FreeCamera::OnEvent(GB::Event & event)
-{
-	if (event.GetEventType() == GB::EventType::MouseScrolled)
-	{
-
-		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
-	}
 
 }
 

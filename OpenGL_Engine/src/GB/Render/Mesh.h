@@ -17,6 +17,7 @@ namespace GB
 		std::vector<uint32_t> indicesNormals;
 		std::vector<uint32_t> indicesUV;
 
+		static std::vector<vector3> GetEqualsVector(const std::vector<vector3> mesh1, const std::vector<vector3> mesh2);
 
 		void WindowProperties();
 	private:
