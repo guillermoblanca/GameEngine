@@ -20,6 +20,8 @@ public:
 
 	void OnImguiRender() override;
 	void OnEvent(GB::Event& event) override;
+
+	void ProfilingMenu();
 };
 
 class LayerExample : public GB::Layer
