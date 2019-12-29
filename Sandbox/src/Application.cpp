@@ -1,4 +1,5 @@
 #include "GB.h"
+#include "gbpch.h"
 #include "Application.h"
 #include "imgui\imgui.h"
 #include "GB/ImportTools/IO.h"
@@ -14,92 +15,22 @@ struct DATA
 };
 void LayerExample::OnAttach()
 {
-	std::string path = std::string("Assets/Mesh/cubeonemeter.obj");
-	std::vector<vector3> temp_Vertices;
-	std::vector<vector2> temp_UV;
-	std::vector<vector3> temp_Normals;
-
-	std::vector<uint32_t> vertexIndices, uvIndices, normalIndices;
-
-	FILE* file = fopen(path.c_str(), "r");
-
-	if (file == NULL)
-	{
-		GB_CORE_ERROR("ERROR READING FILE OBJ");
-		return;
-	}
-	bool active = true;
-	char lineHeader[128];
-	while (active)
-	{
-		int res = fscanf(file, "%s", lineHeader);
-		if (res == EOF)break;
-
-		if (strcmp(lineHeader, "v") == 0)
-		{
-			vector3 vertex;
-			fscanf(file, "%f %f %f \n", &vertex.x, &vertex.y, &vertex.z);
-			temp_Vertices.push_back(vertex);
-		}
-		else if (strcmp(lineHeader, "vt") == 0)
-		{
-			vector2 uv;
-			fscanf(file, "%f %f \n", &uv.x, &uv.y);
-			temp_UV.push_back(uv);
-		}
-		else if (strcmp(lineHeader, "f") == 0)
-		{
-			std::string vertex1, vertex2, vertex3;
-			uint32_t vertexIndex[3], uvIndex[3], normalIndex[3];
-			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-			if (matches != 9)
-			{
-				GB_CORE_ERROR("File can't be read!");
-
-				return;
-			}
-			vertexIndices.push_back(vertexIndex[0]);
-			vertexIndices.push_back(vertexIndex[1]);
-			vertexIndices.push_back(vertexIndex[2]);
-			uvIndices.push_back(uvIndex[0]);
-			uvIndices.push_back(uvIndex[1]);
-			uvIndices.push_back(uvIndex[2]);
-			normalIndices.push_back(normalIndex[0]);
-			normalIndices.push_back(normalIndex[1]);
-			normalIndices.push_back(normalIndex[2]);
-		}
-	}
-	std::vector<vector3> outVertices;
-	std::vector<vector2> outUV;
-	std::vector<vector3> outNormals;
-
-	std::vector<uint32_t> outIndices;
-	for (uint32_t i = 0; i < vertexIndices.size()/2; i++)
-	{
-		unsigned int vertindex = vertexIndices[i];
-		unsigned int uvIndex = uvIndices[i];
-		//unsigned int normalIndex = normalIndices[i];
-
-		vector3 vertex = temp_Vertices[vertindex - 1];
-		vector2 uv = temp_UV[uvIndex - 1];
-		//vector3 normal = outNormals[normalIndex - 1];
-		outIndices.push_back(vertindex - 1);
-		outVertices.push_back(vertex);
-		outUV.push_back(uv);
-	}
 
 	//todo: optimize
-	Mesh* mesh = new Mesh();
-	mesh->indicesVertices = outIndices;
-	mesh->vertices = outVertices;
-	
-	
-	GB::RenderObject* renderObject = new GB::RenderObject("Custom object");
-	renderObject->Create(*mesh);
-	renderObject->m_textureID = 0;
-	renderObject->m_transform.SetScale(1.3f);
-	Renderer::Get().PushObj(renderObject);
-	GB_CORE_TRACE("VERTICES: {0}", temp_Vertices.size());
+	std::vector<Mesh*> meshs;
+
+	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/sphere.obj"));
+	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/cubeonemeter.obj"));
+
+
+	for (size_t i = 0; i < meshs.size(); i++)
+	{
+		GB::RenderObject* renderObject = new GB::RenderObject(meshs[i]->name);
+		renderObject->Create(*meshs[i]);
+		renderObject->m_textureID = 0;
+		renderObject->m_transform.Translate({ i*1.5f,0,0 });
+		Renderer::Get().PushObj(renderObject);
+	}
 
 
 }
@@ -116,7 +47,7 @@ void LayerExample::OnImguiRender()
 	//ImGui::End();
 }
 
-void LayerExample::OnEvent(GB::Event & event)
+void LayerExample::OnEvent(GB::Event& event)
 {
 
 
@@ -157,13 +88,13 @@ void FreeCamera::OnUpdate()
 	{
 
 		vector2 diff = CameraDirection();
-		GB::Camera::GetMain()->Translate(glm::vec3(diff.x*velocity, -diff.y*velocity, 0.0f));
+		GB::Camera::GetMain()->Translate(glm::vec3(diff.x * velocity, -diff.y * velocity, 0.0f));
 	}
 
 	if (GB::Input::IsMousePressed(2))
 	{
 		float diff = CameraDirection().y;
-		GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff *velocity * 2));
+		GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff * velocity * 2));
 
 	}
 
@@ -259,7 +190,7 @@ void FreeCamera::OnImguiRender()
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
 	ImGui::Text("FPS: %f", Time::GetMiliseconds());
 	ImGui::SliderFloat("VelocityMove", &velocity, 0.0f, 100.0f);
-	ImGui::PlotLines("Time", [](void*data, int idx)
+	ImGui::PlotLines("Time", [](void* data, int idx)
 		{
 			return idx * Time::DeltaTime();
 		}, NULL, 100);
@@ -315,7 +246,7 @@ void FreeCamera::OnImguiRender()
 
 }
 
-void FreeCamera::OnEvent(GB::Event & event)
+void FreeCamera::OnEvent(GB::Event& event)
 {
 	if (event.GetEventType() == GB::EventType::MouseScrolled)
 	{
@@ -333,7 +264,7 @@ void FreeCamera::OnEvent(GB::Event & event)
 GameSystem* GameSystem::m_instance = new GameSystem();
 #pragma endregion
 
-void GameSystem::AddGameObject(GameObject & gameObject)
+void GameSystem::AddGameObject(GameObject& gameObject)
 {
 	m_gameObjects.push_back(&gameObject);
 }

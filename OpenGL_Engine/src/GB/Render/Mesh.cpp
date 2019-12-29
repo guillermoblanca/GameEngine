@@ -33,7 +33,13 @@ namespace GB
 				{
 					ImGui::Text("Normals [%d]: %f,%f,%f", i, normals[i].x, normals[i].y,normals[i].z);
 				}
-
+			if (ImGui::CollapsingHeader("Indices"))
+			{
+				for (size_t i = 0; i < this->indicesVertices.size(); i++)
+				{
+					ImGui::Text("Indice [%d]: %f", i, this->indicesVertices[i]);
+				}
+			}
 			ImGui::Spacing();
 		}
 	}

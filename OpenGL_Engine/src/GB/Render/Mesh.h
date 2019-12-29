@@ -16,10 +16,85 @@ namespace GB
 		std::vector<uint32_t> indicesVertices;
 		std::vector<uint32_t> indicesNormals;
 		std::vector<uint32_t> indicesUV;
-
+		char name[255];
 
 		void WindowProperties();
 	private:
 
+	};
+
+	class MeshReader
+	{
+	public:
+		static Mesh* ReadMeshFromFile(const char* path)
+		{
+			Mesh* mesh =  new Mesh();
+			std::vector<vector3> temp_Vertices;
+			std::vector<vector2> temp_UV;
+			std::vector<vector3> temp_Normals;
+			std::vector<uint32_t> vertexIndices, uvIndices, normalIndices;
+
+			FILE* file = fopen(path, "r");
+
+			if (file == NULL)
+			{
+				GB_CORE_ERROR("ERROR READING FILE OBJ: {0}",path);
+				return nullptr;
+			}
+			bool active = true;
+			char lineHeader[128];
+			while (active)
+			{
+				int res = fscanf(file, "%s", lineHeader);
+				if (res == EOF)break;
+
+				if (strcmp(lineHeader, "v") == 0)
+				{
+					vector3 vertex;
+					fscanf(file, "%f %f %f \n", &vertex.x, &vertex.y, &vertex.z);
+					temp_Vertices.push_back(vertex);
+				}
+				else if (strcmp(lineHeader, "vt") == 0)
+				{
+					vector2 uv;
+					fscanf(file, "%f %f \n", &uv.x, &uv.y);
+					temp_UV.push_back(uv);
+				}
+				else if (strcmp(lineHeader, "f") == 0)
+				{
+					uint32_t vertexIndex[3], uvIndex[3], normalIndex[3];
+					int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+					if (matches != 9)
+					{
+						GB_CORE_ERROR("File can't be read!");
+
+						return nullptr;
+					}
+					vertexIndices.push_back(vertexIndex[0] -1);
+					vertexIndices.push_back(vertexIndex[1] -1);
+					vertexIndices.push_back(vertexIndex[2] -1);
+					uvIndices.push_back(uvIndex[0] -1);
+					uvIndices.push_back(uvIndex[1] -1);
+					uvIndices.push_back(uvIndex[2] -1);
+					normalIndices.push_back(normalIndex[0] -1);
+					normalIndices.push_back(normalIndex[1] -1);
+					normalIndices.push_back(normalIndex[2] -1);
+				}
+				else if (strcmp(lineHeader, "o") == 0)
+				{
+					fscanf(file, "%s", &mesh->name);
+				}
+
+			}
+
+			mesh->vertices = temp_Vertices;
+			mesh->indicesVertices = vertexIndices;
+			mesh->indicesUV = uvIndices;
+			mesh->indicesNormals = normalIndices;
+			mesh->normals = temp_Normals;
+			mesh->uv = temp_UV;
+			return mesh;
+		}
+	private:
 	};
 }

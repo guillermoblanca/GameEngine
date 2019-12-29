@@ -70,15 +70,16 @@ namespace GB
 		m_vertexArray.reset(VertexArray::Create());
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::shared_ptr<VertexBuffer> uvBuffer;
 		vertexBuffer.reset(VertexBuffer::Create((float*)&newMesh.vertices[0], newMesh.vertices.size() * sizeof(vector3)));
 		BufferLayout layout =
 		{
 			{EShaderDataType::Float3,"_Position"}
+
 		};
 
 		vertexBuffer->SetLayout(layout);
 		m_vertexArray->AddVertexBuffer(vertexBuffer);
-
 		std::shared_ptr<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::Create(&mesh->indicesVertices[0], mesh->indicesVertices.size()));
 		m_vertexArray->SetIndexBuffer(indexBuffer);

@@ -58,18 +58,18 @@ public:
 
 	void OnImguiRender() override
 	{
-    if (ImGui::Begin("Inspector"))
-    {
-      if (ImGui::Button("Add GameObject"))
-      {
-        AddGameObject(GB::GameObject("instance 1"));
-      }
-      for (size_t i = 0; i < m_gameObjects.size(); i++)
-      {
-        m_gameObjects[i]->ImguiComponent();
-      }
-      ImGui::End();
-    }
+    //if (ImGui::Begin("Inspector"))
+    //{
+    //  if (ImGui::Button("Add GameObject"))
+    //  {
+    //    AddGameObject(GB::GameObject("instance 1"));
+    //  }
+    //  for (size_t i = 0; i < m_gameObjects.size(); i++)
+    //  {
+    //    m_gameObjects[i]->ImguiComponent();
+    //  }
+    //  ImGui::End();
+    //}
 	}
 };
 

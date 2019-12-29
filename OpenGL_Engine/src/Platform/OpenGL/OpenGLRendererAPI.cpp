@@ -31,10 +31,7 @@ namespace GB
   void OpenGLRendererAPI::DephtTest(bool active)
   {
     this->m_DephtTest = active;
-    if (active)
-      glEnable(GL_DEPTH_TEST);
-    else
-      glDisable(GL_DEPTH_TEST);
+	active ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
   }
   void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
   {
