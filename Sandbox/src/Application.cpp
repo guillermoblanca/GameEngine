@@ -19,6 +19,9 @@ void LayerExample::OnAttach()
 	//todo: optimize
 	std::vector<Mesh*> meshs;
 
+	Mesh debugMesh;
+	MeshReader::ConvertFileToMesh("Assets/Mesh/sphere.obj", debugMesh);
+
 	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/sphere.obj"));
 	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/cubeonemeter.obj"));
 
@@ -28,23 +31,36 @@ void LayerExample::OnAttach()
 		GB::RenderObject* renderObject = new GB::RenderObject(meshs[i]->name);
 		renderObject->Create(*meshs[i]);
 		renderObject->m_textureID = 0;
-		renderObject->m_transform.Translate({ i*1.5f,0,0 });
+		renderObject->m_transform.Translate({ i * 1.5f,0,0 });
 		Renderer::Get().PushObj(renderObject);
 	}
 
 
 }
+void LayerExample::OnUpdate()
+	{
+	//esto no es correcto porque se tiene que calcular la posicion con respecto a la camara
+	//de screen coordinate a world coordinate
+		if (Input::IsMousePressed(0))
+		{
+		auto mousePos = Input::GetMousePosition();
+		mousePos.x /= (float)Application::Get().GetWindow().GetWidth();
+		mousePos.y /= (float)Application::Get().GetWindow().GetHeight();
+		for (size_t i = 0; i < Renderer::Get().GetRenderObjectCount(); i++)
+		{
+			auto renderer = Renderer::Get().GetRenderobj(i);
+			bool objectIsSelected = CollisionManager::CheckCollision({ mousePos,0.5f,0.5f }, { renderer->m_transform.position,1,1 });
+			if (objectIsSelected)
+			{
+				renderer->m_color = { 1.0f,0.0f,0.0f,1.0f };
+				return;
+			}
+		}
+	}
+}
 void LayerExample::OnImguiRender()
 {
 
-	//ImGui::Begin("Console");
-	//ImGui::Text("Hello world!");
-	//bool state = ImGui::Button("Clear console");
-	//if (state)
-	//{
-	//	GB_CLIENT_INFO("Button pushed!");
-	//}
-	//ImGui::End();
 }
 
 void LayerExample::OnEvent(GB::Event& event)
@@ -264,7 +280,7 @@ void FreeCamera::OnEvent(GB::Event& event)
 GameSystem* GameSystem::m_instance = new GameSystem();
 #pragma endregion
 
-void GameSystem::AddGameObject(GameObject& gameObject)
+void GameSystem::AddGameObject(Actor& gameObject)
 {
 	m_gameObjects.push_back(&gameObject);
 }

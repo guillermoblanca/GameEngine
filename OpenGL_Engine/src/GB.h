@@ -17,8 +17,8 @@
 #include "GB/Render/RendererAPI.h"
 #include "GB/Render/VertexArray.h"
 
-#include "GB\ComponentSystem\Collision\CollisionManager.h"
-#include "GB\ComponentSystem\GameObject.h"
+#include "GB\GameplayFramework\Collision\CollisionManager.h"
+#include "GB\GameplayFramework\GameObject.h"
 
 #include "GB\EntryPoint.h"
 

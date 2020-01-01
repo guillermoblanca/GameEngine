@@ -7,7 +7,7 @@
 #include "Buffer.h"
 #include "VertexArray.h"
 #include "Mesh.h"
-#include "GB\ComponentSystem\Transform.h"
+#include "GB\GameplayFramework\Transform.h"
 #pragma endregion
 
 

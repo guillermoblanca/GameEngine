@@ -1,17 +1,17 @@
 #include "gbpch.h"
 #include "GameObject.h"
 #include "imgui.h"
-void GB::GameObject::AddComponent(Component & component)
+void GB::Actor::AddComponent(Component & component)
 {
 	m_components.push_back(&component);
 }
 
-void GB::GameObject::RemoveComponent(Component & component)
+void GB::Actor::RemoveComponent(Component & component)
 {
 	GB_CORE_ERROR("Not working");
 }
 
-void GB::GameObject::UpdateComponent()
+void GB::Actor::UpdateComponent()
 {
 	for (int in = 0; in < m_components.size(); in++)
 	{
@@ -19,7 +19,7 @@ void GB::GameObject::UpdateComponent()
 	}
 }
 
-void GB::GameObject::ImguiComponent()
+void GB::Actor::ImguiComponent()
 {
 	ImGui::Text("Name: %s", m_name);
 	for (int in = 0; in < m_components.size(); in++)
