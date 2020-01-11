@@ -1293,7 +1293,6 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\RenderUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
