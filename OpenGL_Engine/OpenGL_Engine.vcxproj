@@ -496,16 +496,17 @@
     <ClInclude Include="Dependencies\glm\glm\vector_relational.hpp" />
     <ClInclude Include="src\GB.h" />
     <ClInclude Include="src\GB\Application.h" />
-    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h" />
-    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h" />
-    <ClInclude Include="src\GB\ComponentSystem\GameObject.h" />
-    <ClInclude Include="src\GB\ComponentSystem\Transform.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h" />
+    <ClInclude Include="src\GB\GameplayFramework\GameObject.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Transform.h" />
     <ClInclude Include="src\GB\Core.h" />
     <ClInclude Include="src\GB\EntryPoint.h" />
     <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
     <ClInclude Include="src\GB\Events\Event.h" />
     <ClInclude Include="src\GB\Events\KeyEvent.h" />
     <ClInclude Include="src\GB\Events\MouseEvent.h" />
+    <ClInclude Include="src\GB\GameplayFramework\World.h" />
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GB\ImportTools\IO.h" />
     <ClInclude Include="src\GB\Input.h" />
@@ -543,10 +544,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp" />
-    <ClCompile Include="src\GB\ComponentSystem\Transform.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\GameObject.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\Transform.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />
     <ClCompile Include="src\GB\ImportTools\IO.cpp" />

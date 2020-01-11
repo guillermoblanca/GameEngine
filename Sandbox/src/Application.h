@@ -30,11 +30,7 @@ public:
 
 	void OnAttach() override;
 
-	void OnUpdate() override
-	{
-
-
-	}
+	void OnUpdate() override;
 
 	void OnImguiRender() override;
 
@@ -47,9 +43,9 @@ private:
 	static GameSystem* m_instance;
 public:
 	inline static GameSystem* Instance() { return m_instance; }
-	std::vector<GB::GameObject*> m_gameObjects;
+	std::vector<GB::Actor*> m_gameObjects;
 
-	void AddGameObject(GB::GameObject& gameObject);
+	void AddGameObject(GB::Actor& gameObject);
 	void OnUpdate() override
 	{
 		for (size_t i = 0; i < m_gameObjects.size(); i++)
@@ -60,18 +56,18 @@ public:
 
 	void OnImguiRender() override
 	{
-    if (ImGui::Begin("Inspector"))
-    {
-      if (ImGui::Button("Add GameObject"))
-      {
-        AddGameObject(GB::GameObject("instance 1"));
-      }
-      for (size_t i = 0; i < m_gameObjects.size(); i++)
-      {
-        m_gameObjects[i]->ImguiComponent();
-      }
-      ImGui::End();
-    }
+    //if (ImGui::Begin("Inspector"))
+    //{
+    //  if (ImGui::Button("Add GameObject"))
+    //  {
+    //    AddGameObject(GB::GameObject("instance 1"));
+    //  }
+    //  for (size_t i = 0; i < m_gameObjects.size(); i++)
+    //  {
+    //    m_gameObjects[i]->ImguiComponent();
+    //  }
+    //  ImGui::End();
+    //}
 	}
 };
 

@@ -1164,18 +1164,6 @@
     <ClInclude Include="src\GB\Application.h">
       <Filter>src\GB</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\ComponentSystem\Collision\CollisionManager.h">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\ComponentSystem\Collision\Render2D.h">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\ComponentSystem\GameObject.h">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\ComponentSystem\Transform.h">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\Core.h">
       <Filter>src\GB</Filter>
     </ClInclude>
@@ -1293,22 +1281,24 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\RenderUtilities.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\GameObject.h">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Transform.h">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
       <Filter>src\GB</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\ComponentSystem\Collision\CollisionManager.cpp">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\ComponentSystem\Collision\Render2D.cpp">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\ComponentSystem\GameObject.cpp">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\ComponentSystem\Transform.cpp">
-      <Filter>src\GB\ComponentSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
       <Filter>src\GB\ImGui</Filter>
@@ -1387,6 +1377,18 @@
     </ClCompile>
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp">
+      <Filter>src\GB\ComponentSystem\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\GameObject.cpp">
+      <Filter>src\GB\ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Transform.cpp">
+      <Filter>src\GB\ComponentSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

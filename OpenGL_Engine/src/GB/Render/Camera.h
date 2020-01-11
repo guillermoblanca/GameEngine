@@ -15,29 +15,29 @@ namespace GB
     void Rotate(float degrees, vector3 direction);
     void SetFieldOfView(float degree);
     void LookAt(vector3 position, float distance);
-    void ImguiEditor();
 
 
-    vector3 GetEuler();
     inline vector3 Position() { return m_view[3]; }
-    inline float GetFOV() { return m_fov; }
+    vector3        GetEuler();
+    inline float   GetFOV() { return m_fov; }
     inline matrix4 GetProj() {ReCalculateMatrix(); return m_proj; }
     inline matrix4 GetView() {ReCalculateMatrix(); return m_view; }
-
     inline vector3 GetRot() { return vector3(0.0f); }
-
-    void CameraInput(float speed);
-
+	   
     inline void SetCameraMode(Camera camera, EMode mode)
     {
       vector3 distance = camera.target - camera.position;
       cameratargetdistance = glm::length(distance);
     }
+	
+    void ImguiEditor();
+    void CameraInput(float speed);
+    void SetMainCamera(Camera* camera);
+    void ReCalculateMatrix();
 
     inline static Camera* GetMain() { return s_main; }
-    void SetMainCamera(Camera* camera);
 
-    void ReCalculateMatrix();
+	
   private:
 
     static Camera* s_main;
