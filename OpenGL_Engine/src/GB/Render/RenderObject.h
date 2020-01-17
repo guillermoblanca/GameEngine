@@ -17,7 +17,7 @@ namespace GB
   class GBAPI IRender
   {
   public:
-    virtual void Render(Material& material, int mode = 4) = 0;
+    virtual void Render(int mode = 4) = 0;
   };
 
 
@@ -26,10 +26,10 @@ namespace GB
   public:
 
 	
-    RenderObject(std::string name = "RenderObject");
+    RenderObject(Material* mat,std::string name = "RenderObject");
     ~RenderObject();
     void UnBind();
-    virtual void Render(Material& material, int mode = 4)override;
+    virtual void Render(int mode = 4)override;
     virtual void Create(float* vertices, uint32_t size, uint32_t* data, uint32_t count);
 	virtual void Create(std::vector<glm::vec3>& vertices,std::vector<uint32_t>& verticesIndices);
 	//Sustitute the old mesh if exist
@@ -47,7 +47,7 @@ namespace GB
 	Mesh* mesh;
     int m_textureID;
     glm::vec4 m_color;
- 
+	Material* material;
     ////
     // Position/Rotation/Scale
     ////
@@ -63,7 +63,7 @@ namespace GB
   {
 
   public:
-    Sprite(uint32_t textID, const std::string name = "Sprite");
+    Sprite(Material* mat,uint32_t textID, const std::string name = "Sprite");
     ~Sprite();
   };
 
@@ -71,18 +71,18 @@ namespace GB
   class Cube : public RenderObject
   {
   public:
-    Cube(uint32_t textID, const std::string name = "Cube");
+    Cube(Material* mat, uint32_t textID, const std::string name = "Cube");
     ~Cube();
 
-    virtual void Render(Material& material, int mode = 4)override;
+    virtual void Render(int mode = 4)override;
 
   };
 
   class Line : public RenderObject
   {
   public:
-    Line(const vector2& origin,const vector2& destiny);
-    virtual void Render(Material& material, int mode = 4)override;
+    Line(Material* mat,const vector2& origin,const vector2& destiny);
+    virtual void Render(int mode = 4)override;
 
 
     vector2 position;

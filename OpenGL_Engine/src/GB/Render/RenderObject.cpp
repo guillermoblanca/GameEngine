@@ -8,7 +8,7 @@
 namespace GB
 {
 
-	RenderObject::RenderObject(std::string name) :m_name(name), m_transform(), m_color(1.0f)
+	RenderObject::RenderObject(Material* mat,std::string name) :m_name(name), m_transform(), m_color(1.0f),material(mat)
 	{
 		if (mesh == nullptr) mesh = new Mesh();
 	}
@@ -86,14 +86,14 @@ namespace GB
 
 	}
 
-	void RenderObject::Render(Material& material, int mode)
+	void RenderObject::Render(int mode)
 	{
-		material.Bind();
-		material.SetMat4("u_transform", m_transform.GetMat4());
-		material.SetMat4("u_view", Camera::GetMain()->GetView());
-		material.SetMat4("u_proj", Camera::GetMain()->GetProj());
-		material.SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
-		material.SetInt("u_Texture", 0);
+		material->Bind();
+		material->SetMat4("u_transform", m_transform.GetMat4());
+		material->SetMat4("u_view", Camera::GetMain()->GetView());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
+		material->SetInt("u_Texture", 0);
 
 		m_vertexArray->Bind();
 		glDrawElements(mode, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
@@ -102,7 +102,7 @@ namespace GB
 #pragma region Primitives
 
 
-	Sprite::Sprite(uint32_t textID, const std::string name)
+	Sprite::Sprite(Material* mat,uint32_t textID, const std::string name) : RenderObject(mat)
 	{
 		this->m_name = name;
 		this->m_textureID = textID;
@@ -125,11 +125,11 @@ namespace GB
 	{
 
 	}
-	Cube::Cube(uint32_t textID, const std::string name)
+	Cube::Cube(Material* mat, uint32_t textID, const std::string name) : RenderObject(mat)
 	{
 		this->m_name = name;
 		this->m_textureID = textID;
-
+		this->material = mat;
 		float verticesCube[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,//0
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,//1
@@ -177,20 +177,20 @@ namespace GB
 	Cube::~Cube()
 	{
 	}
-	void Cube::Render(Material& material, int mode)
+	void Cube::Render(int mode)
 	{
-		material.Bind();
-		material.SetMat4("u_transform", m_transform.GetMat4());
-		material.SetMat4("u_view", Camera::GetMain()->GetView());
-		material.SetMat4("u_proj", Camera::GetMain()->GetProj());
-		material.SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
-		material.SetInt("u_Texture", 0);
+		material->Bind();
+		material->SetMat4("u_transform", m_transform.GetMat4());
+		material->SetMat4("u_view", Camera::GetMain()->GetView());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
+		material->SetInt("u_Texture", 0);
 
 		m_vertexArray->Bind();
 		glDrawElements(mode, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 #pragma endregion
-	Line::Line(const vector2& origin, const vector2& destiny)
+	Line::Line(Material* mat, const vector2& origin, const vector2& destiny) : RenderObject(mat)
 	{
 		m_textureID = 0;
 		m_name = "Line";
@@ -214,13 +214,13 @@ namespace GB
 		indexBuffer.reset(IndexBuffer::Create(temp1, 2));
 		m_vertexArray->SetIndexBuffer(indexBuffer);
 	}
-	void Line::Render(Material& material, int mode)
+	void Line::Render(int mode)
 	{
-		material.Bind();
-		material.SetMat4("u_transform", m_transform.GetMat4());
-		material.SetMat4("u_view", Camera::GetMain()->GetView());
-		material.SetMat4("u_proj", Camera::GetMain()->GetProj());
-		material.SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
+		material->Bind();
+		material->SetMat4("u_transform", m_transform.GetMat4());
+		material->SetMat4("u_view", Camera::GetMain()->GetView());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
 
 		m_vertexArray->Bind();
 		glDrawElements(GL_LINE_LOOP, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);

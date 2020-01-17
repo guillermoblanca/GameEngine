@@ -59,10 +59,10 @@ namespace GB
 
 		StaticMeshActor(Mesh* meshModel) :Actor("StaticMeshActor") , mesh(meshModel)
 		{
-			RenderObject* render = new RenderObject("New StaticMeshActor");
+	/*		RenderObject* render = new RenderObject("New StaticMeshActor");
 			render->Create(*mesh);
 			render->m_textureID = 0;
-			Renderer::Get().PushObj(render);
+			Renderer::Get().PushObj(render);*/
 		}
 		Mesh* mesh;
 	private:

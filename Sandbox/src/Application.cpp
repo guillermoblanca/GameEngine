@@ -28,7 +28,7 @@ void LayerExample::OnAttach()
 
 	for (size_t i = 0; i < meshs.size(); i++)
 	{
-		GB::RenderObject* renderObject = new GB::RenderObject(meshs[i]->name);
+		GB::RenderObject* renderObject = new GB::RenderObject(Renderer::Get().GetMaterials()[0], meshs[i]->name);
 		renderObject->Create(*meshs[i]);
 		renderObject->m_textureID = 0;
 		renderObject->m_transform.Translate({ i * 1.5f,0,0 });

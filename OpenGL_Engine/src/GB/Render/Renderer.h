@@ -51,6 +51,7 @@ namespace GB
 
     inline RenderObject* GetRenderobj(unsigned int index) { if (index > m_renderObjects.size() - 1)return nullptr; else return m_renderObjects[index]; }
     int  GetRenderObjectCount() { return m_renderObjects.size(); }
+	inline const std::vector<Material*> GetMaterials() { return m_materials; }
     void SetRenderMode(ERenderMode mode);
 
     glm::vec4 renderColor;

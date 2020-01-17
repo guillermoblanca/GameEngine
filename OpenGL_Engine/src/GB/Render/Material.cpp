@@ -110,7 +110,7 @@ namespace GB
 	{
 		unsigned int location = glGetUniformLocation(shader, loc.c_str());
 		bool r = location != -1;
-		GB_ASSERT(r, "Shader uniform!");
+		//GB_ASSERT(r, "Shader uniform!");
 		glUniform1f(location, x);
 	}
 	void Material::SetInt(const std::string loc, int x)

@@ -29,12 +29,13 @@ namespace GB
     else
     {
       GB_CORE_ERROR("Texture error when loading");
+	  return;
     }
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    if (m_LocalBuffer) stbi_image_free(m_LocalBuffer);
+	stbi_image_free(m_LocalBuffer);
 
   }
 
@@ -52,6 +53,4 @@ namespace GB
   void OpenGL_Texture2D::UnBind() const
   {
   }
-
-
 }
