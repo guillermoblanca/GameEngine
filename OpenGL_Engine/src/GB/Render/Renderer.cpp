@@ -151,7 +151,6 @@ namespace GB
 		RenderObject* render = nullptr;
 		ImGui::Begin("Render");
 		ImGui::DragFloat2("iResolution", (float*)&values,0.01f,-1.0f,1.0f);
-		if (ImGui::Button("Get random number")) { random = Mathf::Random(10, 100); }
 		if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
 
 		if (ImGui::CollapsingHeader("Files in shader folder"))
@@ -165,7 +164,6 @@ namespace GB
 
 		}
 
-		ImGui::Text("Random number generator: %d", random);
 		if (ImGui::CollapsingHeader("Background Color"))
 		{
 			ImGui::ColorPicker4("Render Color", (float*)&renderColor);
