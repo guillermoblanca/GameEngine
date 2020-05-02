@@ -125,3 +125,50 @@ project "Sandbox"
 		defines "GB_RELEASE"
 		runtime "Release"
 		optimize "on"
+
+project "GameEditor"
+	location "GameEditor"
+	kind "ConsoleAPP"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .."/%{prj.name}")
+	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+	files 
+	{
+	"%{prj.name}/src/**.h",
+	"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"OpenGL_Engine/Dependencies/spdlog/include",
+		"OpenGL_Engine/src",
+		"%{IncludeDir.glm}",
+		"OpenGL_Engine/Dependencies"
+	}
+
+	links
+	{
+	"OpenGL_Engine",
+	}
+	filter "system:windows"
+		systemversion "latest"
+
+		defines
+		{
+			"GB_PLATFORM_WINDOWS",
+		}
+
+	filter "configurations:Debug"
+		defines "GB_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "GB_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+
