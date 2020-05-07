@@ -28,14 +28,14 @@
     <Filter Include="src\GB">
       <UniqueIdentifier>{6549661C-51EB-90F2-3AA6-A44626E71743}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GB\ComponentSystem">
-      <UniqueIdentifier>{EC58F8CE-D852-2121-C1BF-B731AD58878D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\GB\ComponentSystem\Collision">
-      <UniqueIdentifier>{07A5F6DC-F3F5-E11E-1C5A-D0E0080A7588}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\GB\Events">
       <UniqueIdentifier>{A9D1C834-1592-446B-DECC-8DE84A4C8947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GB\GameplayFramework">
+      <UniqueIdentifier>{F24FCBEE-DE74-1A6F-07C0-FFFEF343198D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GB\GameplayFramework\Collision">
+      <UniqueIdentifier>{8D9B56FE-79D7-5968-E2E9-715FCE440283}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\GB\ImGui">
       <UniqueIdentifier>{4F76FB7D-3BD9-8A22-E45E-C3D8D0A056A5}</UniqueIdentifier>
@@ -45,6 +45,12 @@
     </Filter>
     <Filter Include="src\GB\Render">
       <UniqueIdentifier>{3404ED51-A0C4-6888-69FF-B105D57EAD64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GB\Utils">
+      <UniqueIdentifier>{8502D97E-7165-6823-1AEB-A0D9062D34A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GB\World">
+      <UniqueIdentifier>{DC9BFA7E-C8FE-8923-7184-C2D95DC655A6}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
@@ -1182,6 +1188,21 @@
     <ClInclude Include="src\GB\Events\MouseEvent.h">
       <Filter>src\GB\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h">
+      <Filter>src\GB\GameplayFramework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h">
+      <Filter>src\GB\GameplayFramework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\GameObject.h">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Transform.h">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\World.h">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h">
       <Filter>src\GB\ImGui</Filter>
     </ClInclude>
@@ -1215,6 +1236,9 @@
     <ClInclude Include="src\GB\Render\Camera.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\CameraController.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\GraphicContext.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
@@ -1224,10 +1248,16 @@
     <ClInclude Include="src\GB\Render\Mesh.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Render\OrbitalCamera.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Render\RenderCommand.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\RenderObject.h">
+      <Filter>src\GB\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Render\RenderUtilities.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\Renderer.h">
@@ -1245,8 +1275,14 @@
     <ClInclude Include="src\GB\Time.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Utils\FileSystem.h">
+      <Filter>src\GB\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\GB\Window.h">
       <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\World\World.h">
+      <Filter>src\GB\World</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Editor\Console.h">
       <Filter>src\Platform\Editor</Filter>
@@ -1281,24 +1317,22 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Render\RenderUtilities.h" />
-    <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\GameplayFramework\GameObject.h">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\GameplayFramework\Transform.h">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\GameplayFramework\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
       <Filter>src\GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
+      <Filter>src\GB\GameplayFramework\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp">
+      <Filter>src\GB\GameplayFramework\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\GameObject.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Transform.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
       <Filter>src\GB\ImGui</Filter>
@@ -1321,10 +1355,16 @@
     <ClCompile Include="src\GB\Render\Camera.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Render\CameraController.cpp">
+      <Filter>src\GB\Render</Filter>
+    </ClCompile>
     <ClCompile Include="src\GB\Render\Material.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Render\Mesh.cpp">
+      <Filter>src\GB\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Render\OrbitalCamera.cpp">
       <Filter>src\GB\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Render\RenderCommand.cpp">
@@ -1377,18 +1417,6 @@
     </ClCompile>
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp">
-      <Filter>src\GB\ComponentSystem\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\GameplayFramework\GameObject.cpp">
-      <Filter>src\GB\ComponentSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\GameplayFramework\Transform.cpp">
-      <Filter>src\GB\ComponentSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

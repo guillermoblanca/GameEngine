@@ -37,8 +37,11 @@ namespace GB
 		void SetVector4(const std::string loc, float x, float y, float z, float w);
 		void SetMat4(const std::string loc, glm::mat4 mat);
 
+		std::string& GetPath() { return currentpath; }
 	protected:
 		uint32_t shader;
+		std::string currentpath;
+
 	};
 
 }

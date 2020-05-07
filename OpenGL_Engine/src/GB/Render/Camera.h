@@ -3,76 +3,107 @@
 #include "GB\Core.h"
 #include "GB\Math.h"
 #include "GB\Time.h"
+#include "glm/glm.hpp"
 namespace GB
 {
-  class GBAPI Camera
-  {
-  public:
-    Camera();
-    enum EMode { Perspective = 0, Orthograpic };
+	class GBAPI Camera
+	{
+	public:
+		Camera();
+		enum EMode { Perspective = 0, Orthograpic };
 
-    void Translate(vector3 pos);
-    void Rotate(float degrees, vector3 direction);
-    void SetFieldOfView(float degree);
-    void LookAt(vector3 position, float distance);
+		void Translate(vector3 pos);
+		void Rotate(float degrees, vector3 direction);
+		void SetFieldOfView(float degree);
+		void LookAt(vector3 position, float distance);
 
 
-    inline vector3 Position() { return m_view[3]; }
-    vector3        GetEuler();
-    inline float   GetFOV() { return m_fov; }
-    inline matrix4 GetProj() {ReCalculateMatrix(); return m_proj; }
-    inline matrix4 GetView() {ReCalculateMatrix(); return m_view; }
-    inline vector3 GetRot() { return vector3(0.0f); }
-	   
-    inline void SetCameraMode(Camera camera, EMode mode)
-    {
-      vector3 distance = camera.target - camera.position;
-      cameratargetdistance = glm::length(distance);
-    }
-	
-    void ImguiEditor();
-    void CameraInput(float speed);
-    void SetMainCamera(Camera* camera);
-    void ReCalculateMatrix();
+		inline vector3 Position() { return m_view[3]; }
+		vector3        GetEuler();
+		inline float   GetFOV() { return m_fov; }
+		inline matrix4 GetProj() { ReCalculateMatrix(); return m_proj; }
+		inline matrix4 GetView() { ReCalculateMatrix(); return m_view; }
+		inline vector3 GetRot() { return vector3(0.0f); }
 
-    inline static Camera* GetMain() { return s_main; }
+		inline void SetCameraMode(Camera camera, EMode mode)
+		{
+			vector3 distance = camera.target - camera.position;
+			cameratargetdistance = glm::length(distance);
+		}
 
-	
-  private:
+		void ImguiEditor();
+		void CameraInput(float speed);
+		void SetMainCamera(Camera* camera);
+		void ReCalculateMatrix();
 
-    static Camera* s_main;
+		inline static Camera* GetMain() { return s_main; }
 
-    EMode m_mode;
-    vector3 m_front;
-    vector3 m_up;
 
-    matrix4 m_proj;
-    matrix4 m_view;
+	private:
 
-    float m_fov;
-    float m_nearFOV;
-    float m_farFOV;
+		static Camera* s_main;
 
-    vector2 m_orthoOp;
+		EMode m_mode;
+		vector3 m_front;
+		vector3 m_up;
 
-    // NEW FEATURE
+		matrix4 m_proj;
+		matrix4 m_view;
 
-    const float mouse_sensitivity = 0.003f;
-    const float mouse_scroll_sensitivity = 1.5f;
+		float m_fov;
+		float m_nearFOV;
+		float m_farFOV;
 
-    vector3 position; //Camera position
-    float rotation;
-    vector3 target; //Camera target it looks at;
-    vector3 up; //Camera up vector rotation over its axis
-    float fov; //Camera field-of-view in y (degrees) in pespective mode
-    EMode cameraMode;
-    float cameratargetdistance;
-  };
+		vector2 m_orthoOp;
+
+		// NEW FEATURE
+
+		const float mouse_sensitivity = 0.003f;
+		const float mouse_scroll_sensitivity = 1.5f;
+
+		vector3 position; //Camera position
+		float rotation;
+		vector3 target; //Camera target it looks at;
+		vector3 up; //Camera up vector rotation over its axis
+		float fov; //Camera field-of-view in y (degrees) in pespective mode
+		EMode cameraMode;
+		float cameratargetdistance;
+	};
+
+
+
+	class OrthographicCamera
+	{
+	public:
+		OrthographicCamera(float left, float right, float bottom, float top);
+		void SetProjection(float left, float right, float bottom, float top);
+
+		const vector3& GetPosition()const { return m_Position; }
+		void SetPosition(const vector3& position) { m_Position = position; RecalculateViewMatrix(); }
+
+		float GetRotation() const { return m_Rotation; }
+		void SetRotation(float rotation) { m_Rotation = rotation; RecalculateViewMatrix(); }
+
+
+		inline const glm::mat4& GetProjectionMatrix()const { return m_ProjectionMatrix; }
+		const glm::mat4& GetViewMatrix()const;
+		const glm::mat4& GetViewProjectionMatrix()const;
+	private:
+		void RecalculateViewMatrix();
+
+		glm::mat4 m_ProjectionMatrix;
+		glm::mat4 m_ViewMatrix;
+		glm::mat4 m_ViewProjectionMatrix;
+
+		vector3 m_Position = { 0.0f,0.0f,0.0f };
+		float m_Rotation = 0.0f;
+
+
+	};
+
+
 
 }
-
-
-
 /*
 
 Camera orientation

@@ -18,6 +18,8 @@ public:
 	void OnAttach() override;
 	void OnUpdate() override;
 
+	void UpdateCameraMovement();
+
 	void OnImguiRender() override;
 	void OnEvent(GB::Event& event) override;
 
@@ -79,14 +81,14 @@ public:
 	{
 		GB_CLIENT_INFO("Client info");
 
-		PushLayer(new LayerExample());
-		PushLayer(new GameSystem());
+//		PushLayer(new LayerExample());
+//		PushLayer(new GameSystem());
 		PushLayer(new FreeCamera());
 	}
 
 	~Sandbox()
 	{
-		PopLayer(new GB::ImGuiLayer());
+	//	PopLayer(new GB::ImGuiLayer());
 	}
 
 };

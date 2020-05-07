@@ -38,11 +38,11 @@ void LayerExample::OnAttach()
 
 }
 void LayerExample::OnUpdate()
-	{
+{
 	//esto no es correcto porque se tiene que calcular la posicion con respecto a la camara
 	//de screen coordinate a world coordinate
-		if (Input::IsMousePressed(0))
-		{
+	if (Input::IsMousePressed(0))
+	{
 		auto mousePos = Input::GetMousePosition();
 		mousePos.x /= (float)Application::Get().GetWindow().GetWidth();
 		mousePos.y /= (float)Application::Get().GetWindow().GetHeight();
@@ -88,46 +88,65 @@ vector2 FreeCamera::CameraDirection()
 
 void FreeCamera::OnAttach()
 {
+	GB_CLIENT_INFO("Initialized freecamera");
+
+	std::vector<std::string> TexturePaths;
+	TexturePaths.push_back("Assets/Texture/ball.png");
+	TexturePaths.push_back("Assets/Texture/Brick.png");
+	TexturePaths.push_back("Assets/Texture/Game.png");
+	TexturePaths.push_back("Assets/Texture/lion-logo.png");
+
+	std::vector<GB::Texture2D*> Textures;
+
+	Renderer* renderer = &Renderer::Get();
+	for (size_t i = 0; i < TexturePaths.size(); i++)
+	{
+		renderer->m_textures.push_back(Texture2D::Create(TexturePaths[i]));
+	}
+	std::string MaterialPaths[]
+	{
+	"Assets/Shader/Camera.shader",
+	"Assets/Shader/Voronoi.shader"
+	};
+
+	Material* BaseMaterial = new Material(MaterialPaths[0]);
+	Material* ComplexMaterial = new Material(MaterialPaths[1]);
+
+	//todo: should remove this reference
+	renderer->m_materials.push_back(BaseMaterial);
+	renderer->m_materials.push_back(ComplexMaterial);
+
+	renderer->PushObj(new Sprite(BaseMaterial, 3, "Plane 0"));
+	renderer->PushObj(new Sprite(BaseMaterial, 0, "Plane 1"));
+	renderer->PushObj(new Cube(BaseMaterial, 1, "Cube"));
+	renderer->PushObj(new Cube(ComplexMaterial, 0, "Cube white"));
+	renderer->PushObj(new Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
+	
+	{
+		/*
+		For setting random position
+		*/
+		int distance = 4;
+		for (int i = 0; i < renderer->m_renderObjects.size(); i++)
+		{
+			vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
+
+			auto render = renderer->m_renderObjects[i];
+			render->m_transform.position = randomPos;
+		}
+	}
 }
 
-float velocity = 5.0f;
 void FreeCamera::OnUpdate()
 {
 
-	timer += Time::DeltaTime();
-	//	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
-	float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
-	float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
-	//obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
-	Camera::GetMain()->CameraInput(velocity);
-	if (GB::Input::IsMousePressed(1))
-	{
-
-		vector2 diff = CameraDirection();
-		GB::Camera::GetMain()->Translate(glm::vec3(diff.x * velocity, -diff.y * velocity, 0.0f));
-	}
-
-	if (GB::Input::IsMousePressed(2))
-	{
-		float diff = CameraDirection().y;
-		GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff * velocity * 2));
-
-	}
-
-	if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
-	{
-		vector2 position = CameraDirection();
-
-
-		GB::Camera::GetMain()->Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
-		GB::Camera::GetMain()->Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
-	}
+	UpdateCameraMovement();
 
 	/*
 	Testing a error in the renderobjects queue
 	*/
 
-
+	return;
 	unsigned int id = 1;
 	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
 	if (obj == nullptr)return;
@@ -179,6 +198,38 @@ void FreeCamera::OnUpdate()
 	}
 
 
+}
+
+void FreeCamera::UpdateCameraMovement()
+{
+	timer += Time::DeltaTime();
+	//	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
+	float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
+	float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
+	//obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
+	Camera::GetMain()->CameraInput(velocity);
+	if (GB::Input::IsMousePressed(1))
+	{
+
+		vector2 diff = CameraDirection();
+		GB::Camera::GetMain()->Translate(glm::vec3(diff.x * velocity, -diff.y * velocity, 0.0f));
+	}
+
+	if (GB::Input::IsMousePressed(2))
+	{
+		float diff = CameraDirection().y;
+		GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff * velocity * 2));
+
+	}
+
+	if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
+	{
+		vector2 position = CameraDirection();
+
+
+		GB::Camera::GetMain()->Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
+		GB::Camera::GetMain()->Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
+	}
 }
 
 void FreeCamera::OnImguiRender()

@@ -44,20 +44,23 @@ namespace GB
     virtual void OnRender();
     virtual void OnImguiRender() override;
 
+	void RenderObjectImgui(GB::RenderObject*& render, int i, glm::vec3& scale, glm::quat& quat, glm::vec3& position, glm::vec3& skew, glm::vec4& perspective, float  rot[3]);
+
     void PushObj(RenderObject* obj);
     void PushOverLay(RenderObject* obj);
     void PopObj(RenderObject* obj);
     void PopOverlay(RenderObject* obj);
 
     inline RenderObject* GetRenderobj(unsigned int index) { if (index > m_renderObjects.size() - 1)return nullptr; else return m_renderObjects[index]; }
-    int  GetRenderObjectCount() { return m_renderObjects.size(); }
+    size_t  GetRenderObjectCount() { return m_renderObjects.size(); }
 	inline const std::vector<Material*> GetMaterials() { return m_materials; }
     void SetRenderMode(ERenderMode mode);
 
     glm::vec4 renderColor;
 
 
-  private:
+  //private:
+
     uint32_t m_VertexArray;
     static Renderer *m_singleton;
     std::vector<RenderObject*> m_renderObjects;

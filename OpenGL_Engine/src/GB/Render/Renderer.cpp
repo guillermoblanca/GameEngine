@@ -53,41 +53,6 @@ namespace GB
 
 		RenderCommand::AlphaMode(true);
 		RenderCommand::DephtTest(true);
-		std::vector<std::string> paths;
-		paths.push_back("Assets/Texture/ball.png");
-		paths.push_back("Assets/Texture/Brick.png");
-		paths.push_back("Assets/Texture/Game.png");
-		paths.push_back("Assets/Texture/lion-logo.png");
-
-
-		for (int i = 0; i < paths.size(); i++)
-		{
-			m_textures.push_back(Texture2D::Create(paths[i]));
-			m_textures[i]->Create(paths[i]);
-		}
-		m_materials.push_back(new Material("Assets/Shader/Voronoi.shader"));
-
-		PushObj(new Sprite(m_materials[0], 3, "Plane 0"));
-		PushObj(new Sprite(m_materials[0], 0, "Plane 1"));
-		PushObj(new Cube(m_materials[0], 1, "Cube"));
-		PushObj(new Cube(m_materials[0], 0, "Cube white"));
-		PushObj(new Line(m_materials[0], vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
-
-
-
-		{
-			/*
-			For setting random position
-			*/
-			int distance = 4;
-			for (int i = 0; i < m_renderObjects.size(); i++)
-			{
-				vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
-
-				auto render = m_renderObjects[i];
-				render->m_transform.position = randomPos;
-			}
-		}
 
 	}
 	void Renderer::OnDetach()
@@ -98,13 +63,20 @@ namespace GB
 
 	void Renderer::OnRender()
 	{
-		m_materials[0]->SetFloat("iTime", Time::GetTime());
-		m_materials[0]->SetVector2("iResolution", values.x,values.y);
+		for (size_t i = 0; i < m_materials.size(); i++)
+		{
+			m_materials[i]->SetFloat("iTime", Time::GetTime());
+			m_materials[i]->SetVector2("iResolution", values.x, values.y);
+		}
 		//Loop for renderOjects and setting different options
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
 			RenderObject* obj = m_renderObjects[i];
-			m_textures[obj->m_textureID]->Bind(0);
+			Texture2D* texture = m_textures[Mathf::Clamp0(obj->m_textureID)];
+			if (texture)
+			{
+				texture->Bind(0);
+			}
 			obj->Render((int)mode);
 		}
 
@@ -153,6 +125,17 @@ namespace GB
 		ImGui::DragFloat2("iResolution", (float*)&values,0.01f,-1.0f,1.0f);
 		if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
 
+		if (ImGui::CollapsingHeader("Materials"))
+		{
+			for (size_t i = 0; i < m_materials.size(); i++)
+			{
+				ImGui::Text("%s", m_materials[i]->GetPath().c_str());
+				ImGui::Spacing();
+				//ImGui::Text("Value: %s",m_materials[i]->SetFloat)
+
+			}
+		}
+
 		if (ImGui::CollapsingHeader("Files in shader folder"))
 		{
 			static std::vector<std::string> files = FileParser::GetFilesInDirectory(*"Assets/Shader");
@@ -197,44 +180,48 @@ namespace GB
 			for (int i = 0; i < m_renderObjects.size(); i++)
 				if (ImGui::TreeNode((void*)(intptr_t)i, "%s", m_renderObjects[i]->m_name.c_str()))
 				{
-					render = m_renderObjects[i];
-					glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
-					glm::vec3 rotator = render->m_transform.rotation;
-					ImGui::InputText("Name:", render->m_name.data(), 64);
-					ImGui::DragFloat3("Position", (float*)&position, 0.1f);
-					ImGui::DragFloat3("Rotation", rot, 0.1f);
-					ImGui::DragFloat3("Scale", (float*)&scale, 0.1f);
-
-					ImGui::Separator();
-					ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
-					ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
-					ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
-					ImGui::Separator();
-					if (ImGui::CollapsingHeader("Material"))
-					{
-
-					}
-					if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
-					{
-						ImGui::DragInt("Texture", &m_renderObjects[i]->m_textureID, 1, 0, m_textures.size() - 1);
-						if (ImGui::Button("Texture Up")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID + 1, 0, m_textures.size() - 1);
-						ImGui::SameLine();
-						if (ImGui::Button("Texture Down")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID - 1, 0, m_textures.size() - 1);
-						ImGui::ColorPicker4("Color", (float*)&render->m_color);
-						ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
-					}
-
-					if (render->mesh != nullptr) render->mesh->WindowProperties();
-
-					render->m_transform.Translate(position);
-					render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
-					render->m_transform.SetScale(scale);
-					ImGui::TreePop();
+					RenderObjectImgui(render, i, scale, quat, position, skew, perspective, rot);
 				}
 			ImGui::TreePop();
 		}
 		ImGui::End();
 
 
+	}
+	void Renderer::RenderObjectImgui(GB::RenderObject*& render, int i, glm::vec3& scale, glm::quat& quat, glm::vec3& position, glm::vec3& skew, glm::vec4& perspective, float  rot[3])
+	{
+		render = m_renderObjects[i];
+		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
+		glm::vec3 rotator = render->m_transform.rotation;
+		ImGui::InputText("Name:", render->m_name.data(), 64);
+		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
+		ImGui::DragFloat3("Rotation", rot, 0.1f);
+		ImGui::DragFloat3("Scale", (float*)&scale, 0.1f);
+
+		ImGui::Separator();
+		ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
+		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
+		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
+		ImGui::Separator();
+		if (ImGui::CollapsingHeader("Material"))
+		{
+
+		}
+		if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
+		{
+			ImGui::DragInt("Texture", &m_renderObjects[i]->m_textureID, 1, 0, m_textures.size() - 1);
+			if (ImGui::Button("Texture Up")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID + 1, 0, m_textures.size() - 1);
+			ImGui::SameLine();
+			if (ImGui::Button("Texture Down")) m_renderObjects[i]->m_textureID = Mathf::Clamp<int>(m_renderObjects[i]->m_textureID - 1, 0, m_textures.size() - 1);
+			ImGui::ColorPicker4("Color", (float*)&render->m_color);
+			ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
+		}
+
+		if (render->mesh != nullptr) render->mesh->WindowProperties();
+
+		render->m_transform.Translate(position);
+		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
+		render->m_transform.SetScale(scale);
+		ImGui::TreePop();
 	}
 }

@@ -141,6 +141,8 @@ namespace GB
 	Material::Material(const std::string path)
 	{
 		bool r = CreateShader(path);
+		currentpath = path;
+
 	//	GB_CORE_ASSERT(r, "Material not created");
 	}
 	Material::~Material()

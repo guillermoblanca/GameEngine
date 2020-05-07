@@ -19,7 +19,7 @@
 #define GB_CORE_ASSERT(x,...)if(!x) {GB_CORE_ERROR("Assertion failed {0}",__VA_ARGS__); __debugbreak(); }
 #else
 #define GB_ASSERT(x,...)
-#define GB_COREASSERT(x,...)
+#define GB_CORE_ASSERT(x,...)
 
 #endif
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
