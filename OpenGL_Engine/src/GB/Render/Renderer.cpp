@@ -84,6 +84,7 @@ namespace GB
 	{
 		static int random = 0;
 		static bool useAlpha = true;
+		static bool useDepth = true;
 		static int i = 0;
 		static float rot[] = { 0,0,0 };
 		glm::vec3 position;
@@ -93,7 +94,9 @@ namespace GB
 		glm::vec4 perspective;
 		RenderObject* render = nullptr;
 		ImGui::Begin("Render");
-		if (ImGui::Button("Change Alpha mode")) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
+		if (ImGui::RadioButton("Toggle Alpha mode",useAlpha)) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Toggle Depht mode",useDepth)) { useDepth = !useDepth; RenderCommand::DephtTest(useAlpha); }
 
 		if (ImGui::CollapsingHeader("Materials"))
 		{
