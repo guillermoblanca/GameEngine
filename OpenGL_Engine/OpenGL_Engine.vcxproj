@@ -506,7 +506,7 @@
     <ClInclude Include="src\GB\Events\MouseEvent.h" />
     <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h" />
     <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h" />
-    <ClInclude Include="src\GB\GameplayFramework\GameObject.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Actor.h" />
     <ClInclude Include="src\GB\GameplayFramework\Transform.h" />
     <ClInclude Include="src\GB\GameplayFramework\World.h" />
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
@@ -554,7 +554,7 @@
     <ClCompile Include="src\GB\Application.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp" />
-    <ClCompile Include="src\GB\GameplayFramework\GameObject.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\Actor.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Transform.cpp" />
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GB\ImGui\ImguiBuild.cpp" />

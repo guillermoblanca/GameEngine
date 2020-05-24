@@ -1,5 +1,5 @@
 #include "gbpch.h"
-#include "GameObject.h"
+#include "Actor.h"
 #include "imgui.h"
 void GB::Actor::AddComponent(Component & component)
 {

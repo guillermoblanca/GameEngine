@@ -50,7 +50,7 @@ void FreeCamera::OnAttach()
 	renderer->AddRenderElement(Sprite(BaseMaterial, 0, "Plane 1"));
 	renderer->AddRenderElement(Cube(BaseMaterial, 1, "Cube"));
 	renderer->AddRenderElement(Cube(ComplexMaterial, 0, "Cube white"));
-//	renderer->AddRenderElement(Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
+	//renderer->AddRenderElement(Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
 
 	{
 		/*

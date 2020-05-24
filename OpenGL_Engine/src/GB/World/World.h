@@ -7,7 +7,7 @@
 World
 World Manager can change level and add additive to it
 
-*World instance of the level 
+*World instance of the level
 Has a reference ob all objects of the game
 
 instantia actors
@@ -20,7 +20,7 @@ find actor by name
 namespace GB
 {
 	//TODO: change this to a own class
-	typedef RenderObject Actor;
+
 
 
 	static World* GetWorld();
@@ -55,7 +55,7 @@ namespace GB
 		bool m_isLoaded;
 	};
 
-	
+
 
 	//Singleton class that can spawn levels and loaded
 	class WorldManager

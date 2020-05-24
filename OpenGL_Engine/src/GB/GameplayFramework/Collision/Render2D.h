@@ -1,6 +1,6 @@
 #pragma once
 #include "GB\Core.h"
-#include "GB\GameplayFramework\GameObject.h"
+#include "GB\GameplayFramework\Actor.h"
 namespace GB
 {
 	class Render2D : public Component

@@ -2,13 +2,7 @@
 
 namespace GB
 {
-	class HierarchyWindow
-	{
-	public:
 
-	private:
-
-	};
 	class RenderTab
 	{
 	public:

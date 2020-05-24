@@ -9,8 +9,8 @@ namespace GB
 	class GBAPI Camera
 	{
 	public:
-		Camera();
 		enum EMode { Perspective = 0, Orthograpic };
+		Camera();
 
 		void Translate(vector3 pos);
 		void Rotate(float degrees, vector3 direction);
@@ -25,11 +25,6 @@ namespace GB
 		inline matrix4 GetView() { ReCalculateMatrix(); return m_view; }
 		inline vector3 GetRot() { return vector3(0.0f); }
 
-		inline void SetCameraMode(Camera camera, EMode mode)
-		{
-			vector3 distance = camera.target - camera.position;
-			cameratargetdistance = glm::length(distance);
-		}
 
 		void ImguiEditor();
 		void CameraInput(float speed);
