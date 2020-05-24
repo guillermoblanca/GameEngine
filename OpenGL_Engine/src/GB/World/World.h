@@ -31,19 +31,28 @@ namespace GB
 
 		Actor* FindActorByName(const std::string& actorName);
 
-		void Instantiate(Actor& spawnActor, vector3 position);
-		void Instantiate(Actor& spawnActor, vector3 position, quaternion rotation);
-		void Instantiate(Actor& spawnActor, vector3 position, quaternion rotation, Actor* parent);
+		virtual bool Create(std::string path);
+		virtual bool Create(const std::vector<Actor*>& actors);
 
-		void Destroy(Actor& actor);
+		virtual void Init();
+		virtual void ShutDown();
 
-		void OnLevelLoaded();
-		void OnLevelUnLoaded();
+		virtual void Instantiate(Actor& spawnActor, vector3 position);
+		virtual void Instantiate(Actor& spawnActor, vector3 position, quaternion rotation);
+		virtual void Instantiate(Actor& spawnActor, vector3 position, quaternion rotation, Actor* parent);
+
+		virtual void Destroy(Actor& actor);
+
+		virtual void OnLevelLoaded();
+		virtual void OnLevelUnLoaded();
+
 	private:
-		std::vector<Actor*> m_actors; //actos in the level
+		std::vector<Actor*> m_actors; //actors in the level
 		std::string m_levelName; //level name
-		float m_realtimeSeconds; //time since game start
+		float m_realtimeSeconds; //time since level start
+
 		bool m_isAditive;
+		bool m_isLoaded;
 	};
 
 	

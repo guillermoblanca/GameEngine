@@ -1317,6 +1317,8 @@
     <ClInclude Include="src\gbpch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Editor\MenuLayer.h" />
+    <ClInclude Include="src\Editor\RendererMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1418,5 +1420,7 @@
     <ClCompile Include="src\gbpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Editor\MenuLayer.cpp" />
+    <ClCompile Include="src\Editor\RendererMenu.cpp" />
   </ItemGroup>
 </Project>

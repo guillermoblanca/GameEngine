@@ -20,7 +20,7 @@ GB::Application::Application()
 	PushLayer(m_imguiLayer.get());
 
 	m_renderer = std::unique_ptr<Renderer>(new Renderer());
-	PushLayer(m_renderer.get());
+	m_renderer->Init();
 }
 
 GB::Application::~Application()
@@ -38,7 +38,6 @@ void GB::Application::Run()
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
 	
-    RenderCommand::SetClearColor(m_renderer->renderColor);
     RenderCommand::Clear();
     Renderer::BeginScene(*Camera::GetMain());
 		m_renderer->OnRender();
@@ -48,6 +47,8 @@ void GB::Application::Run()
 		m_imguiLayer->Begin();
 		for (Layer* layer : m_LayerStack)
 			layer->OnImguiRender();
+
+		m_renderer->OnImguiRender();
 		m_imguiLayer->End();
 
 	}

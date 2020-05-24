@@ -17,7 +17,7 @@ namespace GB
     /*Unbind the texture to the current shader*/
     virtual void UnBind()const = 0;
 
-    inline int32_t GetID() { return m_ID; }
+    inline unsigned int GetID() { return m_ID; }
     inline int GetBPP() { return m_BPP; }
     inline int GetWidth() { return m_Width; }
     inline int GetHeight() { return m_Height; }

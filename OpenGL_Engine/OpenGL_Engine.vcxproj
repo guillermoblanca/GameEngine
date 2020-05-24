@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gbpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GLFW_INCLUDE_NONE;GB_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GLFW_INCLUDE_NONE;GB_DEBUG;GB_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;Dependencies\spdlog\include;Dependencies\GLFW\include;Dependencies\GLAD\include;Dependencies\imgui;Dependencies\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -494,6 +494,8 @@
     <ClInclude Include="Dependencies\glm\glm\vec3.hpp" />
     <ClInclude Include="Dependencies\glm\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="src\Editor\MenuLayer.h" />
+    <ClInclude Include="src\Editor\RendererMenu.h" />
     <ClInclude Include="src\GB.h" />
     <ClInclude Include="src\GB\Application.h" />
     <ClInclude Include="src\GB\Core.h" />
@@ -547,6 +549,8 @@
     <ClInclude Include="src\gbpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Editor\MenuLayer.cpp" />
+    <ClCompile Include="src\Editor\RendererMenu.cpp" />
     <ClCompile Include="src\GB\Application.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp" />

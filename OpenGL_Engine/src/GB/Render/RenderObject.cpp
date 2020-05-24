@@ -177,6 +177,8 @@ namespace GB
 	Cube::~Cube()
 	{
 	}
+
+
 	void Cube::Render(int mode)
 	{
 		material->Bind();

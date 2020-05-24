@@ -22,6 +22,8 @@ namespace GB
 
 		void PushLayer(Layer* layer);
 		void PopLayer(Layer* layer);
+
+		std::unique_ptr<Renderer>& GetRender() { return m_renderer; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		std::unique_ptr<Window> m_Window;

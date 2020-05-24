@@ -11,6 +11,9 @@ private:
 	vector2 prevMouse = { 0,0 };
 	float distance = 10;
 	float velocity = 0.01f;
+
+	//temp
+	GB::EditorMenu editor;
 public:
 
 	vector2 CameraDirection();
@@ -23,54 +26,6 @@ public:
 	void OnImguiRender() override;
 	void OnEvent(GB::Event& event) override;
 
-	void ProfilingMenu();
-};
-
-class LayerExample : public GB::Layer
-{
-public:
-
-	void OnAttach() override;
-
-	void OnUpdate() override;
-
-	void OnImguiRender() override;
-
-	void OnEvent(GB::Event& event) override;
-};
-
-class GameSystem : public GB::Layer
-{
-private:
-	static GameSystem* m_instance;
-public:
-	inline static GameSystem* Instance() { return m_instance; }
-	std::vector<GB::Actor*> m_gameObjects;
-
-	void AddGameObject(GB::Actor& gameObject);
-	void OnUpdate() override
-	{
-		for (size_t i = 0; i < m_gameObjects.size(); i++)
-		{
-			m_gameObjects[i]->UpdateComponent();
-		}
-	}
-
-	void OnImguiRender() override
-	{
-    //if (ImGui::Begin("Inspector"))
-    //{
-    //  if (ImGui::Button("Add GameObject"))
-    //  {
-    //    AddGameObject(GB::GameObject("instance 1"));
-    //  }
-    //  for (size_t i = 0; i < m_gameObjects.size(); i++)
-    //  {
-    //    m_gameObjects[i]->ImguiComponent();
-    //  }
-    //  ImGui::End();
-    //}
-	}
 };
 
 
@@ -81,8 +36,6 @@ public:
 	{
 		GB_CLIENT_INFO("Client info");
 
-//		PushLayer(new LayerExample());
-//		PushLayer(new GameSystem());
 		PushLayer(new FreeCamera());
 	}
 

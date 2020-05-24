@@ -7,76 +7,6 @@
 
 using namespace GB;
 
-struct DATA
-{
-	float position;
-	uint32_t ID;
-	std::string name;
-};
-void LayerExample::OnAttach()
-{
-
-	//todo: optimize
-	std::vector<Mesh*> meshs;
-
-	Mesh debugMesh;
-	MeshReader::ConvertFileToMesh("Assets/Mesh/sphere.obj", debugMesh);
-
-	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/sphere.obj"));
-	meshs.push_back(MeshReader::ReadMeshFromFile("Assets/Mesh/cubeonemeter.obj"));
-
-
-	for (size_t i = 0; i < meshs.size(); i++)
-	{
-		GB::RenderObject* renderObject = new GB::RenderObject(Renderer::Get().GetMaterials()[0], meshs[i]->name);
-		renderObject->Create(*meshs[i]);
-		renderObject->m_textureID = 0;
-		renderObject->m_transform.Translate({ i * 1.5f,0,0 });
-		Renderer::Get().PushObj(renderObject);
-	}
-
-
-}
-void LayerExample::OnUpdate()
-{
-	//esto no es correcto porque se tiene que calcular la posicion con respecto a la camara
-	//de screen coordinate a world coordinate
-	if (Input::IsMousePressed(0))
-	{
-		auto mousePos = Input::GetMousePosition();
-		mousePos.x /= (float)Application::Get().GetWindow().GetWidth();
-		mousePos.y /= (float)Application::Get().GetWindow().GetHeight();
-		for (size_t i = 0; i < Renderer::Get().GetRenderObjectCount(); i++)
-		{
-			auto renderer = Renderer::Get().GetRenderobj(i);
-			bool objectIsSelected = CollisionManager::CheckCollision({ mousePos,0.5f,0.5f }, { renderer->m_transform.position,1,1 });
-			if (objectIsSelected)
-			{
-				renderer->m_color = { 1.0f,0.0f,0.0f,1.0f };
-				return;
-			}
-		}
-	}
-}
-void LayerExample::OnImguiRender()
-{
-
-}
-
-void LayerExample::OnEvent(GB::Event& event)
-{
-
-
-	if (event.GetEventType() == GB::EventType::KeyPressed)
-	{
-		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
-	}
-}
-
-
-#pragma region FreeCamera
-
-
 vector2 FreeCamera::CameraDirection()
 {
 	mouse = GB::Input::GetMousePosition();
@@ -98,7 +28,7 @@ void FreeCamera::OnAttach()
 
 	std::vector<GB::Texture2D*> Textures;
 
-	Renderer* renderer = &Renderer::Get();
+	auto& renderer = Application::Get().GetRender();
 	for (size_t i = 0; i < TexturePaths.size(); i++)
 	{
 		renderer->m_textures.push_back(Texture2D::Create(TexturePaths[i]));
@@ -116,22 +46,22 @@ void FreeCamera::OnAttach()
 	renderer->m_materials.push_back(BaseMaterial);
 	renderer->m_materials.push_back(ComplexMaterial);
 
-	renderer->PushObj(new Sprite(BaseMaterial, 3, "Plane 0"));
-	renderer->PushObj(new Sprite(BaseMaterial, 0, "Plane 1"));
-	renderer->PushObj(new Cube(BaseMaterial, 1, "Cube"));
-	renderer->PushObj(new Cube(ComplexMaterial, 0, "Cube white"));
-	renderer->PushObj(new Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
-	
+	renderer->AddRenderElement(Sprite(BaseMaterial, 3, "Plane 0"));
+	renderer->AddRenderElement(Sprite(BaseMaterial, 0, "Plane 1"));
+	renderer->AddRenderElement(Cube(BaseMaterial, 1, "Cube"));
+	renderer->AddRenderElement(Cube(ComplexMaterial, 0, "Cube white"));
+//	renderer->AddRenderElement(Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
+
 	{
 		/*
 		For setting random position
 		*/
 		int distance = 4;
-		for (int i = 0; i < renderer->m_renderObjects.size(); i++)
+		for (int i = 0; i < renderer->GetRenderObjectCount(); i++)
 		{
 			vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
 
-			auto render = renderer->m_renderObjects[i];
+			auto render = renderer->GetRenderobj(i);
 			render->m_transform.position = randomPos;
 		}
 	}
@@ -145,58 +75,17 @@ void FreeCamera::OnUpdate()
 	/*
 	Testing a error in the renderobjects queue
 	*/
-
+	auto& render = Application::Get().GetRender();
 	return;
 	unsigned int id = 1;
-	RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(id);
+	RenderObject* obj = (RenderObject*)render->GetRenderobj(id);
 	if (obj == nullptr)return;
-	static int count = Renderer::Get().GetRenderObjectCount();
-	RenderObject* obj1 = (RenderObject*)Renderer::Get().GetRenderobj(id + 1);
+	static int count =  render->GetRenderObjectCount();
+	RenderObject* obj1 = (RenderObject*)render->GetRenderobj(id + 1);
 
 	float distObj = 2.0f;
 	float t = timer;
 	obj->m_transform.RotateAround(obj1->m_transform.position, distObj, timer);
-	//obj1->m_transform.position = vector3(t, t* cos(t), t*sin(t));
-	return;
-
-	for (int i = 1; i < count; i++)
-	{
-		RenderObject* render = (RenderObject*)Renderer::Get().GetRenderobj(i);
-		vector2 position = vector2(render->m_transform.position.x, render->m_transform.position.y);
-		BoxCollider box = { position,1,1 };
-
-		RenderObject* render1 = (RenderObject*)Renderer::Get().GetRenderobj(i - 1);
-		vector2 position1 = vector2(render1->m_transform.position.x, render1->m_transform.position.y);
-		BoxCollider box1 = { position1,1,1 };
-
-		if (CollisionManager::CheckCollision(box1, box))
-		{
-			render->m_color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-
-			//GB_CORE_INFO("Obj {0}, Obj2 {1}", render->m_transform.position, render1->m_transform.position);
-		}
-
-
-	}
-
-	if (Input::IsKeyPressed(GB_KEY_W))
-	{
-		obj->m_transform.position = obj->m_transform.position + (glm::vec3(0.f, velocity * Time::DeltaTime(), 0.0f));
-	}
-	else
-		if (Input::IsKeyPressed(GB_KEY_D))
-		{
-			obj->m_transform.position = obj->m_transform.position + (glm::vec3(velocity * Time::DeltaTime(), 0.0f, 0.0f));
-		}
-	if (Input::IsKeyPressed(GB_KEY_A))
-	{
-		obj->m_transform.position = obj->m_transform.position + (glm::vec3(-velocity * Time::DeltaTime(), 0.0f, 0.0f));
-	}
-	else if (Input::IsKeyPressed(GB_KEY_S))
-	{
-		obj->m_transform.position = obj->m_transform.position + (glm::vec3(0.0f, -velocity * Time::DeltaTime(), 0.0f));
-	}
-
 
 }
 
@@ -234,6 +123,7 @@ void FreeCamera::UpdateCameraMovement()
 
 void FreeCamera::OnImguiRender()
 {
+	editor.ImguiRender();
 	static int rendermode = 4;
 	static Texture2D* texture = nullptr;
 
@@ -281,35 +171,13 @@ void FreeCamera::OnImguiRender()
 		/*
 		Todo: fix issue when there is no object
 		*/
-		RenderObject* obj = (RenderObject*)Renderer::Get().GetRenderobj(1);
+		RenderObject* obj = (RenderObject*)Application::Get().GetRender()->GetRenderobj(1);
 		if (obj == nullptr)return;
 		Camera::GetMain()->LookAt(obj->m_transform.position, distance);
 	}
-	ImGui::DragInt("RenderMode", &rendermode, 1, 0, (int)GB::Renderer::ERenderMode::Triangles);
-
-	Renderer::Get().SetRenderMode(GB::Renderer::ERenderMode(rendermode));
 
 	ImGui::End();
 
-	if (ImGui::BeginMainMenuBar())
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("Save"))
-			{
-				DATA data = { 20,2,"Eva" };
-
-				IO::WriteFile(data, "foo.gb");
-			}
-			if (ImGui::MenuItem("Open"))
-			{
-				DATA data = IO::ReadFile<DATA>("foo.gb");
-				GB_CORE_TRACE("DATA: {0},{1},{2}", data.ID, data.position, data.name.c_str());
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::EndMainMenuBar();
-	}
 
 }
 
@@ -321,17 +189,4 @@ void FreeCamera::OnEvent(GB::Event& event)
 		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
 	}
 
-}
-
-
-#pragma endregion
-
-#pragma region GameSystem
-
-GameSystem* GameSystem::m_instance = new GameSystem();
-#pragma endregion
-
-void GameSystem::AddGameObject(Actor& gameObject)
-{
-	m_gameObjects.push_back(&gameObject);
 }
