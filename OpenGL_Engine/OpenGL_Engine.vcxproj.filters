@@ -1319,6 +1319,7 @@
     <ClInclude Include="src\GB\GameplayFramework\Actor.h">
       <Filter>src\GB\GameplayFramework</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Utils\Probabilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\Application.cpp">
@@ -1422,5 +1423,6 @@
     <ClCompile Include="src\GB\GameplayFramework\Actor.cpp">
       <Filter>src\GB\GameplayFramework</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Utils\Probabilities.cpp" />
   </ItemGroup>
 </Project>

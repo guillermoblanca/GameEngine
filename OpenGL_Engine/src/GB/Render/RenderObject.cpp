@@ -90,8 +90,8 @@ namespace GB
 	{
 		material->Bind();
 		material->SetMat4("u_transform", m_transform.GetMat4());
-		material->SetMat4("u_view", Camera::GetMain()->GetView());
-		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
 		material->SetInt("u_Texture", 0);
 
@@ -183,8 +183,8 @@ namespace GB
 	{
 		material->Bind();
 		material->SetMat4("u_transform", m_transform.GetMat4());
-		material->SetMat4("u_view", Camera::GetMain()->GetView());
-		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
 		material->SetInt("u_Texture", 0);
 
@@ -220,8 +220,8 @@ namespace GB
 	{
 		material->Bind();
 		material->SetMat4("u_transform", m_transform.GetMat4());
-		material->SetMat4("u_view", Camera::GetMain()->GetView());
-		material->SetMat4("u_proj", Camera::GetMain()->GetProj());
+		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
+		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
 
 		m_vertexArray->Bind();

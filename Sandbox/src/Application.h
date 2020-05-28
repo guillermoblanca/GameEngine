@@ -7,10 +7,9 @@ class FreeCamera : public GB::Layer
 private:
 	glm::vec3 destiny= glm::vec3(3.0f,0.0f,0.0f);
 	float timer = 0;
-	vector2 mouse;
-	vector2 prevMouse = { 0,0 };
+	vector3 prevMouse = { 0,0 ,0};
 	float distance = 10;
-	float velocity = 0.01f;
+	float velocity = 45.0f;
 
 	//temp
 	GB::EditorMenu editor;

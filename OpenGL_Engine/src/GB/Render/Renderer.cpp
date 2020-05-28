@@ -7,7 +7,7 @@
 #include "GB/Math.h"
 #include "GB/Input.h"
 #include "GB/Render/RenderCommand.h"
-
+#include "GB/Utils/Probabilities.h"
 #include "GB/Utils/FileSystem.h"
 namespace GB
 {
@@ -132,14 +132,14 @@ namespace GB
 
 		}
 
-		if (ImGui::Button("Add Plane"))
+		if (ImGui::Button("Create Plane"))
 		{
 			Sprite renderObj(m_materials[0], Mathf::Random(0, m_textures.size() - 1));
 			m_renderObjects.push_back(renderObj);
 
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Add Cube"))
+		if (ImGui::Button("Create Cube"))
 		{
 			Cube renderObj(m_materials[0], Mathf::Random(0, m_textures.size() - 1));
 			m_renderObjects.push_back(renderObj);
@@ -162,6 +162,7 @@ namespace GB
 				}
 			ImGui::TreePop();
 		}
+
 		ImGui::End();
 
 
@@ -169,6 +170,8 @@ namespace GB
 	void Renderer::RenderObjectImgui(GB::RenderObject*& render, int i, glm::vec3& scale, glm::quat& quat, glm::vec3& position, glm::vec3& skew, glm::vec4& perspective, float  rot[3])
 	{
 		render = &m_renderObjects[i];
+
+		if (ImGui::Button("Destroy")) { m_renderObjects.erase(m_renderObjects.begin()+ i); }
 		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 		glm::vec3 rotator = render->m_transform.rotation;
 		ImGui::InputText("Name:", render->m_name.data(), 64);
@@ -181,10 +184,7 @@ namespace GB
 		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
 		ImGui::Separator();
-		if (ImGui::CollapsingHeader("Material"))
-		{
 
-		}
 		if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
 		{
 			ImGui::DragInt("Texture", &m_renderObjects[i].m_textureID, 1, 0, m_textures.size() - 1);

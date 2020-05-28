@@ -9,11 +9,7 @@ using namespace GB;
 
 vector2 FreeCamera::CameraDirection()
 {
-	mouse = GB::Input::GetMousePosition();
-	vector2 diff = mouse - prevMouse;
-
-	prevMouse = mouse;
-	return diff;
+	return prevMouse;
 }
 
 void FreeCamera::OnAttach()
@@ -65,6 +61,8 @@ void FreeCamera::OnAttach()
 			render->m_transform.position = randomPos;
 		}
 	}
+
+	GB::Camera::GetMain()->Translate(vector3(0.0f, 0.5f, -10.0f));
 }
 
 void FreeCamera::OnUpdate()
@@ -93,32 +91,14 @@ void FreeCamera::UpdateCameraMovement()
 {
 	timer += Time::DeltaTime();
 	//	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
-	float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth() * 16;
-	float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight() * 16;
+	float x = Input::GetMouseX() / (float)Application::Get().GetWindow().GetWidth();
+	float y = Input::GetMouseY() / (float)Application::Get().GetWindow().GetHeight();
 	//obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
-	Camera::GetMain()->CameraInput(velocity);
-	if (GB::Input::IsMousePressed(1))
-	{
+	vector3 mouse = vector3(x, y,0);
+	Camera* camera = Camera::GetMain();
+	mouse *= velocity;
+	camera->LookAt(vector3(x,-y,0),distance);
 
-		vector2 diff = CameraDirection();
-		GB::Camera::GetMain()->Translate(glm::vec3(diff.x * velocity, -diff.y * velocity, 0.0f));
-	}
-
-	if (GB::Input::IsMousePressed(2))
-	{
-		float diff = CameraDirection().y;
-		GB::Camera::GetMain()->Translate(glm::vec3(0.0f, 0.0f, diff * velocity * 2));
-
-	}
-
-	if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
-	{
-		vector2 position = CameraDirection();
-
-
-		GB::Camera::GetMain()->Rotate(position.x, glm::vec3(0.f, 1.0f, 0.0f));
-		GB::Camera::GetMain()->Rotate(position.y, glm::vec3(1.f, 0.0f, 0.0f));
-	}
 }
 
 void FreeCamera::OnImguiRender()
@@ -172,8 +152,11 @@ void FreeCamera::OnImguiRender()
 		Todo: fix issue when there is no object
 		*/
 		RenderObject* obj = (RenderObject*)Application::Get().GetRender()->GetRenderobj(1);
-		if (obj == nullptr)return;
+		if (obj)
+		{
+
 		Camera::GetMain()->LookAt(obj->m_transform.position, distance);
+		}
 	}
 
 	ImGui::End();

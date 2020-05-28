@@ -18,18 +18,16 @@ namespace GB
 		void LookAt(vector3 position, float distance);
 
 
-		inline vector3 Position() { return m_view[3]; }
+		inline vector3 Position() { return m_ViewMatrix[3]; }
 		vector3        GetEuler();
 		inline float   GetFOV() { return m_fov; }
-		inline matrix4 GetProj() { ReCalculateMatrix(); return m_proj; }
-		inline matrix4 GetView() { ReCalculateMatrix(); return m_view; }
-		inline vector3 GetRot() { return vector3(0.0f); }
-
+		inline matrix4 GetProjectionMatrix() { RecalculateMatrix(); return m_ProjectionMatrix; }
+		inline matrix4 GetViewMatrix() { RecalculateMatrix(); return m_ViewMatrix; }
+		inline matrix4 GetProjectionViewMatrix() { RecalculateMatrix(); return m_ProjectionViewMatrix; }
 
 		void ImguiEditor();
-		void CameraInput(float speed);
 		void SetMainCamera(Camera* camera);
-		void ReCalculateMatrix();
+		void RecalculateMatrix();
 
 		inline static Camera* GetMain() { return s_main; }
 
@@ -38,31 +36,20 @@ namespace GB
 
 		static Camera* s_main;
 
-		EMode m_mode;
-		vector3 m_front;
-		vector3 m_up;
+		matrix4 m_ProjectionMatrix;
+		matrix4 m_ViewMatrix;
+		matrix4 m_ProjectionViewMatrix;
+		vector3 m_Position;
+		vector3 m_TargetView = { 0.0f,0.0f,0.0f };
 
-		matrix4 m_proj;
-		matrix4 m_view;
+
+		float m_Rotation;
 
 		float m_fov;
 		float m_nearFOV;
 		float m_farFOV;
 
-		vector2 m_orthoOp;
-
-		// NEW FEATURE
-
-		const float mouse_sensitivity = 0.003f;
-		const float mouse_scroll_sensitivity = 1.5f;
-
-		vector3 position; //Camera position
-		float rotation;
 		vector3 target; //Camera target it looks at;
-		vector3 up; //Camera up vector rotation over its axis
-		float fov; //Camera field-of-view in y (degrees) in pespective mode
-		EMode cameraMode;
-		float cameratargetdistance;
 	};
 
 

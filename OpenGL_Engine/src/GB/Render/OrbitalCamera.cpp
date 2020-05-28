@@ -18,7 +18,7 @@ void GB::OrbitalCamera::Tick()
 	float x = Input::GetMouseX() / (float)window->GetWidth() * 16;
 	float y = Input::GetMouseY() / (float)window->GetHeight() * 16;
 
-	this->CameraInput(speed);
+	
 
 
 }
@@ -35,21 +35,21 @@ void GB::OrbitalCamera::InputMode()
 			0.0f
 		);
 
-		Translate(direction);
+		//Translate(direction);
 	}
 
 	if (Input::IsMousePressed(2))
 	{
 		float y = GetCameraDirection().y;
-		Translate(vector3(0.0f, 0.0f, y * speed * 2));
+	//	Translate(vector3(0.0f, 0.0f, y * speed * 2));
 
 	}
 
 	if (Input::IsKeyPressed(GB_KEY_LEFT_ALT) && Input::IsMousePressed(0))
 	{
 		vector2 direction = GetCameraDirection();
-		Rotate(direction.x, vector3(0.f, 1.0f, 0.0f));
-		Rotate(direction.y, vector3(1.f, 0.0f, 0.0f));
+	//	Rotate(direction.x, vector3(0.f, 1.0f, 0.0f));
+	//	Rotate(direction.y, vector3(1.f, 0.0f, 0.0f));
 	}
 
 }
