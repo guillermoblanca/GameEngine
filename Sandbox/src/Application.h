@@ -13,6 +13,7 @@ private:
 	vector3 m_Direction = vector3(0, 0, 0);
 	//temp
 	GB::EditorMenu editor;
+	bool shouldUpdate = true;
 public:
 
 	vector2 CameraDirection();

@@ -8,6 +8,7 @@ namespace GB
 	public:
 		
 		static void SetCursorPosition(float xPos, float yPos);
+		static void SetVisibleCursor(bool activate);
 	private:
 
 	};

@@ -66,6 +66,8 @@ void FreeCamera::OnAttach()
 	float x = (float)app.GetWidth() / 2.0f;
 	float y = (float)app.GetHeight() / 2.0f;
 	GB::Cursor::SetCursorPosition(x, y);
+	GB::Cursor::SetVisibleCursor(false);
+
 	prevMouse = vector3(Input::GetMouseX() / x, Input::GetMouseY() / y, 0);
 
 	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 10.0f));
@@ -75,8 +77,30 @@ void FreeCamera::OnAttach()
 void FreeCamera::OnUpdate()
 {
 
+	if (Input::IsKeyPressed(GB_KEY_Z))
+	{
+		shouldUpdate = !shouldUpdate;
+	}
+
+	if (!shouldUpdate)return;
 	UpdateCameraMovement();
-	Camera* camera = GB::Camera::GetMain();
+
+	
+}
+
+void FreeCamera::UpdateCameraMovement()
+{
+	timer += Time::DeltaTime();
+	Camera* camera = Camera::GetMain();
+	float x = Input::GetMouseX() / ((float)Application::Get().GetWindow().GetWidth() * 0.5f);
+	float y = Input::GetMouseY() / ((float)Application::Get().GetWindow().GetHeight() * 0.5f);
+
+	vector3 mouse = vector3(x, y, 0);
+	vector3 diff = (mouse - prevMouse) * m_CameraRotationSpeed;
+	prevMouse = mouse;
+	vector3 rotation = camera->GetRotation();
+
+	camera->SetRotation((-diff.y) + rotation.x, diff.x + rotation.y, rotation.z);
 
 	if (Input::IsKeyPressed(GB_KEY_W))
 	{
@@ -102,25 +126,23 @@ void FreeCamera::OnUpdate()
 	{
 
 		m_Direction = camera->GetPosition();
-		m_Direction += glm::cross(camera->GetForward(),vector3(0,1,0))* m_MovSpeed;
+		m_Direction += glm::cross(camera->GetForward(), vector3(0, 1, 0)) * m_MovSpeed;
 		camera->SetPosition(m_Direction);
 	}
-	GB_CLIENT_INFO("CDir {0}", camera->GetForward());
-}
 
-void FreeCamera::UpdateCameraMovement()
-{
-	timer += Time::DeltaTime();
-	//	obj->m_transform.Lerp0(glm::vec3(0.0f, 0.0f, 0.0f), destiny, std::abs(std::sin(timer)));
-	float x = Input::GetMouseX() / ((float)Application::Get().GetWindow().GetWidth() * 0.5f);
-	float y = Input::GetMouseY() / ((float)Application::Get().GetWindow().GetHeight() * 0.5f);
-	//obj->m_transform.Translate(glm::vec3((x, y, 0.0f)));
-	vector3 mouse = vector3(x, y, 0);
-	Camera* camera = Camera::GetMain();
-	vector3 diff = (mouse - prevMouse) * m_CameraRotationSpeed;
-	prevMouse = mouse;
-	vector3 rotation = camera->GetRotation();
-	camera->SetRotation((-diff.y) + rotation.x, diff.x + rotation.y, rotation.z);
+	if (Input::IsKeyPressed(GB_KEY_Q))
+	{
+		m_Direction = camera->GetPosition();
+		m_Direction += vector3(0, 1, 0) * -m_MovSpeed;
+		camera->SetPosition(m_Direction);
+	}
+	else if (Input::IsKeyPressed(GB_KEY_E))
+	{
+
+		m_Direction = camera->GetPosition();
+		m_Direction += vector3(0, 1, 0) * m_MovSpeed;
+		camera->SetPosition(m_Direction);
+	}
 
 }
 
