@@ -30,7 +30,7 @@ namespace GB
 		RenderCommand::AlphaMode(true);
 		RenderCommand::DephtTest(true);
 		RenderCommand::SetClearColor(renderColor);
-
+		RenderCommand::LightMode(true);
 	}
 	void Renderer::ShutDown()
 	{

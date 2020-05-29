@@ -62,7 +62,8 @@ void FreeCamera::OnAttach()
 		}
 	}
 
-	GB::Camera::GetMain()->Translate(vector3(0.0f, 0.5f, -10.0f));
+	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 10.0f));
+	GB::Camera::GetMain()->SetRotation(0,-90,0);
 }
 
 void FreeCamera::OnUpdate()

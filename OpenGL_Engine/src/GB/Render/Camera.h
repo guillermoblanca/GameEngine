@@ -12,13 +12,14 @@ namespace GB
 		enum EMode { Perspective = 0, Orthograpic };
 		Camera();
 
-		void Translate(vector3 pos);
-		void Rotate(float degrees, vector3 direction);
+		void SetPosition(const vector3& position);
+		inline const vector3 GetPosition()const { return m_Position; }
+		void SetRotation(float pitch,float yaw, float roll);
+
 		void SetFieldOfView(float degree);
 		void LookAt(vector3 position, float distance);
 
 
-		inline vector3 Position() { return m_ViewMatrix[3]; }
 		vector3        GetEuler();
 		inline float   GetFOV() { return m_fov; }
 		inline matrix4 GetProjectionMatrix() { RecalculateMatrix(); return m_ProjectionMatrix; }
@@ -39,11 +40,15 @@ namespace GB
 		matrix4 m_ProjectionMatrix;
 		matrix4 m_ViewMatrix;
 		matrix4 m_ProjectionViewMatrix;
+
 		vector3 m_Position;
-		vector3 m_TargetView = { 0.0f,0.0f,0.0f };
+		vector3 m_Target = { 0.0f,0.0f,0.0f };
+		vector3 m_Direction;
 
 
-		float m_Rotation;
+		float m_Pitch;
+		float m_Yaw;
+		float m_Roll;
 
 		float m_fov;
 		float m_nearFOV;

@@ -19,6 +19,7 @@ namespace GB
     virtual void Clear() = 0;
     virtual void AlphaMode(bool isActive) = 0;
     virtual void DephtTest(bool active) = 0;
+    virtual void LightMode(bool active) = 0;
 
     virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)=0;
     inline static API GetAPI() { return s_API; }
@@ -28,6 +29,7 @@ namespace GB
   protected:
     bool m_AlphaMode;
     bool m_DephtTest;
+    bool m_LightMode;
   private:
     
     static API s_API;

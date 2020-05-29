@@ -11,6 +11,7 @@ namespace GB
     virtual void Clear() override;
     virtual void AlphaMode(bool active) override;
     virtual void DephtTest(bool active) override;
+    virtual void LightMode(bool active) override;
 
     virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
   };

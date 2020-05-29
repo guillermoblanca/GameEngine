@@ -1167,15 +1167,6 @@
     <ClInclude Include="src\GB.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Application.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Core.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\EntryPoint.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\Events\ApplicationEvent.h">
       <Filter>src\GB\Events</Filter>
     </ClInclude>
@@ -1205,27 +1196,6 @@
     </ClInclude>
     <ClInclude Include="src\GB\ImportTools\IO.h">
       <Filter>src\GB\ImportTools</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Input.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\KeyCodes.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Layer.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\LayerStack.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Log.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Math.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
-      <Filter>src\GB</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Render\Buffer.h">
       <Filter>src\GB\Render</Filter>
@@ -1269,14 +1239,8 @@
     <ClInclude Include="src\GB\Render\VertexArray.h">
       <Filter>src\GB\Render</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\Time.h">
-      <Filter>src\GB</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\Utils\FileSystem.h">
       <Filter>src\GB\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GB\Window.h">
-      <Filter>src\GB</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\World\World.h">
       <Filter>src\GB\World</Filter>
@@ -1320,11 +1284,44 @@
       <Filter>src\GB\GameplayFramework</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Utils\Probabilities.h" />
+    <ClInclude Include="src\GB\Core.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Application.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\EntryPoint.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Input.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\KeyCodes.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Layer.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\LayerStack.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Log.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Math.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\MouseButtonKeyCodes.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Time.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\Window.h">
+      <Filter>src\GB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GB\Application.cpp">
-      <Filter>src\GB</Filter>
-    </ClCompile>
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
       <Filter>src\GB\GameplayFramework\Collision</Filter>
     </ClCompile>
@@ -1342,12 +1339,6 @@
     </ClCompile>
     <ClCompile Include="src\GB\ImportTools\IO.cpp">
       <Filter>src\GB\ImportTools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\LayerStack.cpp">
-      <Filter>src\GB</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\Log.cpp">
-      <Filter>src\GB</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Render\Buffer.cpp">
       <Filter>src\GB\Render</Filter>
@@ -1424,5 +1415,14 @@
       <Filter>src\GB\GameplayFramework</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\Utils\Probabilities.cpp" />
+    <ClCompile Include="src\GB\Application.cpp">
+      <Filter>src\GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\LayerStack.cpp">
+      <Filter>src\GB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\Log.cpp">
+      <Filter>src\GB</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

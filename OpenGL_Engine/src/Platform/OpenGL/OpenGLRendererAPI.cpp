@@ -33,6 +33,11 @@ namespace GB
     this->m_DephtTest = active;
 	active ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
   }
+  void OpenGLRendererAPI::LightMode(bool active)
+  {
+      this->m_LightMode = active;
+      active ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+  }
   void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
   {
     glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);

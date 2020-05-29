@@ -28,6 +28,10 @@ namespace GB
     {
       s_RendererAPI->DephtTest(active);
     }
+    inline static void LightMode(bool active)
+    {
+        s_RendererAPI->LightMode(active);
+    }
   private:
     static RendererAPI* s_RendererAPI;
   };
