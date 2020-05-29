@@ -1320,6 +1320,7 @@
     <ClInclude Include="src\GB\Window.h">
       <Filter>src\GB</Filter>
     </ClInclude>
+    <ClInclude Include="src\GB\Cursor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
@@ -1424,5 +1425,6 @@
     <ClCompile Include="src\GB\Log.cpp">
       <Filter>src\GB</Filter>
     </ClCompile>
+    <ClCompile Include="src\GB\Cursor.cpp" />
   </ItemGroup>
 </Project>

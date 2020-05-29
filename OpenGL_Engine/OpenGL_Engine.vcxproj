@@ -499,6 +499,7 @@
     <ClInclude Include="src\GB.h" />
     <ClInclude Include="src\GB\Application.h" />
     <ClInclude Include="src\GB\Core.h" />
+    <ClInclude Include="src\GB\Cursor.h" />
     <ClInclude Include="src\GB\EntryPoint.h" />
     <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
     <ClInclude Include="src\GB\Events\Event.h" />
@@ -553,6 +554,7 @@
     <ClCompile Include="src\Editor\MenuLayer.cpp" />
     <ClCompile Include="src\Editor\RendererMenu.cpp" />
     <ClCompile Include="src\GB\Application.cpp" />
+    <ClCompile Include="src\GB\Cursor.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp" />
     <ClCompile Include="src\GB\GameplayFramework\Actor.cpp" />

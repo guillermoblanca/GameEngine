@@ -6,6 +6,7 @@
 #include "GB\ImGui\ImGuiLayer.h"
 #include "GB\Log.h"
 #include "GB\Input.h"
+#include "GB/Cursor.h"
 
 #include "GB\MouseButtonKeyCodes.h"
 #include "GB\KeyCodes.h"

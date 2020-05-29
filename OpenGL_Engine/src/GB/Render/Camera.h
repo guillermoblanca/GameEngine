@@ -9,13 +9,14 @@ namespace GB
 	class GBAPI Camera
 	{
 	public:
-		enum EMode { Perspective = 0, Orthograpic };
+
 		Camera();
 
 		void SetPosition(const vector3& position);
-		inline const vector3 GetPosition()const { return m_Position; }
+		const vector3 GetPosition()const { return m_Position; }
+		const vector3 GetForward()const{return m_ForwardDirection; }
 		void SetRotation(float pitch,float yaw, float roll);
-
+		const vector3& GetRotation()const {return vector3(m_Pitch,m_Yaw,m_Roll); }
 		void SetFieldOfView(float degree);
 		void LookAt(vector3 position, float distance);
 
@@ -43,7 +44,7 @@ namespace GB
 
 		vector3 m_Position;
 		vector3 m_Target = { 0.0f,0.0f,0.0f };
-		vector3 m_Direction;
+		vector3 m_ForwardDirection;
 
 
 		float m_Pitch;
@@ -73,8 +74,8 @@ namespace GB
 
 
 		inline const glm::mat4& GetProjectionMatrix()const { return m_ProjectionMatrix; }
-		const glm::mat4& GetViewMatrix()const;
-		const glm::mat4& GetViewProjectionMatrix()const;
+		const glm::mat4& GetViewMatrix()const { return m_ViewMatrix; }
+		const glm::mat4& GetViewProjectionMatrix()const { return m_ViewProjectionMatrix; }
 	private:
 		void RecalculateViewMatrix();
 

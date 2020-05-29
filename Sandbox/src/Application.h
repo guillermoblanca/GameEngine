@@ -5,12 +5,12 @@
 class FreeCamera : public GB::Layer
 {
 private:
-	glm::vec3 destiny= glm::vec3(3.0f,0.0f,0.0f);
 	float timer = 0;
 	vector3 prevMouse = { 0,0 ,0};
 	float distance = 10;
-	float velocity = 45.0f;
-
+	float m_CameraRotationSpeed = 45.0f;
+	float m_MovSpeed = 0.5f;
+	vector3 m_Direction = vector3(0, 0, 0);
 	//temp
 	GB::EditorMenu editor;
 public:

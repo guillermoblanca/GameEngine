@@ -8,6 +8,7 @@
 namespace GB
 {
 	Camera* Camera::s_main = new Camera();
+
 	Camera::Camera() : m_ProjectionMatrix(glm::mat4(1.0f))
 	{
 		m_ViewMatrix = glm::mat4(1.0f);
@@ -15,8 +16,8 @@ namespace GB
 		m_nearFOV = 0.1f;
 		m_farFOV = 100.0f;
 		m_Pitch =m_Yaw =m_Roll = 0.0f;
-		
-		m_Direction = glm::normalize(m_Position - m_Target);
+		m_Target = vector3(0, 0, 0);
+		m_ForwardDirection = glm::normalize(m_Position - m_Target);
 
 		s_main = this;
 	}
@@ -58,11 +59,11 @@ namespace GB
 
 	void Camera::RecalculateMatrix()
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position)*
-			glm::rotate(glm::mat4(1.0f), m_Pitch, glm::vec3(1, 0, 0));
+		//glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position)*
+		//	glm::rotate(glm::mat4(1.0f), m_Pitch, glm::vec3(1, 0, 0));
 
-		transform = glm::rotate(transform, m_Yaw, glm::vec3(0, 1, 0));
-		transform = glm::rotate(transform, m_Roll, glm::vec3(0, 0, 1));
+		//transform = glm::rotate(transform, m_Yaw, glm::vec3(0, 1, 0));
+		//transform = glm::rotate(transform, m_Roll, glm::vec3(0, 0, 1));
 
 		//m_ViewMatrix = transform;
 		vector3 cameraFront = vector3(0.0f, 0.0f, 1.0f);
@@ -71,7 +72,7 @@ namespace GB
 		direction.y = sin(glm::radians(m_Pitch));
 		direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
 		cameraFront = glm::normalize(direction);
-
+		m_ForwardDirection = direction;
 
 		vector3 cameraUp = vector3(0, 1, 0);
 		m_ViewMatrix = glm::lookAt(m_Position,m_Position + cameraFront,cameraUp);
