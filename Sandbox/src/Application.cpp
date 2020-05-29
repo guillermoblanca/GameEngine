@@ -46,7 +46,10 @@ void FreeCamera::OnAttach()
 	renderer->AddRenderElement(Sprite(BaseMaterial, 0, "Plane 1"));
 	renderer->AddRenderElement(Cube(BaseMaterial, 1, "Cube"));
 	renderer->AddRenderElement(Cube(ComplexMaterial, 0, "Cube white"));
-	//renderer->AddRenderElement(Line(BaseMaterial, vector2(0.0f, 0.0f), vector2(2.0f, 2.0f)));
+
+	RenderObject objRenderObj = RenderObject(BaseMaterial, "Dragon");
+	objRenderObj.Create(*Mesh::Create("Assets/Mesh/sphere.obj"));
+	renderer->AddRenderElement(objRenderObj);
 
 	{
 		/*
@@ -62,30 +65,29 @@ void FreeCamera::OnAttach()
 		}
 	}
 
+
 	const auto& app = GB::Application::Get().GetWindow();
 	float x = (float)app.GetWidth() / 2.0f;
 	float y = (float)app.GetHeight() / 2.0f;
 	GB::Cursor::SetCursorPosition(x, y);
-	GB::Cursor::SetVisibleCursor(false);
 
 	prevMouse = vector3(Input::GetMouseX() / x, Input::GetMouseY() / y, 0);
 
 	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 10.0f));
 	GB::Camera::GetMain()->SetRotation(0, -90, 0);
+
+	if (Input::IsGamepadConnected(0))
+	{
+		Cursor::SetVisibleCursor(false);
+	}
+
 }
 
 void FreeCamera::OnUpdate()
 {
-
-	if (Input::IsKeyPressed(GB_KEY_Z))
-	{
-		shouldUpdate = !shouldUpdate;
-	}
-
-	if (!shouldUpdate)return;
 	UpdateCameraMovement();
 
-	
+
 }
 
 void FreeCamera::UpdateCameraMovement()
@@ -96,40 +98,43 @@ void FreeCamera::UpdateCameraMovement()
 	float y = Input::GetMouseY() / ((float)Application::Get().GetWindow().GetHeight() * 0.5f);
 
 	vector3 mouse = vector3(x, y, 0);
-	vector3 diff = (mouse - prevMouse) * m_CameraRotationSpeed;
+	vector3 diff = (mouse - prevMouse) * m_RotSpeed;
 	prevMouse = mouse;
 	vector3 rotation = camera->GetRotation();
 
+	bool IsGamepadConnected = Input::IsGamepadConnected(0);
+
+	if (IsGamepadConnected)
+	{
+		float axisX =Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_X);
+		float axisY =Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_Y);
+
+		camera->SetRotation((-axisY * m_RotSpeed ) + rotation.x, rotation.y +(axisX *  m_RotSpeed), rotation.z);
+	}
+	else
+	{
 	camera->SetRotation((-diff.y) + rotation.x, diff.x + rotation.y, rotation.z);
-
-	if (Input::IsKeyPressed(GB_KEY_W))
-	{
-		m_Direction = camera->GetPosition();
-		m_Direction += camera->GetForward() * m_MovSpeed;
-		camera->SetPosition(m_Direction);
-	}
-	else if (Input::IsKeyPressed(GB_KEY_S))
-	{
-
-		m_Direction = camera->GetPosition();
-		m_Direction += camera->GetForward() * -m_MovSpeed;
-		camera->SetPosition(m_Direction);
 	}
 
-	if (Input::IsKeyPressed(GB_KEY_A))
+	float MoveForward = Input::GetAxis(0,GB_GAMEPAD_AXIS_LEFT_Y);
+	float MoveLeft = Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_X);
+	
+
+	GB_CLIENT_TRACE("{0}", Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_X));
+	if (MoveForward != 0.0f)
 	{
 		m_Direction = camera->GetPosition();
-		m_Direction += glm::cross(camera->GetForward(), vector3(0, 1, 0)) * -m_MovSpeed;
+		m_Direction += camera->GetForward() * MoveForward * m_MovSpeed;
 		camera->SetPosition(m_Direction);
 	}
-	else if (Input::IsKeyPressed(GB_KEY_D))
+	
+	if (MoveLeft != 0.0f)
 	{
-
 		m_Direction = camera->GetPosition();
-		m_Direction += glm::cross(camera->GetForward(), vector3(0, 1, 0)) * m_MovSpeed;
+		m_Direction += glm::cross(camera->GetForward(), vector3(0, -1, 0)) * MoveLeft *m_MovSpeed;
 		camera->SetPosition(m_Direction);
 	}
-
+	
 	if (Input::IsKeyPressed(GB_KEY_Q))
 	{
 		m_Direction = camera->GetPosition();
@@ -144,6 +149,12 @@ void FreeCamera::UpdateCameraMovement()
 		camera->SetPosition(m_Direction);
 	}
 
+	if (Input::IsGamepadButtonPressed(0, GB_GAMEPAD_BUTTON_CROSS))
+	{
+		static bool isActive = true;
+		isActive = !isActive;
+		Cursor::SetVisibleCursor(isActive);
+	}
 }
 
 void FreeCamera::OnImguiRender()
@@ -177,7 +188,7 @@ void FreeCamera::OnImguiRender()
 	}
 	ImGui::Text("Deltatime: %2f", Time::DeltaTime());
 	ImGui::Text("FPS: %f", Time::GetMiliseconds());
-	ImGui::SliderFloat("VelocityMove", &m_CameraRotationSpeed, 0.0f, 100.0f);
+	ImGui::SliderFloat("VelocityMove", &m_RotSpeed, 0.0f, 100.0f);
 
 	ImGui::PlotLines("Time", [](void* data, int idx)
 		{
@@ -195,7 +206,7 @@ void FreeCamera::OnImguiRender()
 
 	ImGui::Text("Mouse %2f,%2f", CameraDirection().x, CameraDirection().y);
 	ImGui::DragFloat("Camera distance", &distance);
-	ImGui::DragFloat("CameraRot Speed", &m_CameraRotationSpeed, 0.01f);
+	ImGui::DragFloat("CameraRot Speed", &m_RotSpeed, 0.01f);
 	ImGui::DragFloat("CameraMove Speed", &m_MovSpeed, 0.01f);
 
 

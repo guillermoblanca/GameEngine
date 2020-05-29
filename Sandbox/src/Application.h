@@ -8,8 +8,8 @@ private:
 	float timer = 0;
 	vector3 prevMouse = { 0,0 ,0};
 	float distance = 10;
-	float m_CameraRotationSpeed = 45.0f;
-	float m_MovSpeed = 0.5f;
+	float m_RotSpeed = 1.2f;
+	float m_MovSpeed = 0.1f;
 	vector3 m_Direction = vector3(0, 0, 0);
 	//temp
 	GB::EditorMenu editor;

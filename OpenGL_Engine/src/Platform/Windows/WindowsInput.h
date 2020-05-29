@@ -10,5 +10,10 @@ namespace GB
 		virtual vector2 GetMousePositionImpl() override;
 		virtual float GetMouseXImpl() override;
 		virtual float GetMouseYImpl() override;
+
+		virtual bool IsGamepadPresentImpl(int id)override;
+		virtual bool IsGamepadButtonPressedImpl(int id, int buttonId) override;
+
+		virtual float GetAxisImpl(int id, int butt)override;
 	};
 }

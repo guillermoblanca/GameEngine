@@ -72,7 +72,7 @@ namespace GB
 		direction.y = sin(glm::radians(m_Pitch));
 		direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
 		cameraFront = glm::normalize(direction);
-		m_ForwardDirection = direction;
+		m_ForwardDirection = -direction;
 
 		vector3 cameraUp = vector3(0, 1, 0);
 		m_ViewMatrix = glm::lookAt(m_Position,m_Position + cameraFront,cameraUp);

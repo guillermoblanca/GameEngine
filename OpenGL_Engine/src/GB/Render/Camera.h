@@ -16,7 +16,7 @@ namespace GB
 		const vector3 GetPosition()const { return m_Position; }
 		const vector3 GetForward()const{return m_ForwardDirection; }
 		void SetRotation(float pitch,float yaw, float roll);
-		const vector3& GetRotation()const {return vector3(m_Pitch,m_Yaw,m_Roll); }
+		const vector3 GetRotation()const {return vector3(m_Pitch,m_Yaw,m_Roll); }
 		void SetFieldOfView(float degree);
 		void LookAt(vector3 position, float distance);
 

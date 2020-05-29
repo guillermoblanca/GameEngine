@@ -8,9 +8,10 @@
 namespace GB
 {
 
-	RenderObject::RenderObject(Material* mat,std::string name) :m_name(name), m_transform(), m_color(1.0f),material(mat)
+	RenderObject::RenderObject(Material* mat,std::string name) :m_name(name), m_transform(), m_color(1.0f),material(mat),m_textureID(-1)
 	{
 		if (mesh == nullptr) mesh = new Mesh();
+		
 	}
 	RenderObject::~RenderObject()
 	{

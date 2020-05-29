@@ -17,7 +17,7 @@ namespace GB
 		GB_CORE_INFO("Initialized Render class");
 
 
-		
+
 	}
 
 	Renderer::~Renderer()
@@ -70,10 +70,11 @@ namespace GB
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
 			RenderObject* obj = &m_renderObjects[i];
-			Texture2D* texture = m_textures[obj->m_textureID];
-			if (texture)
+			if (obj->m_textureID >= 0)
 			{
+				Texture2D* texture = m_textures[obj->m_textureID];
 				texture->Bind(0);
+
 			}
 			obj->Render();
 		}
@@ -94,9 +95,9 @@ namespace GB
 		glm::vec4 perspective;
 		RenderObject* render = nullptr;
 		ImGui::Begin("Render");
-		if (ImGui::RadioButton("Toggle Alpha mode",useAlpha)) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
+		if (ImGui::RadioButton("Toggle Alpha mode", useAlpha)) { useAlpha = !useAlpha; RenderCommand::AlphaMode(useAlpha); }
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Toggle Depht mode",useDepth)) { useDepth = !useDepth; RenderCommand::DephtTest(useAlpha); }
+		if (ImGui::RadioButton("Toggle Depht mode", useDepth)) { useDepth = !useDepth; RenderCommand::DephtTest(useAlpha); }
 
 		if (ImGui::CollapsingHeader("Materials"))
 		{
@@ -171,7 +172,7 @@ namespace GB
 	{
 		render = &m_renderObjects[i];
 
-		if (ImGui::Button("Destroy")) { m_renderObjects.erase(m_renderObjects.begin()+ i); }
+		if (ImGui::Button("Destroy")) { m_renderObjects.erase(m_renderObjects.begin() + i); }
 		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 		glm::vec3 rotator = render->m_transform.rotation;
 		ImGui::InputText("Name:", render->m_name.data(), 64);

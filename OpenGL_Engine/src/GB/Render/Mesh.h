@@ -25,6 +25,7 @@ namespace GB
 		char name[255];
 
 		void WindowProperties();
+		static Mesh* Create(const char* path);
 	private:
 
 	};

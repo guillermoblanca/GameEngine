@@ -29,10 +29,10 @@ namespace GB
 				{
 					ImGui::Text("UV [%d]: %f,%f", i, uv[i].x, uv[i].y);
 				}
-			if(ImGui::CollapsingHeader("Normals"))
+			if (ImGui::CollapsingHeader("Normals"))
 				for (size_t i = 0; i < this->normals.size(); i++)
 				{
-					ImGui::Text("Normals [%d]: %f,%f,%f", i, normals[i].x, normals[i].y,normals[i].z);
+					ImGui::Text("Normals [%d]: %f,%f,%f", i, normals[i].x, normals[i].y, normals[i].z);
 				}
 			if (ImGui::CollapsingHeader("Indices"))
 			{
@@ -43,6 +43,12 @@ namespace GB
 			}
 			ImGui::Spacing();
 		}
+	}
+
+	Mesh* Mesh::Create(const char* path)
+	{
+
+		return MeshReader::ReadMeshFromFile(path);
 	}
 
 }
