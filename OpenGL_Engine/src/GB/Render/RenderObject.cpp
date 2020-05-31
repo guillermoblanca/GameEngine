@@ -122,16 +122,16 @@ namespace GB
 		this->m_textureID = textID;
 		float verticesPlane[]
 		{//vertices           //uv
-		  -0.5f, -0.5f,0.0f, 0.0f, 0.0f,
-		   0.5f, -0.5f,0.0f, 1.0f, 0.0f,
-		   0.5f, 0.5f,0.0f,  1.0f, 1.0f,
-		  -0.5f, 0.5f,0.0f,  0.0f, 1.0f
+		 -1.0f, -1.0f, 0.0f,0.0f, 1.0f,
+		 -1.0f,  1.0f, 0.0f,0.0f, 0.0f,
+		  1.0f,  1.0f, 0.0f,1.0f, 0.0f,
+		  1.0f, -1.0f, 0.0f,1.0f, 1.0f,
 		};
 
 		uint32_t indicesPlane[]
 		{
 		  0,1,2,
-		  2,3,0
+		  0,3,2
 		};
 		this->Create(verticesPlane, sizeof(verticesPlane), indicesPlane,6);
 	}
