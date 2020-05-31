@@ -5,21 +5,36 @@
 namespace GB
 {
 	Time* WindowsTime::s_instance = new WindowsTime();
-	float WindowsTime::m_deltaTime = 0;
-	float WindowsTime::m_lastTime = 0;
-	float WindowsTime::Impl_DeltaTime()
+	double WindowsTime::m_deltaTime = 0;
+	double WindowsTime::m_lastTime = 0;
+	double WindowsTime::m_unscaledDeltaTime = 0;
+
+	long double WindowsTime::m_time = 0;
+	
+	float WindowsTime::m_timeScale = 1.0f;
+
+	double WindowsTime::Impl_DeltaTime()
 	{
-		m_deltaTime = glfwGetTime() - m_lastTime;
-		m_lastTime= glfwGetTime();
+		m_unscaledDeltaTime = glfwGetTime() - m_lastTime;
+		m_lastTime= m_unscaledDeltaTime;
+		m_deltaTime = m_unscaledDeltaTime * m_timeScale;
 		return m_deltaTime;
 	}
 
-	float WindowsTime::ImplGetTime()
+	double WindowsTime::ImplGetTime()
 	{
-		return (float)glfwGetTime();
+		return (double)glfwGetTime();
 	}
-	float WindowsTime::ImplGetMiliseconds()
+	double WindowsTime::ImplGetMiliseconds()
 	{
     return m_deltaTime * 1000.0f;
+	}
+	float WindowsTime::ImplGetTimeScale()
+	{
+		return m_timeScale;
+	}
+	void WindowsTime::ImplSetTimeScale(float newScale)
+	{
+		m_timeScale = newScale;
 	}
 }

@@ -6,11 +6,17 @@ namespace GB
 	class GBAPI WindowsTime : public Time
 	{
 	protected:
-		virtual float Impl_DeltaTime();
-		virtual float ImplGetTime();
-		virtual float ImplGetMiliseconds();
+		virtual double Impl_DeltaTime();
+		virtual double ImplGetTime();
+		virtual double ImplGetMiliseconds();
+		virtual float ImplGetTimeScale()override;
+		virtual void ImplSetTimeScale(float newScale) override;
 	private:
-		static float m_deltaTime;
-    static float m_lastTime;
+		static double m_deltaTime;
+		static double m_lastTime;
+		static double m_unscaledDeltaTime;
+		static float m_timeScale;
+		static long double m_time;
+		
 	};
 }

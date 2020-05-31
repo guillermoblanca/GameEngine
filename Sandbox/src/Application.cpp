@@ -161,14 +161,16 @@ void FreeCamera::UpdateCameraMovement()
 		Cursor::SetVisibleCursor(isActive);
 	}
 
+	const float speed = 0.01f;
 	if (Input::IsGamepadButtonPressed(0,GB_GAMEPAD_AXIS_LEFT_TRIGGER) >0.0f)
 	{
-		m_MovSpeed -= 50.0f * Time::DeltaTime();
+		m_MovSpeed = Mathf::Clamp(m_MovSpeed - speed * (float)Time::DeltaTime(), 0.1f, 5.0f);
+
 		GB_CLIENT_TRACE("Button pressed {0}",m_MovSpeed);
 	}
 	else if(Input::IsGamepadButtonPressed(0, GB_GAMEPAD_AXIS_RIGHT_TRIGGER)> 0.0f)
 	{
-		m_MovSpeed += 50.0f * Time::DeltaTime();
+		m_MovSpeed = Mathf::Clamp(m_MovSpeed + speed * (float) Time::DeltaTime(),0.1f,5.0f);
 	}
 
 	static bool updateButtonState = true;
@@ -223,7 +225,7 @@ void FreeCamera::OnImguiRender()
 
 	ImGui::PlotLines("Time", [](void* data, int idx)
 		{
-			return idx * Time::DeltaTime();
+			return idx * (float) Time::DeltaTime();
 		}, NULL, 100);
 
 	static bool isvSync = Application::Get().GetWindow().IsVSync();
