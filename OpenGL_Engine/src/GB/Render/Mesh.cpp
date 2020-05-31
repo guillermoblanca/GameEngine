@@ -55,7 +55,7 @@ namespace GB
 
 	Mesh* Mesh::Create(const char* path)
 	{
-		Mesh* mesh = nullptr;
+		Mesh* mesh = new Mesh();
 		mesh = MeshReader::ReadMeshFromFile(path);
 		
 

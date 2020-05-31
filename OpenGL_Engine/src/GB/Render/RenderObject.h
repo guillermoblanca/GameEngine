@@ -40,17 +40,11 @@ namespace GB
 
 
     std::string m_name;
-    
-    ////
-    //Render properties
-    ////
 	Mesh* mesh;
     int m_textureID;
     glm::vec4 m_color;
 	Material* material;
-    ////
-    // Position/Rotation/Scale
-    ////
+
     Transform m_transform;
 
   protected:

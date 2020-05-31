@@ -82,9 +82,7 @@ namespace GB
 			return true;
 
 		}
-
 		static Mesh* ReadMeshFromFile(const char* path);
-	
 	private:
 	};
 }
