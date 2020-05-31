@@ -8,6 +8,8 @@
 //staticmeshactor
 #include "GB/Render/Mesh.h"
 #include "GB/Render/Renderer.h"
+#include "GB/Utils/UniqueID.h"
+
 namespace GB
 {
 	class Component
@@ -19,12 +21,12 @@ namespace GB
 
 		bool operator ==(const Component& other)
 		{
-			return other.ID == ID;
+			return other.m_identifier.id == other.m_identifier.id;
 		}
 
 	protected:
 
-		int ID;
+		static UniqueID m_identifier;
 	};
 
 	class SpriteRenderer : public Component
@@ -81,14 +83,16 @@ namespace GB
 		void UpdateComponent();
 		void ImguiComponent();
 
-	private:
+	protected:
 		/*the name of the object*/
 		std::string m_name;
 		/*all the tags that the object has associate*/
 		std::vector<std::string> m_Tags;
 		std::vector<Component*> m_components;
 		bool isEnabled;
+		unsigned int m_ID;
 
+		static int uniqueID;
 	};
 
 	class StaticMeshActor : public Actor

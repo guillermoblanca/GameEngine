@@ -44,3 +44,7 @@ void GB::SpriteRenderer::ImguiRender()
     ImGui::ColorPicker4("Color", (float*)&this->color);
   }
 }
+
+GB::Actor::Actor(const std::string& m_Name)
+{
+}

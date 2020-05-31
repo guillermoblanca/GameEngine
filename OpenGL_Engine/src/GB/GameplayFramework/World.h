@@ -1,5 +1,5 @@
 #pragma once
-#include "GB/GameplayFramework/GameObject.h"
+#include "GB/GameplayFramework/Actor.h"
 #include "GB/Core.h"
 #include "gbpch.h"
 namespace GB

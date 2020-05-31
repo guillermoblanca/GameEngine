@@ -510,6 +510,7 @@
     <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h" />
     <ClInclude Include="src\GB\GameplayFramework\Actor.h" />
     <ClInclude Include="src\GB\GameplayFramework\Transform.h" />
+    <ClInclude Include="src\GB\Utils\UniqueID.h" />
     <ClInclude Include="src\GB\GameplayFramework\World.h" />
     <ClInclude Include="src\GB\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GB\ImportTools\IO.h" />
@@ -578,6 +579,7 @@
     <ClCompile Include="src\GB\Render\Texture2D.cpp" />
     <ClCompile Include="src\GB\Render\VertexArray.cpp" />
     <ClCompile Include="src\GB\Utils\Probabilities.cpp" />
+    <ClCompile Include="src\GB\Utils\UniqueID.cpp" />
     <ClCompile Include="src\Platform\DirectX\DirectXGraphicContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLGraphicContext.cpp" />
