@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gbpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GLFW_INCLUDE_NONE;GB_DEBUG;GB_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GB_PLATFORM_WINDOWS;GB_BUILD_DLL;GLFW_INCLUDE_NONE;GB_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;Dependencies\spdlog\include;Dependencies\GLFW\include;Dependencies\GLAD\include;Dependencies\imgui;Dependencies\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -503,6 +503,7 @@
     <ClInclude Include="src\GB\EntryPoint.h" />
     <ClInclude Include="src\GB\Events\ApplicationEvent.h" />
     <ClInclude Include="src\GB\Events\Event.h" />
+    <ClInclude Include="src\GB\Events\GamepadEvent.h" />
     <ClInclude Include="src\GB\Events\KeyEvent.h" />
     <ClInclude Include="src\GB\Events\MouseEvent.h" />
     <ClInclude Include="src\GB\GameplayFramework\Collision\CollisionManager.h" />

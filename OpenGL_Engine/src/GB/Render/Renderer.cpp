@@ -11,7 +11,7 @@
 #include "GB/Utils/FileSystem.h"
 namespace GB
 {
-
+	int Renderer::RenderMode = 4;
 	Renderer::Renderer() : renderColor(0, 0.5f, 0.5f, 1.0f)
 	{
 		GB_CORE_INFO("Initialized Render class");
@@ -45,7 +45,7 @@ namespace GB
 		m_renderObjects.emplace_back(renderElement);
 	}
 
-	void Renderer::BeginScene(Camera camera)
+	void Renderer::BeginScene(const Camera& camera)
 	{
 
 	}
@@ -76,7 +76,7 @@ namespace GB
 				texture->Bind(0);
 
 			}
-			obj->Render();
+			obj->Render(RenderMode);
 		}
 
 	}
@@ -193,6 +193,7 @@ namespace GB
 			ImGui::SameLine();
 			if (ImGui::Button("Texture Down")) m_renderObjects[i].m_textureID = Mathf::Clamp<int>(m_renderObjects[i].m_textureID - 1, 0, m_textures.size() - 1);
 			ImGui::ColorPicker4("Color", (float*)&render->m_color);
+			if(render->m_textureID>-1)
 			ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
 		}
 

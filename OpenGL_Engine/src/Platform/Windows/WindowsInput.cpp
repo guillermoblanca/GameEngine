@@ -1,13 +1,39 @@
 #include "gbpch.h"
 #include "WindowsInput.h"
-
 #include <GLFW\glfw3.h>
+
 #include "GB\Application.h"
 #include "GB/ImportTools/IO.h"
+#include "WindowsWindows.h"
+#include "GB/Events/GamepadEvent.h"
 namespace GB
 {
-
 	Input* Input::s_instance = new WindowsInput();
+
+	WindowsInput::WindowsInput()
+	{
+
+		
+	}
+
+	void WindowsInput::GamepadCallbackImpl()
+	{
+		glfwSetJoystickCallback([](int id, int action)
+			{
+				bool isConnected = action == GLFW_CONNECTED;
+				const char* name = glfwGetJoystickName(id);
+				if (name == nullptr)name = "None";
+				GamePadStatesEvent gamepadEvent(isConnected,name);
+
+				GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
+				WindowsWindows::WindowsData& data = *(WindowsWindows::WindowsData*)glfwGetWindowUserPointer(window);
+				
+				data.EventCallback(gamepadEvent);
+				GB_CORE_TRACE("{0}",gamepadEvent.ToString());
+			}
+		);
+
+	}
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
@@ -63,6 +89,16 @@ namespace GB
 		}
 
 
+		return false;
+	}
+
+	bool WindowsInput::IsGamepadButtonReleasedImpl(int id, int buttonId)
+	{
+		GLFWgamepadstate state;
+		if (glfwGetGamepadState(id, &state))
+		{
+			return state.buttons[buttonId] == GLFW_RELEASE;
+		}
 		return false;
 	}
 

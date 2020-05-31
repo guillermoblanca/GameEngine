@@ -1321,6 +1321,7 @@
       <Filter>src\GB</Filter>
     </ClInclude>
     <ClInclude Include="src\GB\Cursor.h" />
+    <ClInclude Include="src\GB\Events\GamepadEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">

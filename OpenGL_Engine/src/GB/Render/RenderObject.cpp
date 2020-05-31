@@ -5,13 +5,14 @@
 #include "Camera.h"
 #include "glad/glad.h"
 
+
 namespace GB
 {
 
-	RenderObject::RenderObject(Material* mat,std::string name) :m_name(name), m_transform(), m_color(1.0f),material(mat),m_textureID(-1)
+	RenderObject::RenderObject(Material* mat, std::string name) :m_name(name), m_transform(), m_color(1.0f), material(mat), m_textureID(-1)
 	{
 		if (mesh == nullptr) mesh = new Mesh();
-		
+
 	}
 	RenderObject::~RenderObject()
 	{
@@ -68,28 +69,39 @@ namespace GB
 	void RenderObject::Create(Mesh& newMesh)
 	{
 		mesh = &newMesh;
+
+	
 		m_vertexArray.reset(VertexArray::Create());
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
 		std::shared_ptr<VertexBuffer> uvBuffer;
-		vertexBuffer.reset(VertexBuffer::Create((float*)&newMesh.vertices[0], newMesh.vertices.size() * sizeof(vector3)));
-		BufferLayout layout =
-		{
-			{EShaderDataType::Float3,"_Position"}
+		std::shared_ptr<VertexBuffer> normalBuffer;
 
-		};
+		vertexBuffer.reset(VertexBuffer::Create((float*)&mesh->vertices[0], mesh->vertices.size() * sizeof(vector3)));
+		uvBuffer.reset(VertexBuffer::Create((float*)&mesh->uv[0], mesh->uv.size() * sizeof(vector2)));
+		normalBuffer.reset(VertexBuffer::Create((float*)&mesh->normals[0], mesh->normals.size() * sizeof(vector3)));
 
-		vertexBuffer->SetLayout(layout);
+		BufferLayout vertexLayout = { {EShaderDataType::Float3,"_Position"} };
+		BufferLayout uvLayout = { { EShaderDataType::Float2,"_TexCoord" } };
+		BufferLayout normalLayout = { { EShaderDataType::Float3,"_Normal" } };
+
+		vertexBuffer->SetLayout(vertexLayout);
+		uvBuffer->SetLayout(uvLayout);
+		normalBuffer->SetLayout(normalLayout);
+
 		m_vertexArray->AddVertexBuffer(vertexBuffer);
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(&mesh->indicesVertices[0], mesh->indicesVertices.size()));
-		m_vertexArray->SetIndexBuffer(indexBuffer);
+	//	m_vertexArray->AddVertexBuffer(uvBuffer);
+	//	m_vertexArray->AddVertexBuffer(normalBuffer);
 
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create( &mesh->indicesVertices[0],(uint32_t) mesh->indicesVertices.size()));
+		m_vertexArray->SetIndexBuffer(indexBuffer);
 	}
 
 	void RenderObject::Render(int mode)
 	{
 		material->Bind();
+		material->SetVector3("u_LightColor", 1.0f, 0.0f, 0.0f);
 		material->SetMat4("u_transform", m_transform.GetMat4());
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
@@ -97,13 +109,14 @@ namespace GB
 		material->SetInt("u_Texture", 0);
 
 		m_vertexArray->Bind();
+
 		glDrawElements(mode, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 #pragma region Primitives
 
 
-	Sprite::Sprite(Material* mat,uint32_t textID, const std::string name) : RenderObject(mat)
+	Sprite::Sprite(Material* mat, uint32_t textID, const std::string name) : RenderObject(mat)
 	{
 		this->m_name = name;
 		this->m_textureID = textID;
@@ -120,7 +133,7 @@ namespace GB
 		  0,1,2,
 		  2,3,0
 		};
-		this->Create(verticesPlane, sizeof(verticesPlane), indicesPlane, sizeof(indicesPlane) / sizeof(uint32_t));
+		this->Create(verticesPlane, sizeof(verticesPlane), indicesPlane,6);
 	}
 	Sprite::~Sprite()
 	{
@@ -132,26 +145,27 @@ namespace GB
 		this->m_textureID = textID;
 		this->material = mat;
 		float verticesCube[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,//0
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,//1
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//2
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,//3
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//4
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,//5
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,//6
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,//7
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//8
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,//9
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//10
-
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,//11
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,//12
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,//13
-
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,//14
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,//15
+			///////////////////   ///////////    //////////////
+			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,/*//0 */
+			 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,/*//1 */
+			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,/*//2 */
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,/*//3 */
+											 /*	   */
+			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,/*//4 */
+			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,/*//5 */
+			 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,/*//6 */
+			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,/*//7 */
+											 /*	   */
+			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,/*//8 */
+			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,/*//9 */
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,/*//10*/
+											 /*	   */
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,/*//11*/
+			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,/*//12*/
+			 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,/*//13*/
+											 /*	   */
+			 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,/*//14*/
+			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,/*//15*/
 		};
 		uint32_t indiceCube[]
 		{

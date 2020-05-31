@@ -4,7 +4,8 @@
 #include "imgui\imgui.h"
 #include "GB/ImportTools/IO.h"
 #include "glm/gtc/type_ptr.hpp"
-
+#include "GB/Render/RenderCommand.h"
+#include "GB/Events/GamepadEvent.h"
 using namespace GB;
 
 vector2 FreeCamera::CameraDirection()
@@ -47,9 +48,16 @@ void FreeCamera::OnAttach()
 	renderer->AddRenderElement(Cube(BaseMaterial, 1, "Cube"));
 	renderer->AddRenderElement(Cube(ComplexMaterial, 0, "Cube white"));
 
-	RenderObject objRenderObj = RenderObject(BaseMaterial, "Dragon");
-	objRenderObj.Create(*Mesh::Create("Assets/Mesh/sphere.obj"));
-	renderer->AddRenderElement(objRenderObj);
+	Mesh* mesh = new Mesh();
+	mesh = MeshReader::ReadMeshFromFile("Assets/Mesh/cube.obj");
+
+	if (mesh)
+	{
+		RenderObject objRenderObj = RenderObject(BaseMaterial, "Dragon");
+		objRenderObj.Create(*mesh);
+		
+		renderer->AddRenderElement(objRenderObj);
+	}
 
 	{
 		/*
@@ -76,11 +84,9 @@ void FreeCamera::OnAttach()
 	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 10.0f));
 	GB::Camera::GetMain()->SetRotation(0, -90, 0);
 
-	if (Input::IsGamepadConnected(0))
-	{
-		Cursor::SetVisibleCursor(false);
-	}
 
+	//todo: this is temp in the future we should changes this so you don't have to call in client
+	Input::GamepadCallbacks();
 }
 
 void FreeCamera::OnUpdate()
@@ -106,35 +112,34 @@ void FreeCamera::UpdateCameraMovement()
 
 	if (IsGamepadConnected)
 	{
-		float axisX =Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_X);
-		float axisY =Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_Y);
+		float axisX = Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_X);
+		float axisY = Input::GetAxis(0, GB_GAMEPAD_AXIS_RIGHT_Y);
 
-		camera->SetRotation((-axisY * m_RotSpeed ) + rotation.x, rotation.y +(axisX *  m_RotSpeed), rotation.z);
+		camera->SetRotation((-axisY * m_RotSpeed) + rotation.x, rotation.y + (axisX * m_RotSpeed), rotation.z);
 	}
 	else
 	{
-	camera->SetRotation((-diff.y) + rotation.x, diff.x + rotation.y, rotation.z);
+		camera->SetRotation((-diff.y) + rotation.x, diff.x + rotation.y, rotation.z);
 	}
 
-	float MoveForward = Input::GetAxis(0,GB_GAMEPAD_AXIS_LEFT_Y);
+	float MoveForward = Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_Y);
 	float MoveLeft = Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_X);
-	
 
-	GB_CLIENT_TRACE("{0}", Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_X));
+
 	if (MoveForward != 0.0f)
 	{
 		m_Direction = camera->GetPosition();
 		m_Direction += camera->GetForward() * MoveForward * m_MovSpeed;
 		camera->SetPosition(m_Direction);
 	}
-	
+
 	if (MoveLeft != 0.0f)
 	{
 		m_Direction = camera->GetPosition();
-		m_Direction += glm::cross(camera->GetForward(), vector3(0, -1, 0)) * MoveLeft *m_MovSpeed;
+		m_Direction += glm::cross(camera->GetForward(), vector3(0, -1, 0)) * MoveLeft * m_MovSpeed;
 		camera->SetPosition(m_Direction);
 	}
-	
+
 	if (Input::IsKeyPressed(GB_KEY_Q))
 	{
 		m_Direction = camera->GetPosition();
@@ -154,6 +159,32 @@ void FreeCamera::UpdateCameraMovement()
 		static bool isActive = true;
 		isActive = !isActive;
 		Cursor::SetVisibleCursor(isActive);
+	}
+
+	if (Input::IsGamepadButtonPressed(0,GB_GAMEPAD_AXIS_LEFT_TRIGGER) >0.0f)
+	{
+		m_MovSpeed -= 50.0f * Time::DeltaTime();
+		GB_CLIENT_TRACE("Button pressed {0}",m_MovSpeed);
+	}
+	else if(Input::IsGamepadButtonPressed(0, GB_GAMEPAD_AXIS_RIGHT_TRIGGER)> 0.0f)
+	{
+		m_MovSpeed += 50.0f * Time::DeltaTime();
+	}
+
+	static bool updateButtonState = true;
+	if ( Input::IsGamepadButtonPressed(0, GB_GAMEPAD_BUTTON_DPAD_LEFT))
+	{
+		if (updateButtonState)
+		{
+			Renderer::RenderMode =( Renderer::RenderMode +1)% 5;
+			updateButtonState = false;
+			GB_CLIENT_INFO("Gamepad pressed and updating rendermode to {0}", Renderer::RenderMode);
+
+		}
+	}
+	else 
+	{
+		updateButtonState = true;
 	}
 }
 
@@ -222,6 +253,13 @@ void FreeCamera::OnEvent(GB::Event& event)
 	{
 
 		GB::MouseScrolledEvent& e = (GB::MouseScrolledEvent&) event;
+	}
+
+	if (event.GetEventType() == GB::EventType::GamepadState)
+	{
+		GB::GamePadStatesEvent& e = (GB::GamePadStatesEvent&)event;
+
+		Cursor::SetVisibleCursor(!e.IsConnected());
 	}
 
 }

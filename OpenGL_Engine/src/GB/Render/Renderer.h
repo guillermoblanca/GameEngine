@@ -28,7 +28,7 @@ namespace GB
     void OnRender();
     void OnImguiRender();
 
-    static void BeginScene(Camera camera);
+    static void BeginScene(const Camera& camera);
     static void EndScene();
     static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
 
@@ -45,14 +45,21 @@ namespace GB
     std::vector<Texture2D*> m_textures;
     std::vector<Material*> m_materials;
 
+    static int RenderMode;
   private:
 
 	void RenderObjectImgui(GB::RenderObject*& render, int i, glm::vec3& scale, glm::quat& quat, glm::vec3& position, glm::vec3& skew, glm::vec4& perspective, float  rot[3]);
     glm::vec4 renderColor;
 
-    uint32_t m_VertexArray;
 
     std::vector<RenderObject> m_renderObjects;
+    
+    struct WorldRender
+    {
+        matrix4 ProjectionMatrix;
+        std::vector<vector3> lightsPos;
+    };
+    WorldRender worldData;
   };
 
 

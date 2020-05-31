@@ -6,6 +6,8 @@ namespace GB
 	class GBAPI Input
 	{
 	public:
+
+		static void GamepadCallbacks() { return s_instance->GamepadCallbackImpl(); }
 		inline static bool IsKeyPressed(int keycode) { return  s_instance->IsKeyPressedImpl(keycode); }
 		inline static bool IsMousePressed(int button) { return s_instance->IsMousePressedImpl(button); }
 		inline static  vector2 GetMousePosition() { return s_instance->GetMousePositionImpl(); }
@@ -14,9 +16,12 @@ namespace GB
 
 		inline static bool IsGamepadConnected(int id) { return s_instance->IsGamepadPresentImpl(id); }
 		inline static bool IsGamepadButtonPressed(int id, int buttonId) { return s_instance->IsGamepadButtonPressedImpl(id,buttonId); }
+		inline static bool IsGamepadButtonReleased(int id, int buttonId) { return s_instance->IsGamepadButtonReleasedImpl(id,buttonId); }
 		inline static float GetAxis(int id, int buttonId) { return s_instance->GetAxisImpl(id,buttonId); }
 
 	protected:
+
+		virtual void GamepadCallbackImpl() = 0;
 		virtual bool IsKeyPressedImpl(int keycode) = 0;
 		virtual bool IsMousePressedImpl(int button) = 0;
 		virtual vector2 GetMousePositionImpl() = 0;
@@ -25,7 +30,7 @@ namespace GB
 
 		virtual bool IsGamepadPresentImpl(int id) =0;
 		virtual bool IsGamepadButtonPressedImpl(int id,int buttonId) = 0;
-
+		virtual bool IsGamepadButtonReleasedImpl(int id, int buttonId) = 0;
 		virtual float GetAxisImpl(int id, int buttonId) = 0;
 	private:
 		static Input* s_instance;

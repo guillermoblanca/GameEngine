@@ -5,6 +5,7 @@
 #include "GLFW\glfw3.h"
 namespace GB
 {
+	class WindowsInput;
 	class GBAPI WindowsWindows : public Window
 	{
 	public:
@@ -34,5 +35,7 @@ namespace GB
 			EventCallbackFn EventCallback;
 		};
 		WindowsData m_data;
+		
+		friend WindowsInput;
 	};
 }

@@ -9,7 +9,8 @@ namespace GB
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
 		KeyPressed, KeyRelease,KeyTyped,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+		GamepadState,GamepadPressed,GamepadReleased,GamepadAxis
 	};
 
 	enum EventCategory
@@ -19,7 +20,8 @@ namespace GB
 		EventCategoryInput =		BIT(1),
 		EventCategoryKeyboard =		BIT(2),
 		EventCategoryMouse =		BIT(3),
-		EventCategoryMouseButton =	BIT(4)
+		EventCategoryMouseButton =	BIT(4),
+		EventCategoryGamepad =BIT(5)
 	};
 
 
