@@ -173,8 +173,8 @@ namespace GB
 		render = &m_renderObjects[i];
 
 		if (ImGui::Button("Destroy")) { m_renderObjects.erase(m_renderObjects.begin() + i); }
-		glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
-		glm::vec3 rotator = render->m_transform.rotation;
+		//glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
+		//glm::vec3 rotator = render->m_transform.rotation;
 		ImGui::InputText("Name:", render->m_name.data(), 64);
 		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
 		ImGui::DragFloat3("Rotation", rot, 0.1f);
@@ -182,7 +182,7 @@ namespace GB
 
 		ImGui::Separator();
 		ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
-		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
+//		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
 		ImGui::Separator();
 
@@ -199,9 +199,9 @@ namespace GB
 
 		if (render->mesh != nullptr) render->mesh->WindowProperties();
 
-		render->m_transform.Translate(position);
-		render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
-		render->m_transform.SetScale(scale);
+		//render->m_transform.Translate(position);
+		//render->m_transform.Rotate(glm::vec3(glm::radians(rot[0]), glm::radians(rot[1]), glm::radians(rot[2])));
+		//render->m_transform.SetScale(scale);
 		ImGui::TreePop();
 	}
 }

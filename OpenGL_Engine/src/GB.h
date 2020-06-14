@@ -19,7 +19,7 @@
 #include "GB/Render/VertexArray.h"
 
 #include "GB\GameplayFramework\Collision\CollisionManager.h"
-#include "GB\GameplayFramework\Actor.h"
+#include "GB\GameplayFramework\Entity.h"
 
 #include "GB\EntryPoint.h"
 

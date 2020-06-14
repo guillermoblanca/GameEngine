@@ -1,7 +1,7 @@
 #include "gbpch.h"
 #include "Render2D.h"
 
-void GB::Render2D::Update()
+void GB::Render2D::OnUpdate(float DeltaTime)
 {
 }
 

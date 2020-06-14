@@ -9,7 +9,7 @@
 namespace GB
 {
 
-	RenderObject::RenderObject(Material* mat, std::string name) :m_name(name), m_transform(), m_color(1.0f), material(mat), m_textureID(-1)
+	RenderObject::RenderObject(Material* mat, std::string name) :m_name(name), m_color(1.0f), material(mat), m_textureID(-1)
 	{
 		mesh = nullptr;
 	}
@@ -101,7 +101,7 @@ namespace GB
 	{
 		material->Bind();
 		material->SetVector3("u_LightColor", 1.0f, 0.0f, 0.0f);
-		material->SetMat4("u_transform", m_transform.GetMat4());
+		material->SetMat4("u_transform", matrix4(0.0f));
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
@@ -196,7 +196,7 @@ namespace GB
 	void Cube::Render(int mode)
 	{
 		material->Bind();
-		material->SetMat4("u_transform", m_transform.GetMat4());
+		material->SetMat4("u_transform", matrix4(0.0f));
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
@@ -233,7 +233,7 @@ namespace GB
 	void Line::Render(int mode)
 	{
 		material->Bind();
-		material->SetMat4("u_transform", m_transform.GetMat4());
+//		material->SetMat4("u_transform", m_transform.GetMat4());
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);

@@ -1185,9 +1185,6 @@
     <ClInclude Include="src\GB\GameplayFramework\Collision\Render2D.h">
       <Filter>src\GB\GameplayFramework\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="src\GB\GameplayFramework\Transform.h">
-      <Filter>src\GB\GameplayFramework</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\GameplayFramework\World.h">
       <Filter>src\GB\GameplayFramework</Filter>
     </ClInclude>
@@ -1280,9 +1277,6 @@
     </ClInclude>
     <ClInclude Include="src\Editor\MenuLayer.h" />
     <ClInclude Include="src\Editor\RendererMenu.h" />
-    <ClInclude Include="src\GB\GameplayFramework\Actor.h">
-      <Filter>src\GB\GameplayFramework</Filter>
-    </ClInclude>
     <ClInclude Include="src\GB\Utils\Probabilities.h" />
     <ClInclude Include="src\GB\Core.h">
       <Filter>src\GB</Filter>
@@ -1323,6 +1317,14 @@
     <ClInclude Include="src\GB\Cursor.h" />
     <ClInclude Include="src\GB\Events\GamepadEvent.h" />
     <ClInclude Include="src\GB\Utils\UniqueID.h" />
+    <ClInclude Include="src\GB\GameplayFramework\WorldManager.h">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Entity.h">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GB\GameplayFramework\Components\Component.h" />
+    <ClInclude Include="src\GB\GameplayFramework\Components\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GB\GameplayFramework\Collision\CollisionManager.cpp">
@@ -1330,9 +1332,6 @@
     </ClCompile>
     <ClCompile Include="src\GB\GameplayFramework\Collision\Render2D.cpp">
       <Filter>src\GB\GameplayFramework\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GB\GameplayFramework\Transform.cpp">
-      <Filter>src\GB\GameplayFramework</Filter>
     </ClCompile>
     <ClCompile Include="src\GB\ImGui\ImGuiLayer.cpp">
       <Filter>src\GB\ImGui</Filter>
@@ -1414,9 +1413,6 @@
     </ClCompile>
     <ClCompile Include="src\Editor\MenuLayer.cpp" />
     <ClCompile Include="src\Editor\RendererMenu.cpp" />
-    <ClCompile Include="src\GB\GameplayFramework\Actor.cpp">
-      <Filter>src\GB\GameplayFramework</Filter>
-    </ClCompile>
     <ClCompile Include="src\GB\Utils\Probabilities.cpp" />
     <ClCompile Include="src\GB\Application.cpp">
       <Filter>src\GB</Filter>
@@ -1429,5 +1425,17 @@
     </ClCompile>
     <ClCompile Include="src\GB\Cursor.cpp" />
     <ClCompile Include="src\GB\Utils\UniqueID.cpp" />
+    <ClCompile Include="src\GB\GameplayFramework\WorldManager.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\World.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Entity.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GB\GameplayFramework\Components\Transform.cpp">
+      <Filter>src\GB\GameplayFramework</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

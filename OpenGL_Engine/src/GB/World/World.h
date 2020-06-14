@@ -54,16 +54,4 @@ namespace GB
 		bool m_isAditive;
 		bool m_isLoaded;
 	};
-
-
-
-	//Singleton class that can spawn levels and loaded
-	class WorldManager
-	{
-	public:
-
-	private:
-		std::vector<World*> m_activeWorlds;
-
-	};
 }

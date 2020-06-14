@@ -1,14 +1,11 @@
 #pragma once
-
-#pragma region Includes
 #include "GB\Core.h"
 #include "GB/Math.h"
 #include "Material.h"
 #include "Buffer.h"
 #include "VertexArray.h"
 #include "Mesh.h"
-#include "GB\GameplayFramework\Transform.h"
-#pragma endregion
+//#include "GB\GameplayFramework\Transform.h"
 
 
 namespace GB
@@ -45,7 +42,7 @@ namespace GB
     glm::vec4 m_color;
 	Material* material;
 
-    Transform m_transform;
+   // Transform m_transform;
 
   protected:
     std::shared_ptr<VertexArray> m_vertexArray;

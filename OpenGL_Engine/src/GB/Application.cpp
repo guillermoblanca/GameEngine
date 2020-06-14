@@ -4,6 +4,7 @@
 #include "GB\Input.h"
 #include "GB/Render/RenderCommand.h"
 #include "GB/Render/Camera.h"
+
 namespace GB
 {
 	Application* Application::s_instance = nullptr; 
@@ -18,9 +19,13 @@ GB::Application::Application()
 
 	m_imguiLayer = std::unique_ptr<ImGuiLayer>(new ImGuiLayer());
 	PushLayer(m_imguiLayer.get());
+	m_worldManager = std::make_unique<WorldManager>();
+	PushLayer(m_worldManager.get());
 
 	m_renderer = std::unique_ptr<Renderer>(new Renderer());
 	m_renderer->Init();
+
+
 }
 
 GB::Application::~Application()
