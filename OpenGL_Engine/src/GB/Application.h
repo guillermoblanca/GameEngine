@@ -27,6 +27,7 @@ namespace GB
 		void PopLayer(Layer* layer);
 
 		std::unique_ptr<Renderer>& GetRender() { return m_renderer; }
+		std::unique_ptr<WorldManager>& GetWorld() { return m_worldManager; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		std::unique_ptr<Window> m_Window;

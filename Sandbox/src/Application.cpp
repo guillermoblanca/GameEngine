@@ -6,6 +6,8 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "GB/Render/RenderCommand.h"
 #include "GB/Events/GamepadEvent.h"
+#include "GB\GameplayFramework\Collision\Render2D.h"
+
 using namespace GB;
 
 vector2 FreeCamera::CameraDirection()
@@ -17,12 +19,27 @@ void FreeCamera::OnAttach()
 {
 	GB_CLIENT_INFO("Initialized freecamera");
 
+	Entity* entity = new Entity();
+	Render2D* render = new Render2D();
+	entity->AddComponent(*render);
+	auto& worldManager = GB::Application::Get().GetWorld();
+	if (worldManager)
+	{
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+		worldManager->GetActiveWorld()->SpawnEntity(entity,{0.0f,0.f,0.f});
+	}
+
+
 	std::vector<std::string> TexturePaths;
 	TexturePaths.push_back("Assets/Texture/ball.png");
 	TexturePaths.push_back("Assets/Texture/Brick.png");
 	TexturePaths.push_back("Assets/Texture/Game.png");
 	TexturePaths.push_back("Assets/Texture/lion-logo.png");
-
 	std::vector<GB::Texture2D*> Textures;
 
 	auto& renderer = Application::Get().GetRender();

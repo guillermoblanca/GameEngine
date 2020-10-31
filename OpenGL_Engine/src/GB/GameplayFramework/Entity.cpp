@@ -5,8 +5,8 @@
 GB::Entity::Entity(const std::string& name /*= "Entity"*/) :m_name(name), isEnabled(true)
 {
 	//every component has a transform reference
-	Transform transform;
-	AddComponent(transform);
+	Transform* transform = new Transform();
+	AddComponent(*transform);
 	
 }
 void GB::Entity::AddComponent(Component& component)

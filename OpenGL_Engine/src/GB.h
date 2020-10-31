@@ -20,6 +20,8 @@
 
 #include "GB\GameplayFramework\Collision\CollisionManager.h"
 #include "GB\GameplayFramework\Entity.h"
+#include "GB\GameplayFramework\WorldManager.h"
+
 
 #include "GB\EntryPoint.h"
 

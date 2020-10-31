@@ -6,7 +6,7 @@
 namespace GB
 {
 
-	WorldManager::WorldManager() : Layer("WorldManager"),world(new World())
+	WorldManager::WorldManager() : Layer("WorldManager"), world(new World())
 	{
 	}
 
@@ -44,11 +44,36 @@ namespace GB
 	void WorldManager::OnImguiRender()
 	{
 		ImGui::Begin("Hierarchy");
-		
+
 		ImGui::Text(world->m_name.c_str());
+		
+		if (ImGui::TreeNode("Base"))
+		{
+			ImGui::Indent();
+			ImGui::Text("Slots ");
+			ImGui::Text("Count");
+			ImGui::Unindent();
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Slots"))
+		{
+			ImGui::TreePop();
+		}
+
 		for (int i = 0; i < world->entities.size(); i++)
 		{
-			ImGui::Text(world->entities[i]->GetName());
+			auto entity = world->entities[i];
+			if(ImGui::TreeNode(entity->GetName()))
+			{
+			ImGui::Indent();
+			auto components = entity->GetComponents();
+			for (int y = 0; y < components.size(); y++)
+			{
+				components[y]->ImguiRender();
+			}
+			ImGui::Unindent();
+			ImGui::TreePop();
+			}
 		}
 
 		ImGui::End();

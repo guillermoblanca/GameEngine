@@ -47,6 +47,7 @@ namespace GB
 		const char* GetName() { return m_name.c_str(); }
 		void AddComponent(Component& component);
 		void RemoveComponent(Component& component);
+		std::vector<Component*> GetComponents() {return m_components;}
 	protected:
 
 		void UpdateComponents(float deltaTime);

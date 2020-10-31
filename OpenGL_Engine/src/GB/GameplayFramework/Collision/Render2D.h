@@ -6,8 +6,21 @@ namespace GB
 	class Render2D : public Component
 	{
 	public:
-		virtual void OnUpdate(float DeltaTime);
-		virtual void ImguiRender();
+		Render2D() : Component()
+		{
+
+		}
+		void OnUpdate(float DeltaTime)override;
+		void ImguiRender()override;
 		virtual int ID();
+	};
+
+	class MeshRenderer : public Component
+	{
+	public:
+	public:
+		void OnUpdate(float DeltaTime) override;
+		void ImguiRender() override;
+
 	};
 }
