@@ -71,23 +71,25 @@ namespace GB
 	void Transform::ImguiRender()
 	{
 		ImGui::Text("Transform");
-		ImGui::InputFloat3("Position",(float*)&position, 3);
-		{
-		ImGui::InputFloat("Pitch", &pitch, 0.1f, 0.01f, 3);
-		ImGui::InputFloat("Yaw", &yaw, 0.1f, 0.01f, 3);
-		ImGui::InputFloat("Roll", &roll, 0.1f, 0.01f, 3);
 		ImGui::SameLine();
-		}
-		ImGui::InputFloat3("Scale", (float*)&scale, 3);
-
 		if (ImGui::Button("Reset"))
 		{
 			position = vector3(0.0f, 0.0f, 0.0f);
 			pitch = 0.0f;
-			yaw   = 0.0f;
-			roll  = 0.0f;
-			scale = vector3(0.0f, 0.0f, 0.0f);
+			yaw = 0.0f;
+			roll = 0.0f;
+			scale = vector3(1.0f,1.0f,1.0f);
 		}
+
+		ImGui::DragFloat3("Position",(float*)&position, 1.0f);
+		{
+		ImGui::InputFloat("Pitch", &pitch, 0.1f, 0.01f, 3);
+		ImGui::InputFloat("Yaw", &yaw, 0.1f, 0.01f, 3);
+		ImGui::InputFloat("Roll", &roll, 0.1f, 0.01f, 3);
+		}
+		ImGui::DragFloat3("Scale", (float*)&scale, 1);
+
+		
 	}
 
 }

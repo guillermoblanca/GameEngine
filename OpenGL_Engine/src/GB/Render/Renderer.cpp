@@ -13,7 +13,7 @@
 namespace GB
 {
 	int Renderer::RenderMode = 4;
-	vector3 Renderer::m_LightColor = {255,255,0};
+	vector3 Renderer::m_LightColor = { 255,255,0 };
 	Renderer::Renderer() : renderColor(0, 0.5f, 0.5f, 1.0f)
 	{
 		GB_CORE_INFO("Initialized Render class");
@@ -118,10 +118,10 @@ namespace GB
 			}
 
 		}
-		float ambientColor[3] = {m_LightColor.r,m_LightColor.g,m_LightColor.b };
+		float ambientColor[3] = { m_LightColor.r,m_LightColor.g,m_LightColor.b };
 		if (ImGui::ColorPicker3("AmbientLight", ambientColor))
 		{
-			m_LightColor= {ambientColor[0],ambientColor[1],ambientColor[2]};
+			m_LightColor = { ambientColor[0],ambientColor[1],ambientColor[2] };
 		}
 		if (ImGui::CollapsingHeader("Background Color"))
 		{
@@ -178,18 +178,12 @@ namespace GB
 		//glm::decompose(render->m_transform.GetMat4(), scale, quat, position, skew, perspective);
 		//glm::vec3 rotator = render->m_transform.rotation;
 		ImGui::InputText("Name:", render->m_name.data(), 64);
-		ImGui::DragFloat3("Position", (float*)&position, 0.1f);
-		ImGui::DragFloat3("Rotation", rot, 0.1f);
-		ImGui::DragFloat3("Scale", (float*)&scale, 0.1f);
+		render->m_transform.ImguiRender();
 
-		ImGui::Separator();
-		ImGui::Text("Pos: %2f,%2f,%2f", position.x, position.y, position.z);
-//		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
-		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
-		ImGui::Separator();
 		if (ImGui::Button("Look at"))
 		{
-			Camera::GetMain()->SetPosition({position.x,position.y,position.z + 10});
+			vector3 pos = render->m_transform.position;
+			Camera::GetMain()->SetPosition({ pos.x,pos.y,pos.z + 10 });
 		}
 
 		if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
@@ -199,8 +193,8 @@ namespace GB
 			ImGui::SameLine();
 			if (ImGui::Button("Texture Down")) m_renderObjects[i].m_textureID = Mathf::Clamp<int>(m_renderObjects[i].m_textureID - 1, 0, m_textures.size() - 1);
 			ImGui::ColorPicker4("Color", (float*)&render->m_color);
-			if(render->m_textureID>-1)
-			ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
+			if (render->m_textureID > -1)
+				ImGui::Image((ImTextureID)m_textures[render->m_textureID]->GetID(), ImVec2(200, 200));
 		}
 
 		if (render->mesh != nullptr) render->mesh->WindowProperties();
