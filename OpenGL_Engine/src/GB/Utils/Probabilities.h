@@ -7,7 +7,7 @@ namespace GB
 	{
 	public:
 
-		static int GetIndexFromRandomRoulette(const std::vector<float>& probabilities);
+		static int RandomIndexFromWeights(const std::vector<float>& probabilities);
 	private:
 
 	};

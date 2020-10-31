@@ -2,7 +2,7 @@
 #include <numeric>
 #include "Probabilities.h"
 
-int GB::Probabilities::GetIndexFromRandomRoulette(const std::vector<float>& probabilities)
+int GB::Probabilities::RandomIndexFromWeights(const std::vector<float>& probabilities)
 {
 	float previousProb = 0;
 	float totalSum = 0;
@@ -26,9 +26,9 @@ int GB::Probabilities::GetIndexFromRandomRoulette(const std::vector<float>& prob
 
 	int resultIndex =0;
 	previousProb = -1;
-	for (int i = 1; i < probs.size(); i++)
+	for (size_t i = 1; i < probs.size(); i++)
 	{
-		if (randNumber < probs[i] && randNumber  > probs[i-1])
+		if (randNumber < probs[i] && randNumber  > probs[(i-1)])
 		{
 			resultIndex = i;
 		}

@@ -9,9 +9,11 @@
 #include "GB/Render/RenderCommand.h"
 #include "GB/Utils/Probabilities.h"
 #include "GB/Utils/FileSystem.h"
+#include "Camera.h"
 namespace GB
 {
 	int Renderer::RenderMode = 4;
+	vector3 Renderer::m_LightColor = {255,255,0};
 	Renderer::Renderer() : renderColor(0, 0.5f, 0.5f, 1.0f)
 	{
 		GB_CORE_INFO("Initialized Render class");
@@ -62,10 +64,6 @@ namespace GB
 
 	void Renderer::OnRender()
 	{
-		for (size_t i = 0; i < m_materials.size(); i++)
-		{
-			m_materials[i]->SetFloat("iTime", Time::GetTime());
-		}
 		//Loop for renderOjects and setting different options
 		for (int i = 0; i < m_renderObjects.size(); i++)
 		{
@@ -120,7 +118,11 @@ namespace GB
 			}
 
 		}
-
+		float ambientColor[3] = {m_LightColor.r,m_LightColor.g,m_LightColor.b };
+		if (ImGui::ColorPicker3("AmbientLight", ambientColor))
+		{
+			m_LightColor= {ambientColor[0],ambientColor[1],ambientColor[2]};
+		}
 		if (ImGui::CollapsingHeader("Background Color"))
 		{
 			ImGui::ColorPicker4("Render Color", (float*)&renderColor);
@@ -185,6 +187,10 @@ namespace GB
 		ImGui::Text("Rotation: %2f,%2f,%2f", Mathf::ToDegrees(rotator.x), Mathf::ToDegrees(rotator.y), Mathf::ToDegrees(rotator.z));
 		ImGui::Text("Scale: %2f,%2f,%2f", scale.x, scale.y, scale.z);
 		ImGui::Separator();
+		if (ImGui::Button("Look at"))
+		{
+			Camera::GetMain()->SetPosition({position.x,position.y,position.z + 10});
+		}
 
 		if (ImGui::CollapsingHeader("Color properties", ImGuiTreeNodeFlags_Bullet))
 		{

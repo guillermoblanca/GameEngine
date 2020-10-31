@@ -26,7 +26,8 @@ void main()
 {
 	float ambientStrenght = 0.1;
 	vec3 ambient = ambientStrenght * u_LightColor;
-	color = texture(u_Texture,v_TextCoord)* u_Color;
+
+	color = texture(u_Texture,v_TextCoord)* u_Color * vec4(ambient,1.0f) ;
 
 	//if(color.r == 0.0f && color.g == 0.0f && color.b == 0.0f) color.r =1.0f;
 	//color =  vec4(1.0,0.0,0.0,1.0);

@@ -20,7 +20,7 @@ namespace GB
 		Actor* GetActorByTag(const std::string& name);
 		const Actor** GetActorsByTag(const std::string& name);
 
-		bool LineTraceByObject(vector3 start, vector3 end,HitInfo, Actor* outActor);
+		bool LineTraceByObject(vector3 start, vector3 end,HitInfo hitinfo, Actor* outActor);
 	private:
 		std::vector<Actor*> actors;
 		

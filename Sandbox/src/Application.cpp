@@ -48,6 +48,18 @@ void FreeCamera::OnAttach()
 	renderer->AddRenderElement(Cube(BaseMaterial, 1, "Cube"));
 	renderer->AddRenderElement(Cube(ComplexMaterial, 0, "Cube white"));
 
+	for (int x = -10; x < 10; x++)
+	{
+		for (int y = -10; y < 10; y++)
+		{
+			Cube c = Cube(BaseMaterial, 0, "Cube");
+
+			c.m_color = {x < 0 ? 255 : x % 255,y < 0 ? 255 :y % 255,0,1.f };
+
+			c.m_transform.Translate({ x * 1.5f,y * 1.5f ,0 });
+			renderer->AddRenderElement(c);
+		}
+	}
 	Mesh* mesh = new Mesh();
 	mesh = MeshReader::ReadMeshFromFile("Assets/Mesh/cube.obj");
 
@@ -55,15 +67,16 @@ void FreeCamera::OnAttach()
 	{
 		RenderObject objRenderObj = RenderObject(BaseMaterial, "Dragon");
 		objRenderObj.Create(*mesh);
-		
+
 		renderer->AddRenderElement(objRenderObj);
 	}
-
+	bool useRandom = false;
+	if (useRandom)
 	{
 		/*
 		For setting random position
 		*/
-		int distance = 4;
+		int distance = 40;
 		for (int i = 0; i < renderer->GetRenderObjectCount(); i++)
 		{
 			vector3 randomPos = vector3(Mathf::Random(-distance, distance), Mathf::Random(-distance, distance), 0.0f);
@@ -81,7 +94,7 @@ void FreeCamera::OnAttach()
 
 	prevMouse = vector3(Input::GetMouseX() / x, Input::GetMouseY() / y, 0);
 
-	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 10.0f));
+	GB::Camera::GetMain()->SetPosition(vector3(0.0f, 0.5f, 50.0f));
 	GB::Camera::GetMain()->SetRotation(0, -90, 0);
 
 
@@ -125,6 +138,11 @@ void FreeCamera::UpdateCameraMovement()
 	float MoveForward = Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_Y);
 	float MoveLeft = Input::GetAxis(0, GB_GAMEPAD_AXIS_LEFT_X);
 
+	if (!IsGamepadConnected)
+	{
+		MoveForward = Input::IsKeyPressed(GB_KEY_W) ? 1.0f : (Input::IsKeyPressed(GB_KEY_S) ? -1.0f : 0.f);
+		MoveLeft = Input::IsKeyPressed(GB_KEY_D) ? 1.0f : (Input::IsKeyPressed(GB_KEY_A) ? -1.0f : 0.f);
+	}
 
 	if (MoveForward != 0.0f)
 	{
@@ -162,29 +180,29 @@ void FreeCamera::UpdateCameraMovement()
 	}
 
 	const float speed = 0.01f;
-	if (Input::IsGamepadButtonPressed(0,GB_GAMEPAD_AXIS_LEFT_TRIGGER) >0.0f)
+	if (Input::IsGamepadButtonPressed(0, GB_GAMEPAD_AXIS_LEFT_TRIGGER) > 0.0f)
 	{
 		m_MovSpeed = Mathf::Clamp(m_MovSpeed - speed * (float)Time::DeltaTime(), 0.1f, 5.0f);
 
-		GB_CLIENT_TRACE("Button pressed {0}",m_MovSpeed);
+		GB_CLIENT_TRACE("Button pressed {0}", m_MovSpeed);
 	}
-	else if(Input::IsGamepadButtonPressed(0, GB_GAMEPAD_AXIS_RIGHT_TRIGGER)> 0.0f)
+	else if (Input::IsGamepadButtonPressed(0, GB_GAMEPAD_AXIS_RIGHT_TRIGGER) > 0.0f)
 	{
-		m_MovSpeed = Mathf::Clamp(m_MovSpeed + speed * (float) Time::DeltaTime(),0.1f,5.0f);
+		m_MovSpeed = Mathf::Clamp(m_MovSpeed + speed * (float)Time::DeltaTime(), 0.1f, 5.0f);
 	}
 
 	static bool updateButtonState = true;
-	if ( Input::IsGamepadButtonPressed(0, GB_GAMEPAD_BUTTON_DPAD_LEFT))
+	if (Input::IsGamepadButtonPressed(0, GB_GAMEPAD_BUTTON_DPAD_LEFT))
 	{
 		if (updateButtonState)
 		{
-			Renderer::RenderMode =( Renderer::RenderMode +1)% 5;
+			Renderer::RenderMode = (Renderer::RenderMode + 1) % 5;
 			updateButtonState = false;
 			GB_CLIENT_INFO("Gamepad pressed and updating rendermode to {0}", Renderer::RenderMode);
 
 		}
 	}
-	else 
+	else
 	{
 		updateButtonState = true;
 	}
@@ -225,7 +243,7 @@ void FreeCamera::OnImguiRender()
 
 	ImGui::PlotLines("Time", [](void* data, int idx)
 		{
-			return idx * (float) Time::DeltaTime();
+			return idx * (float)Time::DeltaTime();
 		}, NULL, 100);
 
 	static bool isvSync = Application::Get().GetWindow().IsVSync();

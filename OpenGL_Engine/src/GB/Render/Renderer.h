@@ -46,6 +46,7 @@ namespace GB
     std::vector<Material*> m_materials;
 
     static int RenderMode;
+    static vector3 m_LightColor;
   private:
 
 	void RenderObjectImgui(GB::RenderObject*& render, int i, glm::vec3& scale, glm::quat& quat, glm::vec3& position, glm::vec3& skew, glm::vec4& perspective, float  rot[3]);

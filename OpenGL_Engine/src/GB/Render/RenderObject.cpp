@@ -4,6 +4,7 @@
 #include "Math.h"
 #include "Camera.h"
 #include "glad/glad.h"
+#include "Renderer.h"
 
 
 namespace GB
@@ -69,7 +70,7 @@ namespace GB
 	{
 		mesh = &newMesh;
 
-	
+
 		m_vertexArray.reset(VertexArray::Create());
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
@@ -89,11 +90,11 @@ namespace GB
 		normalBuffer->SetLayout(normalLayout);
 
 		m_vertexArray->AddVertexBuffer(vertexBuffer);
-	//	m_vertexArray->AddVertexBuffer(uvBuffer);
-	//	m_vertexArray->AddVertexBuffer(normalBuffer);
+		//	m_vertexArray->AddVertexBuffer(uvBuffer);
+		//	m_vertexArray->AddVertexBuffer(normalBuffer);
 
 		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create( &mesh->indicesVertices[0],(uint32_t) mesh->indicesVertices.size()));
+		indexBuffer.reset(IndexBuffer::Create(&mesh->indicesVertices[0], (uint32_t)mesh->indicesVertices.size()));
 		m_vertexArray->SetIndexBuffer(indexBuffer);
 	}
 
@@ -105,6 +106,8 @@ namespace GB
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
+		vector3 light = Renderer::m_LightColor;
+		material->SetVector3("u_LightColor", light.r, light.g, light.b);
 		material->SetInt("u_Texture", 0);
 
 		m_vertexArray->Bind();
@@ -132,7 +135,7 @@ namespace GB
 		  0,1,2,
 		  0,3,2
 		};
-		this->Create(verticesPlane, sizeof(verticesPlane), indicesPlane,6);
+		this->Create(verticesPlane, sizeof(verticesPlane), indicesPlane, 6);
 	}
 	Sprite::~Sprite()
 	{
@@ -199,7 +202,10 @@ namespace GB
 		material->SetMat4("u_transform", m_transform.GetMat4());
 		material->SetMat4("u_view", Camera::GetMain()->GetViewMatrix());
 		material->SetMat4("u_proj", Camera::GetMain()->GetProjectionMatrix());
+		
 		material->SetVector4("u_Color", m_color.r, m_color.g, m_color.b, m_color.a);
+		vector3 light = Renderer::m_LightColor;
+		material->SetVector3("u_LightColor", light.r, light.g, light.b);
 		material->SetInt("u_Texture", 0);
 
 		m_vertexArray->Bind();
