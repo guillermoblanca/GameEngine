@@ -1,14 +1,12 @@
 #pragma once
-
-#pragma region Includes
 #include "GB\Core.h"
 #include "GB/Math.h"
 #include "Material.h"
 #include "Buffer.h"
 #include "VertexArray.h"
 #include "Mesh.h"
-#include "GB\GameplayFramework\Transform.h"
-#pragma endregion
+//#include "GB\GameplayFramework\Transform.h"
+#include "..\GameplayFramework\Components\Transform.h"
 
 
 namespace GB

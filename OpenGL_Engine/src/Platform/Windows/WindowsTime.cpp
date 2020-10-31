@@ -10,13 +10,14 @@ namespace GB
 	double WindowsTime::m_unscaledDeltaTime = 0;
 
 	long double WindowsTime::m_time = 0;
-	
+
 	float WindowsTime::m_timeScale = 1.0f;
 
 	double WindowsTime::Impl_DeltaTime()
 	{
-		m_unscaledDeltaTime = glfwGetTime() - m_lastTime;
-		m_lastTime= m_unscaledDeltaTime;
+		double tick = glfwGetTime();
+		m_unscaledDeltaTime = tick - m_lastTime;
+		m_lastTime = tick;
 		m_deltaTime = m_unscaledDeltaTime * m_timeScale;
 		return m_deltaTime;
 	}
