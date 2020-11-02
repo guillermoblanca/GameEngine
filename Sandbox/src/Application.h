@@ -19,9 +19,9 @@ public:
 	vector2 CameraDirection();
 
 	void OnAttach() override;
-	void OnUpdate() override;
+	void OnUpdate(GB::TimeStep ts) override;
 
-	void UpdateCameraMovement();
+	void UpdateCameraMovement(GB::TimeStep ts);
 
 	void OnImguiRender() override;
 	void OnEvent(GB::Event& event) override;

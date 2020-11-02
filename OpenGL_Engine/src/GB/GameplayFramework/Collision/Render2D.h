@@ -6,7 +6,7 @@ namespace GB
 	class Render2D : public Component
 	{
 	public:
-		Render2D() : Component()
+		Render2D() : Component("Render2D")
 		{
 
 		}
@@ -18,6 +18,7 @@ namespace GB
 	class MeshRenderer : public Component
 	{
 	public:
+	MeshRenderer() : Component("MeshRenderer"){}
 	public:
 		void OnUpdate(float DeltaTime) override;
 		void ImguiRender() override;

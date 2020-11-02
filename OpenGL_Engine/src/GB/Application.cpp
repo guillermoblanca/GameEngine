@@ -4,10 +4,11 @@
 #include "GB\Input.h"
 #include "GB/Render/RenderCommand.h"
 #include "GB/Render/Camera.h"
+#include "GLFW\glfw3.h"
 
 namespace GB
 {
-	Application* Application::s_instance = nullptr; 
+	Application* Application::s_instance = nullptr;
 }
 GB::Application::Application()
 {
@@ -36,17 +37,20 @@ void GB::Application::Run()
 {
 	while (m_Running)
 	{
+		float time = (float)glfwGetTime();
+		TimeStep timeStep = time - m_LastFrameTime;
+		m_LastFrameTime = time;
 
 
 		m_Window->OnUpdate();
 
 		for (Layer* layer : m_LayerStack)
-			layer->OnUpdate();
-	
-    RenderCommand::Clear();
-    Renderer::BeginScene(*Camera::GetMain());
+			layer->OnUpdate(timeStep);
+
+		RenderCommand::Clear();
+		Renderer::BeginScene(*Camera::GetMain());
 		m_renderer->OnRender();
-    Renderer::EndScene();
+		Renderer::EndScene();
 
 
 		m_imguiLayer->Begin();
@@ -58,9 +62,9 @@ void GB::Application::Run()
 
 	}
 }
-void GB::Application::OnEvent(Event & e)
+void GB::Application::OnEvent(Event& e)
 {
-//	GB_CORE_INFO(e.ToString());
+	//	GB_CORE_INFO(e.ToString());
 	EventDispatcher dispatcher(e);
 	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 
@@ -72,13 +76,13 @@ void GB::Application::OnEvent(Event & e)
 	}
 }
 
-void GB::Application::PushLayer(Layer * layer)
+void GB::Application::PushLayer(Layer* layer)
 {
 	m_LayerStack.PushLayer(layer);
 	layer->OnAttach();
 }
 
-void GB::Application::PopLayer(Layer * layer)
+void GB::Application::PopLayer(Layer* layer)
 {
 	m_LayerStack.PopLayer(layer);
 	layer->OnDetach();

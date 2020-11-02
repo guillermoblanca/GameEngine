@@ -2,9 +2,26 @@
 #include "GB\Core.h"
 namespace GB
 {
+
+	class GBAPI TimeStep
+	{
+	public:
+		TimeStep(float time = 0.0f) : m_Time(time)
+		{
+
+		}
+
+		operator float() const { return m_Time; }
+		float GetSeconds() const { return m_Time; }
+		float GetMilliseconds() const { return m_Time * 1000.0f; }
+	private:
+
+		float m_Time;
+	};
+
 	class GBAPI Time
 	{
-	public: 
+	public:
 		inline static double DeltaTime() { return s_instance->Impl_DeltaTime(); }
 		inline static double GetTime() { return s_instance->ImplGetTime(); }
 		inline static double GetMiliseconds() { return s_instance->ImplGetMiliseconds(); }

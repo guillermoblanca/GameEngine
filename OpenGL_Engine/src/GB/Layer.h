@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Events\Event.h"
+#include "Time.h"
 namespace GB
 {
 	class GBAPI Layer
@@ -11,7 +12,7 @@ namespace GB
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(TimeStep ts) {}
 		virtual void OnEvent(Event& e) {}
 
 		virtual void OnImguiRender() {}

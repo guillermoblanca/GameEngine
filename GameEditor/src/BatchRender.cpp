@@ -12,7 +12,7 @@ void BatchRenderLayer::OnDetach()
 {
 }
 
-void BatchRenderLayer::OnUpdate()
+void BatchRenderLayer::OnUpdate(TimeStep ts)
 {
 }
 

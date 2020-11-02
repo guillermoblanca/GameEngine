@@ -26,13 +26,10 @@ namespace GB
 
 	}
 
-	void WorldManager::OnUpdate(/*Add deltaTime*/)
+	void WorldManager::OnUpdate(TimeStep ts)
 	{
 		GB_CORE_TRACE("On update called from worldmanager");
-
-
-		//todo: we should change this in the layer system
-		world->OnUpdate(Time::DeltaTime());
+		world->OnUpdate(ts);
 
 	}
 
@@ -46,7 +43,7 @@ namespace GB
 		ImGui::Begin("Hierarchy");
 
 		ImGui::Text(world->m_name.c_str());
-		
+
 		if (ImGui::TreeNode("Base"))
 		{
 			ImGui::Indent();
@@ -63,16 +60,23 @@ namespace GB
 		for (int i = 0; i < world->entities.size(); i++)
 		{
 			auto entity = world->entities[i];
-			if(ImGui::TreeNode(entity->GetName()))
+			if (ImGui::TreeNode(entity->GetName()))
 			{
-			ImGui::Indent();
-			auto components = entity->GetComponents();
-			for (int y = 0; y < components.size(); y++)
-			{
-				components[y]->ImguiRender();
-			}
-			ImGui::Unindent();
-			ImGui::TreePop();
+				ImGui::Indent();
+				auto components = entity->GetComponents();
+				for (int y = 0; y < components.size(); y++)
+				{
+					if (ImGui::TreeNode(components[y]->GetName().c_str()))
+					{
+						ImGui::Indent();
+						components[y]->ImguiRender();
+						ImGui::Unindent();
+						ImGui::TreePop();
+
+					}
+				}
+				ImGui::Unindent();
+				ImGui::TreePop();
 			}
 		}
 

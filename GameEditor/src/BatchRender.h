@@ -15,7 +15,7 @@ public:
 
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
-	virtual void OnUpdate() override;
+	virtual void OnUpdate(TimeStep ts) override;
 	virtual void OnEvent(GB::Event& e);
 
 	virtual void OnImguiRender() override;

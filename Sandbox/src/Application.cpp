@@ -119,16 +119,16 @@ void FreeCamera::OnAttach()
 	Input::GamepadCallbacks();
 }
 
-void FreeCamera::OnUpdate()
+void FreeCamera::OnUpdate(GB::TimeStep ts)
 {
-	UpdateCameraMovement();
+	UpdateCameraMovement(ts);
 
 
 }
 
-void FreeCamera::UpdateCameraMovement()
+void FreeCamera::UpdateCameraMovement(GB::TimeStep ts)
 {
-	timer += Time::DeltaTime();
+	timer += ts;
 	Camera* camera = Camera::GetMain();
 	float x = Input::GetMouseX() / ((float)Application::Get().GetWindow().GetWidth() * 0.5f);
 	float y = Input::GetMouseY() / ((float)Application::Get().GetWindow().GetHeight() * 0.5f);

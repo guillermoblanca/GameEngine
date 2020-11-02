@@ -5,7 +5,7 @@
 namespace GB
 {
 
-	Transform::Transform() :Component(),
+	Transform::Transform() :Component("Transform"),
 		pitch(0.0f), yaw(0.0f), roll(0.0f), scale(1.0f)
 	{
 		position = vector3(0, 0, 0);
